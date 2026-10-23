@@ -1,0 +1,277 @@
+# =====================================================
+#  Blogin - Cấu hình chính (Việt hóa 100%)
+#  Plugin Login xịn xò cho Minecraft 1.20.1 - 1.21.4
+# =====================================================
+
+# Ngôn ngữ hiển thị (vi, en)
+ngon-ngu: "vi"
+
+# Thời gian chờ đăng nhập (giây). 0 = vô hiệu
+thoi-gian-dang-nhap: 60
+
+# Tin nhắn gửi tới người chơi khi vào server (theo thứ tự, mỗi dòng cách 1s)
+tin-nhap:
+  - "&6&l✦ &e&lBLOGIN &6&l✦"
+  - "&fChào mừng &b{player}&f đến với server!"
+  - "&7Vui lòng đăng nhập bằng lệnh &a/login <mật_khẩu>"
+  - "&7Nếu chưa có tài khoản, dùng &a/register <mk> <mk>"
+
+# Cấu hình Database
+# Loại database: SQLITE hoặc MYSQL
+database:
+  loai: "SQLITE"
+  mysql:
+    host: "localhost"
+    port: 3306
+    database: "blogin"
+    username: "root"
+    password: ""
+    pool-size: 10
+    use-ssl: false
+
+# Bảo mật - Chống Brute Force
+bao-mat:
+  # Số lần đăng nhập sai tối đa
+  so-lan-sai-toi-da: 5
+  # Thời gian khóa tài khoản (giây)
+  thoi-gian-khoa: 300
+  # Khóa theo IP hay theo tài khoản? ACCOUNT | IP | BOTH
+  che-do-khoa: "BOTH"
+  # Độ dài mật khẩu tối thiểu
+  mat-khau-toi-thieu: 6
+  # Độ dài mật khẩu tối đa
+  mat-khau-toi-da: 64
+  # Yêu cầu chữ hoa, chữ thường, số
+  yeu-cau-mat-khau:
+    chu-hoa: true
+    chu-thuong: true
+    so: true
+    ky-tu-dac-biet: false
+
+# Captcha chống bot
+captcha:
+  # Bật captcha khi đăng nhập/đăng ký
+  bat: true
+  # Số ký tự captcha
+  do-dai: 5
+  # Chỉ chữ và số (true) hay có thể có ký tự đặc biệt (false)
+  chi-chu-va-so: true
+  # Captcha có phân biệt chữ hoa/thường không
+  phan-biet-hoa-thuong: false
+  # Tin nhắn captcha
+  tin-nhan-captcha: "&e[Captcha] &fVui lòng nhập mã: &a&l{captcha}"
+  tin-nhan-sai: "&c❌ Mã captcha sai! Dùng /captcha để lấy mã mới"
+
+# Xác thực 2 yếu tố (2FA - TOTP)
+two-factor:
+  # Bật tính năng 2FA
+  bat: true
+  # Tên ứng dụng hiển thị trong Google Authenticator
+  ten-issuer: "BloginVN"
+  # Bắt buộc 2FA đối với admin
+  bat-buoc-admin: true
+  # Số chữ số mã (6 hoặc 8)
+  so-chu-so: 6
+  # Thời gian hiệu lực mỗi mã (giây, mặc định TOTP 30s)
+  thoi-gian-hieu-luc: 30
+  # Độ lệch cho phép (± step)
+  do-lech-cho-phep: 1
+
+# Khóa IP (chỉ cho phép IP đã đăng ký)
+ip-lock:
+  bat: false
+  # Lưu IP khi đăng nhập thành công để tự động đăng nhập lần sau
+  tu-dong-dang-nhap: true
+
+# Giới hạn người chơi chưa đăng nhập
+gioi-han:
+  chat: true
+  lenh: true
+  di-chuyen: true
+  pha-khoi: true
+  tan-cong: true
+  nhat-do: true
+  tuong-tac-thuc-the: true
+
+# Tin nhắn khi người chơi chưa đăng nhập cố làm gì đó
+canh-bao:
+  chat: "&c⚠ Bạn cần đăng nhập trước khi chat!"
+  lenh: "&c⚠ Vui lòng đăng nhập trước!"
+  di-chuyen: "&c⚠ Không thể di chuyển khi chưa đăng nhập!"
+  pha-khoi: "&c⚠ Không thể phá khối khi chưa đăng nhập!"
+  tan-cong: "&c⚠ Không thể tấn công khi chưa đăng nhập!"
+  tuong-tac: "&c⚠ Không thể tương tác khi chưa đăng nhập!"
+
+# Tin nhắn hệ thống (có thể dùng mã màu &0-&f, &l, &o, &n, &k, &m, &x..., hex: &#RRGGBB)
+tin-nhan:
+  da-dang-nhap: "&a✔ Đăng nhập thành công! Chào mừng {player} trở lại!"
+  da-dang-xuat: "&e👋 Đã đăng xuất khỏi tài khoản!"
+  dang-ky-thanh-cong: "&a✔ Đăng ký tài khoản thành công! Bạn đã được đăng nhập tự động."
+  sai-mat-khau: "&c❌ Mật khẩu không đúng! Còn {remaining} lần thử trước khi bị khóa."
+  mat-khau-da-thay-doi: "&a✔ Mật khẩu đã được thay đổi thành công!"
+  tai-khoan-da-ton-tai: "&c❌ Tài khoản đã tồn tại! Hãy dùng /login."
+  chua-dang-ky: "&c❌ Bạn chưa có tài khoản! Dùng /register <mật_khẩu> <mật_khẩu>."
+  da-dang-nhap-roi: "&c⚠ Bạn đã đăng nhập rồi!"
+  chua-dang-nhap: "&c⚠ Bạn chưa đăng nhập!"
+  mat-khau-khong-khop: "&c❌ Mật khẩu xác nhận không khớp!"
+  mat-khau-qua-ngan: "&c❌ Mật khẩu phải có ít nhất {min} ký tự!"
+  mat-khau-qua-dai: "&c❌ Mật khẩu không được vượt quá {max} ký tự!"
+  mat-khau-yeu: "&c❌ Mật khẩu phải có chữ hoa, chữ thường và số!"
+  bi-khoa: "&c⛔ Tài khoản của bạn đã bị khóa! Thử lại sau {time} giây."
+  het-thoi-gian: "&c⏰ Hết thời gian đăng nhập! Bạn đã bị kick khỏi server."
+  canh-bao-thoi-gian: "&e⏰ Còn {time} giây để đăng nhập!"
+  loi-chung: "&c✖ Đã xảy ra lỗi, vui lòng thử lại!"
+  su-dung-sai: "&cSử dụng sai cú pháp!"
+  sai-2fa: "&c❌ Mã 2FA không đúng!"
+  can-2fa: "&e🔐 Tài khoản này yêu cầu mã 2FA. Vui lòng nhập: /login <mật_khẩu> <mã_6_so>"
+  bat-2fa-thanh-cong: "&a✔ Đã bật 2FA cho tài khoản của bạn!"
+  tat-2fa-thanh-cong: "&a✔ Đã tắt 2FA cho tài khoản của bạn!"
+
+# Tin nhắn admin
+admin:
+  reload-thanh-cong: "&a✔ Đã tải lại cấu hình Blogin!"
+  unregister-thanh-cong: "&a✔ Đã xóa tài khoản của {player}!"
+  force-login: "&a✔ Đã ép buộc đăng nhập cho {player}!"
+  info-header: "&6&l═══════ Thông tin tài khoản {player} ═══════"
+  info-status: "&eTrạng thái: {status}"
+  info-2fa: "&e2FA: {status}"
+  info-ip: "&eIP đã đăng ký: {ip}"
+  info-last-login: "&eLần đăng nhập cuối: {time}"
+  info-footer: "&6&l═══════════════════════════════════════════"
+  status-on: "&a✔ Đã đăng nhập"
+  status-off: "&c✘ Chưa đăng nhập"
+  bat-2fa: "&a✔ Bật"
+  tat-2fa: "&c✘ Tắt"
+
+# Âm thanh khi đăng nhập/đăng ký
+am-thanh:
+  dang-nhap-thanh-cong:
+    bat: true
+    am-thanh: "ENTITY_PLAYER_LEVELUP"
+    am-luong: 1.0
+    pitch: 1.5
+  dang-ky-thanh-cong:
+    bat: true
+    am-thanh: "UI_TOAST_CHALLENGE_COMPLETE"
+    am-luong: 1.0
+    pitch: 1.0
+  sai-mat-khau:
+    bat: true
+    am-thanh: "ENTITY_VILLAGER_NO"
+    am-luong: 1.0
+    pitch: 1.0
+
+# Hiệu ứng hình ảnh khi chưa đăng nhập
+hieu-ung:
+  blindness: true
+  slow: true
+  slow-level: 5
+  jump-boost: true
+  jump-boost-level: 128
+
+# PlaceholderAPI - có bật expansion không
+placeholderapi: true
+
+# Debug - chỉ dành cho dev
+debug: false
+
+# Log các sự kiện đăng nhập ra console
+log-su-kien: true
+
+# Số lần đăng nhập tối đa cùng lúc từ 1 IP (0 = không giới hạn)
+gioi-han-ip: 3
+
+# =====================================================
+#  HỆ THỐNG WELCOME & HIỆU ỨNG ĐẸP MẮT
+# =====================================================
+
+welcome:
+  # Bật/tắt toàn bộ hệ thống welcome
+  bat: true
+
+  # Mức độ hiệu ứng: MINIMAL | NORMAL | EPIC | DISABLED
+  #   MINIMAL  - Chỉ title + âm thanh ngắn
+  #   NORMAL   - Title + particle + âm thanh
+  #   EPIC     - Tất cả + BossBar + Fireworks + Broadcast
+  muc-do: "EPIC"
+
+  # Các particle được random khi welcome (chọn ngẫu nhiên 1)
+  # Có thể chọn: HEART, STAR, SPIRAL, CIRCLE, HELIX, FIREWORK, RAINBOW, WINGS, GALAXY, HEARTS_RAIN
+  particle-types:
+    - "RAINBOW"
+    - "STAR"
+    - "GALAXY"
+    - "SPIRAL"
+
+  # Particle khi đăng nhập thành công
+  particle-login: "FIREWORK"
+
+  # Particle khi đăng ký thành công (welcome thành viên mới)
+  particle-register: "HEARTS_RAIN"
+
+  # Hiển thị pháo hoa thật (entity Firework)
+  phao-hoa: true
+
+  # Số phát pháo hoa khi welcome thành viên mới
+  so-phao-hoa: 5
+
+  # Hiển thị BossBar đếm ngược thời gian đăng nhập
+  bossbar-timeout: true
+
+  # Màu sắc BossBar theo thời gian
+  bossbar-mau-xanh: "GREEN"    # > 15s còn lại
+  bossbar-mau-vang: "YELLOW"   # 5-15s
+  bossbar-mau-do:   "RED"      # < 5s
+
+  # Hiển thị tin nhắn broadcast cho mọi người khi có người mới vào
+  broadcast-join: true
+
+  # Tiêu đề welcome hiển thị khi vào server (title lớn)
+  title-chao:
+    line1: "&6&l✦ &e&lCHÀO MỪNG &6&l✦"
+    line2-new: "&b&l{player} &fđã gia nhập server!"
+    line2-back: "&b&l{player} &7đã quay lại!"
+    fade-in: 10
+    stay: 60
+    fade-out: 20
+
+  # Hiển thị ActionBar chạy chữ liên tục
+  actionbar:
+    bat: true
+    text-new: "&a&l➤ &eChào mừng thành viên mới &b&l{player} &e&l➤"
+    text-back: "&a&l➤ &eChào mừng trở lại &b&l{player} &e&l➤"
+    duration: 100  # ticks
+
+  # Tin nhắn chat hiển thị khi có người mới (EPIC mode)
+  tin-chao-moi: |
+    &6&l✦══════════════════════════════════✦
+    &e&l   🌟 CHÀO MỪNG THÀNH VIÊN MỚI 🌟
+    &6&l✦══════════════════════════════════✦
+    &f   ▶ &b{player} &fđã gia nhập server!
+    &7   Hãy chào hỏi và giúp đỡ họ nhé!
+    &6&l✦══════════════════════════════════✦
+
+  tin-chao-lai: "&a&l➤ &e{player} &7đã quay lại server!"
+
+  # Tin nhắn broadcast khi đăng ký thành công
+  tin-dang-ky-thanh-cong: |
+    &6&l★═══════════════════════════════════★
+    &e   🎉 &b&l{player} &e&lvừa đăng ký tài khoản!
+    &7   Hãy chào mừng thành viên mới của chúng ta!
+    &6&l★═══════════════════════════════════★
+
+  # Tin nhắn khi đăng nhập thành công (Title)
+  title-login-thanh-cong:
+    line1: "&a&l✔ THÀNH CÔNG &a&l✔"
+    line2: "&fXin chào &b{player}&f!"
+    fade-in: 5
+    stay: 40
+    fade-out: 10
+
+  # Tin nhắn khi đăng ký thành công (Title)
+  title-dang-ky-thanh-cong:
+    line1: "&6&l✦ &e&lCHÀO MỪNG &6&l✦"
+    line2: "&b{player} &fđã gia nhập server!"
+    fade-in: 10
+    stay: 60
+    fade-out: 20

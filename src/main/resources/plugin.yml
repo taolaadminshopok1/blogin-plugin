@@ -1,0 +1,63 @@
+name: Blogin
+version: '${project.version}'
+main: vn.blogin.Blogin
+api-version: '1.21'
+authors: [BloginVN]
+description: Plugin Login xịn xò với bảo mật cao cấp, Việt hóa toàn bộ cho MC 1.20.1 - 1.21.4
+website: https://blogin.vn
+softdepend: [PlaceholderAPI]
+folia-supported: false
+
+commands:
+  login:
+    description: "Đăng nhập vào server"
+    usage: "/login <mật_khẩu> [mã_2fa]"
+    aliases: [dangnhap, login]
+  register:
+    description: "Đăng ký tài khoản"
+    usage: "/register <mật_khẩu> <xác_nhận_mật_khẩu>"
+    aliases: [dangky, reg]
+  logout:
+    description: "Đăng xuất khỏi tài khoản"
+    usage: "/logout"
+    aliases: [dangxuat]
+  changepassword:
+    description: "Đổi mật khẩu"
+    usage: "/changepassword <mật_khẩu_cũ> <mật_khẩu_mới>"
+    aliases: [doimatkhau, cpass]
+  blogin:
+    description: "Lệnh quản trị viên Blogin"
+    usage: "/blogin <reload|unregister|info|force|status> [args...]"
+    aliases: [bl]
+    permission: blogin.admin
+  captcha:
+    description: "Lấy captcha mới"
+    usage: "/captcha"
+    aliases: [cap]
+  2fa:
+    description: "Quản lý xác thực 2 yếu tố"
+    usage: "/2fa <enable|disable|code>"
+    aliases: [totp, otp]
+  captchaadmin:
+    description: "Quản lý captcha của bạn (admin)"
+    usage: "/captchaadmin <on|off>"
+    permission: blogin.admin
+  bloginwelcome:
+    description: "Test và quản lý hiệu ứng welcome (admin)"
+    usage: "/bloginwelcome <test|particle|title|bossbar|countdown|sound|all>"
+    aliases: [bww, welcomeadmin]
+    permission: blogin.admin
+
+permissions:
+  blogin.player:
+    description: "Quyền mặc định cho người chơi"
+    default: true
+  blogin.admin:
+    description: "Quyền quản trị viên"
+    default: op
+  blogin.bypass.captcha:
+    description: "Bỏ qua captcha"
+    default: false
+  blogin.bypass.timeout:
+    description: "Không bị giới hạn thời gian đăng nhập"
+    default: false
