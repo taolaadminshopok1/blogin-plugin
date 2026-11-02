@@ -1,152 +1,115 @@
 package vn.blogin.listeners;
-
 import vn.blogin.Blogin;
-import vn.blogin.welcome.WelcomeManager;
+import vn.blogin.utils.ChatUtil;
+import vn.blogin.utils.PlayerRestrictionUtil;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
-
 import java.util.List;
-
-/**
- * Lắng nghe sự kiện người chơi vào server - tạo hiệu ứng chào mừng rực rỡ.
- *
- * <p>Khi người chơi vào:
- * <ul>
- *   <li>Tạo session mới</li>
- *   <li>Hiển thị tin nhắn chào mừng đẹp mắt</li>
- *   <li>Phát hiệu ứng welcome: Title + Particle + Sound + BossBar + Fireworks</li>
- *   <li>Áp hiệu ứng hạn chế (Blindness, Slow, Jump Boost)</li>
- *   <li>Ẩn người chơi khỏi tab & thế giới khi chưa đăng nhập</li>
- * </ul>
- *
- * @author BloginVN
- */
 public class PlayerJoinListener implements Listener {
-
     private final Blogin plugin;
-
     public PlayerJoinListener(Blogin plugin) {
         this.plugin = plugin;
     }
-
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         String ip = player.getAddress() != null
                 ? player.getAddress().getAddress().getHostAddress() : "unknown";
-
-        // 1. Tạo session mới
         plugin.getSessionManager().createSession(player.getUniqueId(), ip);
-
-        // 2. Kiểm tra đã đăng ký chưa
-        boolean registered = plugin.getAuthManager().getPlayerDAO().isRegistered(player.getName());
-
-        // 3. Hiển thị tin nhắn chào mừng đẹp mắt trong chat
+        PlayerRestrictionUtil.apply(plugin, player);
+        PlayerRestrictionUtil.hideFromOthers(plugin, player);
+        plugin.getDatabaseManager().runAsync(
+                () -> plugin.getAuthManager().getPlayerDAO().getPlayerData(player.getName()),
+                data -> handleJoin(player, data)
+        );
+    }
+    private void handleJoin(Player player, vn.blogin.database.PlayerDAO.PlayerData data) {
+        if (!player.isOnline()) return;
+        boolean registered = data != null;
+        if (registered && tryAutoLoginByIp(player, data)) return;
         sendWelcomeMessage(player, registered);
-
-        // 4. Cấp captcha nếu bật
         if (plugin.getCaptchaManager().isEnabled()) {
             String[] cap = plugin.getCaptchaManager().generate();
             plugin.getSessionManager().setPendingCaptcha(player.getUniqueId(), cap[0], cap[1]);
-            player.sendMessage(plugin.getMessageManager().get(
+            ChatUtil.send(player, plugin.getMessageManager().get(
                     "captcha.tin-nhan-captcha", "&e[Captcha] &fVui lòng nhập mã: &a&l{captcha}",
                     "captcha", cap[0]));
         }
-
-        // 5. Áp hiệu ứng hạn chế tạm thời
-        applyRestrictionEffects(player);
-
-        // 6. Ẩn người chơi khỏi người khác khi chưa đăng nhập
-        hideFromOthers(player);
-
-        // 7. Chạy hiệu ứng welcome rực rỡ (nếu được bật trong config)
+        if (plugin.getConfig().getBoolean("gui.bat", true)
+                && plugin.getConfig().getBoolean("gui.auto-mo", true)) {
+            plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
+                if (player.isOnline() && !plugin.getSessionManager().isAuthenticated(player.getUniqueId())) {
+                    plugin.getLoginGui().open(player);
+                }
+            }, 20L);
+        }
         if (plugin.getConfig().getBoolean("welcome.bat", true)) {
             plugin.getWelcomeManager().playWelcomeSequence(player, !registered);
         }
     }
-
-    /**
-     * Gửi tin nhắn chào mừng đẹp mắt.
-     */
+    private boolean tryAutoLoginByIp(Player player, vn.blogin.database.PlayerDAO.PlayerData data) {
+        if (!plugin.getConfig().getBoolean("ip-lock.bat", false)) return false;
+        if (!plugin.getConfig().getBoolean("ip-lock.tu-dong-dang-nhap", true)) return false;
+        if (data.totpEnabled()) return false;
+        String currentIp = player.getAddress() != null
+                ? player.getAddress().getAddress().getHostAddress() : null;
+        if (currentIp == null || data.lastIp() == null) return false;
+        if (!currentIp.equals(data.lastIp())) return false;
+        plugin.getSessionManager().markAuthenticated(player.getUniqueId());
+        plugin.getDatabaseManager().runAsync(
+                () -> plugin.getAuthManager().getPlayerDAO().updateLoginInfo(player.getUniqueId(), currentIp),
+                ok -> { }
+        );
+        PlayerRestrictionUtil.release(plugin, player);
+        ChatUtil.send(player, plugin.getMessageManager().get(
+                "tin-nhan.da-dang-nhap", "&a✔ Đăng nhập thành công! Chào mừng {player} trở lại!",
+                "player", player.getName()));
+        ChatUtil.send(player, "&7🔒 &fĐăng nhập tự động — IP đã được xác thực.");
+        if (plugin.getConfig().getBoolean("welcome.bat", true)) {
+            plugin.getWelcomeManager().playLoginSuccessSequence(player);
+        }
+        return true;
+    }
     private void sendWelcomeMessage(Player player, boolean registered) {
-        // Header đẹp
-        player.sendMessage(plugin.getMessageManager().applyColors(""));
-        player.sendMessage(plugin.getMessageManager().applyColors(
-                "&6&l✦═════════════════════════════════════════✦"));
-        player.sendMessage(plugin.getMessageManager().applyColors(""));
-        player.sendMessage(plugin.getMessageManager().applyPlaceholders(
-                plugin.getMessageManager().applyColors(
-                        "  &e&l✦ &6&lCHÀO MỪNG &e&l✦"),
-                "player", player.getName()));
-        player.sendMessage(plugin.getMessageManager().applyColors(""));
-        player.sendMessage(plugin.getMessageManager().applyPlaceholders(
-                plugin.getMessageManager().applyColors(
-                        "  &fChào bạn &b&l{player}&f!"),
-                "player", player.getName()));
-        player.sendMessage(plugin.getMessageManager().applyColors(""));
-        player.sendMessage(plugin.getMessageManager().applyColors(
-                "  &7Vui lòng đăng nhập để chơi game!"));
-        player.sendMessage(plugin.getMessageManager().applyColors(""));
-
-        if (!registered) {
-            player.sendMessage(plugin.getMessageManager().applyColors(
-                    "  &a➤ &fĐăng ký: &e/register <mật_khẩu> <xác_nhận>"));
+        List<String> intro = plugin.getMessageManager().getList("tin-nhap");
+        if (!intro.isEmpty()) {
+            sendStaggeredIntro(player, intro);
         } else {
-            player.sendMessage(plugin.getMessageManager().applyColors(
-                    "  &a➤ &fĐăng nhập: &e/login <mật_khẩu>"));
+            ChatUtil.send(player, "");
+            ChatUtil.send(player, "&6&l╔═══════════════════════════════════════╗");
+            ChatUtil.send(player, "&6&l║        &e&l✦ &fBLOGIN &e&l✦        &6&l║");
+            ChatUtil.send(player, "&6&l╚═══════════════════════════════════════╝");
+            ChatUtil.send(player, "");
+            ChatUtil.send(player, "  &fChào mừng &b&l{player}&f đến với server!",
+                    "player", player.getName());
+            ChatUtil.send(player, "");
         }
-
-        // Captcha
+        if (registered) {
+            ChatUtil.send(player, "  &a➤ &fĐăng nhập: &e/login <mật_khẩu>");
+            ChatUtil.send(player, "  &a➤ &fHoặc dùng GUI: &e/blogin gui");
+        } else {
+            ChatUtil.send(player, "  &a➤ &fĐăng ký: &e/register <mật_khẩu> <xác_nhận>");
+        }
         if (plugin.getCaptchaManager().isEnabled()) {
-            player.sendMessage(plugin.getMessageManager().applyColors(
-                    "  &a➤ &fLấy captcha mới: &e/captcha"));
+            ChatUtil.send(player, "  &a➤ &fLấy captcha mới: &e/captcha");
         }
-
-        player.sendMessage(plugin.getMessageManager().applyColors(""));
-        player.sendMessage(plugin.getMessageManager().applyColors(
-                "&6&l✦═════════════════════════════════════════✦"));
-        player.sendMessage(plugin.getMessageManager().applyColors(""));
+        ChatUtil.send(player, "");
+        ChatUtil.send(player, "&8Vui lòng đăng nhập để chơi game! &8(Thời gian có hạn)");
+        ChatUtil.send(player, "");
     }
-
-    /**
-     * Áp hiệu ứng hạn chế khi chưa đăng nhập.
-     */
-    private void applyRestrictionEffects(Player player) {
-        boolean blindness = plugin.getConfig().getBoolean("hieu-ung.blindness", true);
-        boolean slow = plugin.getConfig().getBoolean("hieu-ung.slow", true);
-        boolean jump = plugin.getConfig().getBoolean("hieu-ung.jump-boost", true);
-
-        if (blindness) {
-            player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS,
-                    Integer.MAX_VALUE, 0, false, false));
-        }
-        if (slow) {
-            int level = plugin.getConfig().getInt("hieu-ung.slow-level", 5);
-            player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW,
-                    Integer.MAX_VALUE, level, false, false));
-        }
-        if (jump) {
-            int level = plugin.getConfig().getInt("hieu-ung.jump-boost-level", 128);
-            player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP_BOOST,
-                    Integer.MAX_VALUE, level, false, false));
-        }
-    }
-
-    /**
-     * Ẩn người chơi chưa đăng nhập khỏi những người khác.
-     */
-    private void hideFromOthers(Player player) {
-        for (Player other : player.getServer().getOnlinePlayers()) {
-            if (!other.getUniqueId().equals(player.getUniqueId())) {
-                if (other.canSee(player)) {
-                    other.hidePlayer(plugin, player);
-                }
-            }
+    private void sendStaggeredIntro(Player player, List<String> messages) {
+        for (int i = 0; i < messages.size(); i++) {
+            final String line = plugin.getMessageManager()
+                    .applyPlaceholders(messages.get(i), "player", player.getName());
+            final long delay = i * 20L;
+            plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
+                if (!player.isOnline()) return;
+                if (plugin.getSessionManager().isAuthenticated(player.getUniqueId())) return;
+                ChatUtil.send(player, line);
+            }, delay);
         }
     }
 }

@@ -1,159 +1,150 @@
 package vn.blogin.commands;
-
 import vn.blogin.Blogin;
 import vn.blogin.managers.AuthManager.AuthResult;
+import vn.blogin.utils.ChatUtil;
+import vn.blogin.utils.PasswordStrength;
+import vn.blogin.utils.PlayerRestrictionUtil;
+import vn.blogin.utils.SoundUtil;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
-
-/**
- * Lệnh {@code /login} - Đăng nhập vào tài khoản.
- *
- * <p>Cú pháp: {@code /login <mật_khẩu> [mã_2fa]}</p>
- *
- * @author BloginVN
- */
 public class LoginCommand implements CommandExecutor {
-
     private final Blogin plugin;
-
     public LoginCommand(Blogin plugin) {
         this.plugin = plugin;
     }
-
     @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd,
-                             @NotNull String label, @NotNull String[] args) {
+    public boolean onCommand(CommandSender sender, Command cmd,
+                             String label, String[] args) {
         if (!(sender instanceof Player player)) {
-            sender.sendMessage("Lệnh này chỉ dành cho người chơi!");
+            ChatUtil.send(sender, "&cLệnh này chỉ dành cho người chơi!");
             return true;
         }
-
-        // Kiểm tra đã đăng nhập chưa
         if (plugin.getSessionManager().isAuthenticated(player.getUniqueId())) {
-            player.sendMessage(plugin.getMessageManager().get(
+            ChatUtil.send(player, plugin.getMessageManager().get(
                     "tin-nhan.da-dang-nhap-roi", "&cBạn đã đăng nhập rồi!"));
             return true;
         }
-
-        // Cần nhập mật khẩu
-        if (args.length < 1) {
-            player.sendMessage(plugin.getMessageManager().get(
-                    "tin-nhan.su-dung-sai", "&cSử dụng: /login <mật_khẩu> [mã_2fa]"));
-            return true;
-        }
-
-        String password = args[0];
-        String totpCode = args.length >= 2 ? args[1] : null;
-        String ip = player.getAddress() != null ? player.getAddress().getAddress().getHostAddress() : "unknown";
-
-        // Kiểm tra captcha (nếu có)
+        String ip = getIp(player);
+        String password;
+        String totpCode = null;
+        int startIdx = 0;
         if (plugin.getCaptchaManager().isEnabled()
                 && !player.hasPermission("blogin.bypass.captcha")) {
             String pendingCaptcha = plugin.getSessionManager().getPendingCaptcha(player.getUniqueId());
             if (pendingCaptcha != null) {
-                // Cần nhập captcha: định dạng /login <captcha> <mật_khẩu>
                 if (args.length < 2) {
-                    player.sendMessage(plugin.getMessageManager().get(
+                    ChatUtil.send(player, plugin.getMessageManager().get(
                             "captcha.tin-nhan-captcha", "&e[Captcha] &fVui lòng nhập mã: &a&l{captcha}",
                             "captcha", pendingCaptcha));
+                    ChatUtil.send(player, "&7Cú pháp: &f/login <captcha> <mật khẩu> [mã 2FA]");
                     return true;
                 }
-                // Đối số 0 là captcha, đối số 1 là password
                 String captchaInput = args[0];
-                password = args[1];
-                totpCode = args.length >= 3 ? args[2] : null;
-
                 if (!plugin.getSessionManager().verifyCaptcha(player.getUniqueId(), captchaInput)) {
-                    player.sendMessage(plugin.getMessageManager().get(
-                            "captcha.tin-nhan-sai", "&cMã captcha sai!"));
-                    playSound(player, "ENTITY_VILLAGER_NO", 1.0f, 1.0f);
-                    // Cấp captcha mới
+                    ChatUtil.send(player, plugin.getMessageManager().get(
+                            "captcha.tin-nhan-sai", "&c❌ Mã captcha sai! Dùng /captcha để lấy mã mới"));
+                    playSound(player, "sai-mat-khau", Sound.ENTITY_VILLAGER_NO, 1.0f, 1.0f);
                     String[] newCap = plugin.getCaptchaManager().generate();
                     plugin.getSessionManager().setPendingCaptcha(player.getUniqueId(), newCap[0], newCap[1]);
-                    player.sendMessage(plugin.getMessageManager().get(
+                    ChatUtil.send(player, plugin.getMessageManager().get(
                             "captcha.tin-nhan-captcha", "&e[Captcha] &fVui lòng nhập mã: &a&l{captcha}",
                             "captcha", newCap[0]));
                     return true;
                 }
+                startIdx = 1;
             }
         }
-
-        // Thực hiện đăng nhập
-        AuthResult result = plugin.getAuthManager().login(
-                player.getUniqueId(), player.getName(), password, totpCode, ip);
-
+        if (args.length < startIdx + 1) {
+            ChatUtil.send(player, plugin.getMessageManager().get(
+                    "tin-nhan.su-dung-sai", "&cSử dụng: /login <mật khẩu> [mã 2FA]"));
+            return true;
+        }
+        password = args[startIdx];
+        if (args.length >= startIdx + 2) {
+            totpCode = args[startIdx + 1];
+        }
+        plugin.getAuthManager().loginAsync(player.getUniqueId(), player.getName(),
+                password, totpCode, ip, result -> handleResult(player, result, password, ip));
+        return true;
+    }
+    private void handleResult(Player player, AuthResult result, String password, String ip) {
+        if (!player.isOnline()) return;
         switch (result) {
             case SUCCESS -> {
                 plugin.getSessionManager().markAuthenticated(player.getUniqueId());
-                player.sendMessage(plugin.getMessageManager().get(
-                        "tin-nhan.da-dang-nhap", "&aĐăng nhập thành công!", "player", player.getName()));
-                playSound(player, "ENTITY_PLAYER_LEVELUP", 1.0f, 1.5f);
-
-                // Bỏ hiệu ứng hạn chế
-                player.removePotionEffect(org.bukkit.potion.PotionEffectType.BLINDNESS);
-                player.removePotionEffect(org.bukkit.potion.PotionEffectType.SLOW);
-                player.removePotionEffect(org.bukkit.potion.PotionEffectType.JUMP_BOOST);
-                player.setWalkSpeed(0.2f);
-                player.setFlySpeed(0.1f);
-
-                // Hiển thị lại người chơi này cho mọi người khác
-                for (org.bukkit.entity.Player other : player.getServer().getOnlinePlayers()) {
-                    if (!other.canSee(player)) {
-                        other.showPlayer(plugin, player);
-                    }
-                }
-
-                // Chạy hiệu ứng welcome khi đăng nhập thành công (rực rỡ)
+                ChatUtil.send(player, plugin.getMessageManager().get(
+                        "tin-nhan.da-dang-nhap", "&a✔ Đăng nhập thành công! Chào mừng {player} trở lại!",
+                        "player", player.getName()));
+                playSound(player, "dang-nhap-thanh-cong", Sound.ENTITY_PLAYER_LEVELUP, 1.0f, 1.5f);
+                PlayerRestrictionUtil.release(plugin, player);
                 if (plugin.getConfig().getBoolean("welcome.bat", true)) {
                     plugin.getWelcomeManager().playLoginSuccessSequence(player);
                 }
+                remindAdminToEnable2FA(player);
             }
             case WRONG_PASSWORD -> {
+                plugin.getSessionManager().incrementFailedAttempts(player.getUniqueId());
                 int remain = plugin.getAuthManager().getRemainingAttempts(player.getName(), ip);
-                player.sendMessage(plugin.getMessageManager().get(
-                        "tin-nhan.sai-mat-khau", "&cMật khẩu sai!",
+                ChatUtil.send(player, plugin.getMessageManager().get(
+                        "tin-nhan.sai-mat-khau", "&c❌ Mật khẩu không đúng! Còn {remaining} lần thử trước khi bị khóa.",
                         "remaining", String.valueOf(remain)));
-                playSound(player, "ENTITY_VILLAGER_NO", 1.0f, 1.0f);
+                ChatUtil.send(player, "&8» &7Độ mạnh mật khẩu đã nhập: " + PasswordStrength.bar(password));
+                playSound(player, "sai-mat-khau", Sound.ENTITY_VILLAGER_NO, 1.0f, 1.0f);
             }
             case ACCOUNT_LOCKED -> {
                 long remain = plugin.getAuthManager().getLockRemainingSeconds(player.getName(), ip);
-                player.sendMessage(plugin.getMessageManager().get(
-                        "tin-nhan.bi-khoa", "&cTài khoản bị khóa!",
+                ChatUtil.send(player, plugin.getMessageManager().get(
+                        "tin-nhan.bi-khoa", "&c⛔ Tài khoản của bạn đã bị khóa! Thử lại sau {time} giây.",
                         "time", String.valueOf(remain)));
-                playSound(player, "ENTITY_VILLAGER_NO", 1.0f, 0.5f);
+                playSound(player, "sai-mat-khau", Sound.ENTITY_VILLAGER_NO, 1.0f, 0.5f);
             }
             case NOT_REGISTERED -> {
-                player.sendMessage(plugin.getMessageManager().get(
-                        "tin-nhan.chua-dang-ky", "&cBạn chưa đăng ký! Dùng /register"));
+                ChatUtil.send(player, plugin.getMessageManager().get(
+                        "tin-nhan.chua-dang-ky", "&c❌ Bạn chưa có tài khoản! Dùng /register <mật_khẩu> <mật_khẩu>."));
+                ChatUtil.send(player, "&7Đăng ký ngay: &a/register <mật_khẩu> <xác_nhận_mật_khẩu>");
             }
             case TOTP_REQUIRED -> {
-                player.sendMessage(plugin.getMessageManager().get(
+                plugin.getSessionManager().setAwaiting2FA(player.getUniqueId(), true);
+                ChatUtil.send(player, plugin.getMessageManager().get(
                         "tin-nhan.can-2fa",
-                        "&e🔐 Tài khoản này yêu cầu mã 2FA. Vui lòng nhập: /login <mật_khẩu> <mã_6_số>"));
+                        "&e🔐 Tài khoản này yêu cầu mã 2FA. Vui lòng nhập: /login <mật_khẩu> <mã_6_so>"));
             }
             case TOTP_INVALID -> {
-                player.sendMessage(plugin.getMessageManager().get(
-                        "tin-nhan.sai-2fa", "&cMã 2FA không đúng!"));
+                ChatUtil.send(player, plugin.getMessageManager().get(
+                        "tin-nhan.sai-2fa", "&c❌ Mã 2FA không đúng!"));
+                playSound(player, "sai-mat-khau", Sound.ENTITY_VILLAGER_NO, 1.0f, 0.8f);
             }
-            default -> player.sendMessage(plugin.getMessageManager().get(
-                    "tin-nhan.loi-chung", "&cĐã xảy ra lỗi khi đăng nhập!"));
+            case IP_BLOCKED -> {
+                ChatUtil.send(player, plugin.getMessageManager().get(
+                        "tin-nhan.ip-blocked", "&cIP của bạn đang bị tạm khóa, vui lòng thử lại sau!"));
+            }
+            default -> ChatUtil.send(player, plugin.getMessageManager().get(
+                    "tin-nhan.loi-chung", "&c✖ Đã xảy ra lỗi khi đăng nhập!"));
         }
-        return true;
     }
-
-    /**
-     * Phát âm thanh nếu được bật trong config.
-     */
-    private void playSound(Player player, String sound, float volume, float pitch) {
-        try {
-            Sound s = Sound.valueOf(sound);
-            player.playSound(player.getLocation(), s, volume, pitch);
-        } catch (Exception ignored) {
-            // Âm thanh không hợp lệ - bỏ qua
-        }
+    private void remindAdminToEnable2FA(Player player) {
+        if (!plugin.getConfig().getBoolean("two-factor.bat-buoc-admin", true)) return;
+        if (!plugin.getConfig().getBoolean("two-factor.bat", true)) return;
+        if (!player.hasPermission("blogin.admin")) return;
+        var session = plugin.getSessionManager().get(player.getUniqueId());
+        if (session.reminded2FA) return;
+        session.reminded2FA = true;
+        plugin.getDatabaseManager().runAsync(
+                () -> plugin.getAuthManager().getPlayerDAO().getPlayerData(player.getName()),
+                data -> {
+                    if (!player.isOnline() || data == null || data.totpEnabled()) return;
+                    ChatUtil.send(player, "&e⏰ &7Bạn là admin — hãy bật 2FA để bảo vệ tài khoản: &a/2fa enable");
+                }
+        );
+    }
+    private String getIp(Player player) {
+        return player.getAddress() != null
+                ? player.getAddress().getAddress().getHostAddress() : "unknown";
+    }
+    private void playSound(Player player, String key, Sound fallback, float volume, float pitch) {
+        SoundUtil.play(plugin, player, key, fallback, volume, pitch);
     }
 }

@@ -1,5 +1,4 @@
 package vn.blogin.welcome;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Location;
@@ -8,67 +7,25 @@ import org.bukkit.Particle.DustOptions;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 import vn.blogin.Blogin;
-
 import java.util.ArrayList;
 import java.util.List;
-
-/**
- * Hệ thống hiệu ứng hạt (particle) chào mừng người chơi vào server.
- *
- * <p>Các hiệu ứng có sẵn:
- * <ul>
- *   <li>{@link #HEART} - Trái tim tỏa ra xung quanh</li>
- *   <li>{@link #STAR} - Ngôi sao 5 cánh xoay tròn</li>
- *   <li>{@link #SPIRAL} - Xoáy tròn spiral 3D</li>
- *   <li>{@link #CIRCLE} - Vòng tròn particle xoay</li>
- *   <li>{@link #HELIX} - Chuỗi xoắn ốc DNA</li>
- *   <li>{@link #FIREWORK} - Pháo hoa mini</li>
- *   <li>{@link #RAINBOW} - Cầu vồng gradient màu</li>
- *   <li>{@link #WINGS} - Đôi cánh thiên thần</li>
- *   <li>{@link #GALAXY} - Xoáy galaxy 3D</li>
- *   <li>{@link #HEARTS_RAIN} - Mưa trái tim</li>
- * </ul>
- *
- * <p>Tất cả particle đều có hiệu ứng màu sắc chuyển động và tối ưu hiệu năng
- * bằng cách giới hạn góc nhìn của người chơi.</p>
- *
- * @author BloginVN
- */
 public class WelcomeParticleEffect {
-
     private final Blogin plugin;
-
-    /**
-     * Danh sách các hiệu ứng particle có sẵn.
-     */
     public enum EffectType {
         HEART, STAR, SPIRAL, CIRCLE, HELIX,
         FIREWORK, RAINBOW, WINGS, GALAXY, HEARTS_RAIN,
+        PORTAL, AURA,
         NONE
     }
-
     public WelcomeParticleEffect(Blogin plugin) {
         this.plugin = plugin;
     }
-
-    /**
-     * Chạy hiệu ứng particle cho người chơi trong khoảng thời gian (giây).
-     *
-     * @param player    người chơi xem hiệu ứng
-     * @param center    vị trí trung tâm
-     * @param type      loại hiệu ứng
-     * @param duration  thời gian chạy (giây)
-     * @return task đang chạy (có thể cancel)
-     */
     public BukkitTask playEffect(Player player, Location center, EffectType type, int duration) {
         if (type == null || type == EffectType.NONE) return null;
-
-        // Mỗi tick chạy 1 lần (~20 ticks/giây)
+        long period = getAdaptivePeriod();
         return Bukkit.getScheduler().runTaskTimer(plugin, () -> {
-            // Chỉ render nếu người chơi đang online và không quá xa
             if (!player.isOnline()) return;
             if (player.getLocation().distanceSquared(center) > 30 * 30) return;
-
             switch (type) {
                 case HEART -> spawnHeart(player, center);
                 case STAR -> spawnStar(player, center);
@@ -80,15 +37,18 @@ public class WelcomeParticleEffect {
                 case WINGS -> spawnWings(player, center);
                 case GALAXY -> spawnGalaxy(player, center);
                 case HEARTS_RAIN -> spawnHeartsRain(player, center);
+                case PORTAL -> spawnPortal(player, center);
+                case AURA -> spawnAura(player, center);
             }
-        }, 0L, 2L); // Chạy mỗi 2 ticks (10 lần/giây) để mượt
+        }, 0L, period);
     }
-
-    // ============== CÁC HIỆU ỨNG ==============
-
-    /**
-     * Trái tim particle bắn ra xung quanh.
-     */
+    private long getAdaptivePeriod() {
+        int online = Bukkit.getOnlinePlayers().size();
+        int threshold = plugin.getConfig().getInt("welcome.nguong-chat-server", 60);
+        if (online <= threshold) return 2L;
+        if (online <= threshold * 2) return 4L;
+        return 6L;
+    }
     private void spawnHeart(Player player, Location center) {
         double radius = 1.5;
         double step = Math.PI / 16;
@@ -99,10 +59,6 @@ public class WelcomeParticleEffect {
             spawnColoredParticle(player, loc, Color.RED);
         }
     }
-
-    /**
-     * Ngôi sao 5 cánh xoay tròn.
-     */
     private void spawnStar(Player player, Location center) {
         long time = System.currentTimeMillis() / 50;
         int points = 5;
@@ -115,13 +71,9 @@ public class WelcomeParticleEffect {
             double z = Math.sin(angle) * r;
             double y = Math.sin(angle * 2) * 0.4;
             Location loc = center.clone().add(x, y + 1, z);
-            spawnColoredParticle(player, loc, Color.fromRGB(255, 215, 0)); // vàng gold
+            spawnColoredParticle(player, loc, Color.fromRGB(255, 215, 0));
         }
     }
-
-    /**
-     * Xoáy tròn 3D spiral.
-     */
     private void spawnSpiral(Player player, Location center) {
         long time = System.currentTimeMillis() / 30;
         for (double y = -1.5; y < 1.5; y += 0.05) {
@@ -130,17 +82,12 @@ public class WelcomeParticleEffect {
             double x = Math.cos(angle) * radius;
             double z = Math.sin(angle) * radius;
             Location loc = center.clone().add(x, y + 1, z);
-            // Gradient màu từ tím sang xanh
             int r = (int) (128 + 127 * (y + 1.5) / 3);
             int g = 0;
             int b = 255;
             spawnColoredParticle(player, loc, Color.fromRGB(r, g, b));
         }
     }
-
-    /**
-     * Vòng tròn particle xoay quanh.
-     */
     private void spawnCircle(Player player, Location center) {
         long time = System.currentTimeMillis() / 30;
         double radius = 1.2;
@@ -151,34 +98,23 @@ public class WelcomeParticleEffect {
             double z = Math.sin(angle) * radius;
             double y = Math.sin(time * 0.05 + i * 0.3) * 0.3;
             Location loc = center.clone().add(x, y + 1, z);
-            // Màu xanh ngọc
             spawnColoredParticle(player, loc, Color.fromRGB(0, 255, 200));
         }
     }
-
-    /**
-     * Chuỗi xoắn ốc DNA - 2 sợi xoắn vào nhau.
-     */
     private void spawnHelix(Player player, Location center) {
         long time = System.currentTimeMillis() / 50;
         for (double y = -1; y < 1; y += 0.05) {
             double angle1 = y * 6 + time * 0.1;
             double angle2 = angle1 + Math.PI;
             double radius = 0.8;
-
             Location loc1 = center.clone().add(
                     Math.cos(angle1) * radius, y + 1, Math.sin(angle1) * radius);
             Location loc2 = center.clone().add(
                     Math.cos(angle2) * radius, y + 1, Math.sin(angle2) * radius);
-
             spawnColoredParticle(player, loc1, Color.AQUA);
-            spawnColoredParticle(player, loc2, Color.fromRGB(255, 105, 180)); // hot pink
+            spawnColoredParticle(player, loc2, Color.fromRGB(255, 105, 180));
         }
     }
-
-    /**
-     * Pháo hoa mini - particle bắn ra từ trung tâm.
-     */
     private void spawnFirework(Player player, Location center) {
         long time = System.currentTimeMillis() / 200;
         for (int i = 0; i < 20; i++) {
@@ -194,10 +130,6 @@ public class WelcomeParticleEffect {
             spawnColoredParticle(player, loc, c);
         }
     }
-
-    /**
-     * Cầu vồng gradient màu - xoay tròn nhiều lớp.
-     */
     private void spawnRainbow(Player player, Location center) {
         long time = System.currentTimeMillis() / 40;
         int layers = 3;
@@ -210,22 +142,15 @@ public class WelcomeParticleEffect {
                 double z = Math.sin(angle) * radius;
                 double y = Math.sin(time * 0.03 + i * 0.5 + layer) * 0.4;
                 Location loc = center.clone().add(x, y + 1, z);
-                // Hue chuyển động theo góc
                 float hue = (float) (((angle + time * 0.02) / (Math.PI * 2)) % 1.0);
                 Color color = hsvToRgb(hue, 1.0f, 1.0f);
                 spawnColoredParticle(player, loc, color);
             }
         }
     }
-
-    /**
-     * Đôi cánh thiên thần - 2 hình cánh đối xứng.
-     */
     private void spawnWings(Player player, Location center) {
         long time = System.currentTimeMillis() / 60;
         float wingFlap = (float) (Math.sin(time * 0.1) * 0.3);
-
-        // Cánh trái
         for (double u = 0; u < Math.PI; u += Math.PI / 20) {
             double x = -Math.cos(u) * 1.5;
             double y = Math.sin(u) * (1.5 + wingFlap);
@@ -233,7 +158,6 @@ public class WelcomeParticleEffect {
             Location loc = center.clone().add(x, y + 1, z);
             spawnColoredParticle(player, loc, Color.WHITE);
         }
-        // Cánh phải
         for (double u = 0; u < Math.PI; u += Math.PI / 20) {
             double x = Math.cos(u) * 1.5;
             double y = Math.sin(u) * (1.5 + wingFlap);
@@ -242,10 +166,6 @@ public class WelcomeParticleEffect {
             spawnColoredParticle(player, loc, Color.WHITE);
         }
     }
-
-    /**
-     * Xoáy galaxy 3D - nhiều vòng xoắn lồng vào nhau.
-     */
     private void spawnGalaxy(Player player, Location center) {
         long time = System.currentTimeMillis() / 30;
         int arms = 4;
@@ -257,7 +177,6 @@ public class WelcomeParticleEffect {
                 double z = Math.sin(angle) * r;
                 double y = Math.sin(r * 2 + time * 0.05) * 0.3;
                 Location loc = center.clone().add(x, y + 1, z);
-                // Gradient màu galaxy: từ xanh dương -> tím -> hồng
                 float ratio = (float) (r / 2);
                 int red = (int) (100 + 155 * ratio);
                 int green = (int) (100 - 50 * ratio);
@@ -266,10 +185,6 @@ public class WelcomeParticleEffect {
             }
         }
     }
-
-    /**
-     * Mưa trái tim từ trên xuống.
-     */
     private void spawnHeartsRain(Player player, Location center) {
         long time = System.currentTimeMillis() / 100;
         for (int i = 0; i < 5; i++) {
@@ -283,21 +198,43 @@ public class WelcomeParticleEffect {
             spawnColoredParticle(player, loc, colors[i % colors.length]);
         }
     }
-
-    // ============== UTILS ==============
-
-    /**
-     * Spawn một particle màu (redstone dust) cho người chơi cụ thể.
-     */
+    private void spawnPortal(Player player, Location center) {
+        long time = System.currentTimeMillis() / 40;
+        int points = 28;
+        double radius = 1.3;
+        for (int i = 0; i < points; i++) {
+            double angle = (Math.PI * 2 * i / points) + (time * 0.03);
+            double x = Math.cos(angle) * radius;
+            double z = Math.sin(angle) * radius;
+            double y = Math.sin(time * 0.05 + i * 0.4) * 0.8 + 1.0;
+            Location loc = center.clone().add(x, y, z);
+            float ratio = (float) i / points;
+            int red = (int) (170 - 100 * ratio);
+            int green = (int) (60 + 60 * ratio);
+            int blue = (int) (255 - 40 * ratio);
+            spawnColoredParticle(player, loc, Color.fromRGB(red, green, blue));
+        }
+    }
+    private void spawnAura(Player player, Location center) {
+        long time = System.currentTimeMillis() / 25;
+        for (int i = 0; i < 12; i++) {
+            double angle = (Math.PI * 2 * i / 12) + (time * 0.015);
+            double radius = 0.9 + Math.sin(time * 0.03 + i) * 0.2;
+            double x = Math.cos(angle) * radius;
+            double z = Math.sin(angle) * radius;
+            double y = 0.4 + ((time * 0.02 + i * 0.5) % 2.2);
+            Location loc = center.clone().add(x, y, z);
+            Color[] palette = {Color.RED, Color.ORANGE, Color.YELLOW, Color.AQUA, Color.PURPLE};
+            spawnColoredParticle(player, loc, palette[i % palette.length]);
+        }
+    }
     private void spawnColoredParticle(Player player, Location loc, Color color) {
         if (loc == null || !player.isOnline()) return;
+        Particle particle = vn.blogin.utils.Compat.particle("DUST", "REDSTONE");
+        if (particle == null) return;
         DustOptions dust = new DustOptions(color, 1.0f);
-        player.spawnParticle(Particle.REDSTONE, loc, 0, 0, 0, 0, 0, dust);
+        player.spawnParticle(particle, loc, 0, 0, 0, 0, 0, dust);
     }
-
-    /**
-     * Chuyển đổi HSV sang RGB Color.
-     */
     private Color hsvToRgb(float h, float s, float v) {
         int r, g, b;
         int i = (int) (h * 6) % 6;
@@ -308,17 +245,13 @@ public class WelcomeParticleEffect {
         switch (i) {
             case 0 -> { r = (int)(v*255); g = (int)(t*255); b = (int)(p*255); }
             case 1 -> { r = (int)(q*255); g = (int)(v*255); b = (int)(p*255); }
-            case 2 -> { r = (int)(p*255); g = (int)(v*255); b = (int)(t*255); }
+            case 2 -> { r = (int)(p*255); g = (int)(t*255); b = (int)(q*255); }
             case 3 -> { r = (int)(p*255); g = (int)(q*255); b = (int)(v*255); }
             case 4 -> { r = (int)(t*255); g = (int)(p*255); b = (int)(v*255); }
             default -> { r = (int)(v*255); g = (int)(p*255); b = (int)(q*255); }
         }
         return Color.fromRGB(r, g, b);
     }
-
-    /**
-     * Spawn particle cho tất cả người chơi xung quanh (dùng cho hiệu ứng broadcast).
-     */
     public void broadcastEffect(Location center, EffectType type, int duration) {
         List<BukkitTask> tasks = new ArrayList<>();
         for (Player p : Bukkit.getOnlinePlayers()) {
@@ -327,7 +260,6 @@ public class WelcomeParticleEffect {
                 if (task != null) tasks.add(task);
             }
         }
-        // Tự cancel sau duration giây
         Bukkit.getScheduler().runTaskLater(plugin, () -> {
             tasks.forEach(BukkitTask::cancel);
         }, duration * 20L);

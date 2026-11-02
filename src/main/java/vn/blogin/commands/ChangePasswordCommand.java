@@ -1,72 +1,72 @@
 package vn.blogin.commands;
-
 import vn.blogin.Blogin;
 import vn.blogin.managers.AuthManager.AuthResult;
+import vn.blogin.utils.ChatUtil;
+import vn.blogin.utils.PasswordStrength;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
-
-/**
- * Lệnh {@code /changepassword} - Đổi mật khẩu.
- *
- * <p>Yêu cầu người chơi đã đăng nhập.</p>
- *
- * <p>Cú pháp: {@code /changepassword <mật_khẩu_cũ> <mật_khẩu_mới>}</p>
- *
- * @author BloginVN
- */
 public class ChangePasswordCommand implements CommandExecutor {
-
     private final Blogin plugin;
-
     public ChangePasswordCommand(Blogin plugin) {
         this.plugin = plugin;
     }
-
     @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd,
-                             @NotNull String label, @NotNull String[] args) {
+    public boolean onCommand(CommandSender sender, Command cmd,
+                             String label, String[] args) {
         if (!(sender instanceof Player player)) {
-            sender.sendMessage("Lệnh này chỉ dành cho người chơi!");
+            ChatUtil.send(sender, "&cLệnh này chỉ dành cho người chơi!");
             return true;
         }
-
         if (!plugin.getSessionManager().isAuthenticated(player.getUniqueId())) {
-            player.sendMessage(plugin.getMessageManager().get(
-                    "tin-nhan.chua-dang-nhap", "&cBạn chưa đăng nhập!"));
+            ChatUtil.send(player, plugin.getMessageManager().get(
+                    "tin-nhan.chua-dang-nhap", "&c⚠ Bạn chưa đăng nhập!"));
             return true;
         }
-
         if (args.length < 2) {
-            player.sendMessage("&cSử dụng: /changepassword <mật_khẩu_cũ> <mật_khẩu_mới>");
+            ChatUtil.send(player, "&cSử dụng: /changepassword <mật khẩu cũ> <mật khẩu mới>");
             return true;
         }
-
         String oldPwd = args[0];
         String newPwd = args[1];
-
-        AuthResult result = plugin.getAuthManager().changePassword(player.getName(), oldPwd, newPwd);
-
+        ChatUtil.send(player, "&8» &7Độ mạnh mật khẩu mới: " + PasswordStrength.bar(newPwd));
+        plugin.getDatabaseManager().runAsync(
+                () -> plugin.getAuthManager().changePassword(player.getName(), oldPwd, newPwd),
+                result -> handleResult(player, result, newPwd)
+        );
+        return true;
+    }
+    private void handleResult(Player player, AuthResult result, String newPwd) {
+        if (!player.isOnline()) return;
         switch (result) {
-            case SUCCESS -> player.sendMessage(plugin.getMessageManager().get(
-                    "tin-nhan.mat-khau-da-thay-doi", "&a✔ Mật khẩu đã thay đổi!"));
-            case WRONG_PASSWORD -> player.sendMessage(plugin.getMessageManager().get(
-                    "tin-nhan.sai-mat-khau", "&cMật khẩu cũ không đúng!"));
+            case SUCCESS -> ChatUtil.send(player, plugin.getMessageManager().get(
+                    "tin-nhan.mat-khau-da-thay-doi", "&a✔ Mật khẩu đã được thay đổi thành công!"));
+            case WRONG_PASSWORD -> ChatUtil.send(player, plugin.getMessageManager().get(
+                    "tin-nhan.sai-mat-khau", "&c❌ Mật khẩu cũ không đúng!"));
+            case WEAK_PASSWORD -> {
+                ChatUtil.send(player, plugin.getMessageManager().get(
+                        "tin-nhan.mat-khau-yeu", "&c❌ Mật khẩu mới quá yếu!"));
+                ChatUtil.send(player, "&7Gợi ý: kết hợp chữ hoa, chữ thường, số & ký tự đặc biệt.");
+            }
             case INVALID_PASSWORD_FORMAT -> {
-                if (newPwd.length() < plugin.getConfig().getInt("bao-mat.mat-khau-toi-thieu", 6)) {
-                    player.sendMessage(plugin.getMessageManager().get(
-                            "tin-nhan.mat-khau-qua-ngan", "&cMật khẩu quá ngắn!",
-                            "min", String.valueOf(plugin.getConfig().getInt("bao-mat.mat-khau-toi-thieu", 6))));
+                int min = plugin.getConfig().getInt("bao-mat.mat-khau-toi-thieu", 6);
+                int max = plugin.getConfig().getInt("bao-mat.mat-khau-toi-da", 64);
+                if (newPwd.length() < min) {
+                    ChatUtil.send(player, plugin.getMessageManager().get(
+                            "tin-nhan.mat-khau-qua-ngan", "&c❌ Mật khẩu phải có ít nhất {min} ký tự!",
+                            "min", String.valueOf(min)));
+                } else if (newPwd.length() > max) {
+                    ChatUtil.send(player, plugin.getMessageManager().get(
+                            "tin-nhan.mat-khau-qua-dai", "&c❌ Mật khẩu không được vượt quá {max} ký tự!",
+                            "max", String.valueOf(max)));
                 } else {
-                    player.sendMessage(plugin.getMessageManager().get(
-                            "tin-nhan.mat-khau-yeu", "&cMật khẩu không đủ mạnh!"));
+                    ChatUtil.send(player, plugin.getMessageManager().get(
+                            "tin-nhan.mat-khau-yeu", "&c❌ Mật khẩu phải có chữ hoa, chữ thường và số!"));
                 }
             }
-            default -> player.sendMessage(plugin.getMessageManager().get(
-                    "tin-nhan.loi-chung", "&cĐã xảy ra lỗi!"));
+            default -> ChatUtil.send(player, plugin.getMessageManager().get(
+                    "tin-nhan.loi-chung", "&c✖ Đã xảy ra lỗi!"));
         }
-        return true;
     }
 }

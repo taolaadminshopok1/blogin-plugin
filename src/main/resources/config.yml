@@ -1,6 +1,7 @@
 # =====================================================
 #  Blogin - Cấu hình chính (Việt hóa 100%)
 #  Plugin Login xịn xò cho Minecraft 1.20.1 - 1.21.4
+#  Phiên bản 3.0 - Nâng cấp giao diện & hiệu năng
 # =====================================================
 
 # Ngôn ngữ hiển thị (vi, en)
@@ -16,10 +17,15 @@ tin-nhap:
   - "&7Vui lòng đăng nhập bằng lệnh &a/login <mật_khẩu>"
   - "&7Nếu chưa có tài khoản, dùng &a/register <mk> <mk>"
 
-# Cấu hình Database
-# Loại database: SQLITE hoặc MYSQL
+# =====================================================
+#  CẤU HÌNH DATABASE
+# =====================================================
 database:
+  # Loại database: SQLITE hoặc MYSQL
   loai: "SQLITE"
+  # Số thread xử lý truy vấn bất đồng bộ (không block TPS)
+  # Nên để bằng số CPU core / 2, tối đa 4
+  async-threads: 2
   mysql:
     host: "localhost"
     port: 3306
@@ -29,7 +35,9 @@ database:
     pool-size: 10
     use-ssl: false
 
-# Bảo mật - Chống Brute Force
+# =====================================================
+#  BẢO MẬT - CHỐNG BRUTE FORCE
+# =====================================================
 bao-mat:
   # Số lần đăng nhập sai tối đa
   so-lan-sai-toi-da: 5
@@ -37,6 +45,16 @@ bao-mat:
   thoi-gian-khoa: 300
   # Khóa theo IP hay theo tài khoản? ACCOUNT | IP | BOTH
   che-do-khoa: "BOTH"
+  # Cost factor của BCrypt (4-16)
+  # 10 = nhanh (~80ms), 12 = cân bằng (~250ms), 14 = bảo mật cao (~1s)
+  # Server yếu nên dùng 10-11, server mạnh dùng 12-13
+  bcrypt-cost: 12
+  # Chặn mật khẩu quá yếu (VD: "123456", "password")
+  chan-mat-khau-yeu: true
+  # Điểm mạnh tối thiểu (0 = RẤT YẾU, 5 = RẤT MẠNH)
+  diem-mat-khau-toi-thieu: 2
+  # Chu kỳ dọn dẹp cache & bản ghi thất bại (giây)
+  chu-ky-don-dep: 300
   # Độ dài mật khẩu tối thiểu
   mat-khau-toi-thieu: 6
   # Độ dài mật khẩu tối đa
@@ -48,42 +66,41 @@ bao-mat:
     so: true
     ky-tu-dac-biet: false
 
-# Captcha chống bot
+# =====================================================
+#  CAPTCHA CHỐNG BOT
+# =====================================================
 captcha:
-  # Bật captcha khi đăng nhập/đăng ký
   bat: true
-  # Số ký tự captcha
   do-dai: 5
-  # Chỉ chữ và số (true) hay có thể có ký tự đặc biệt (false)
   chi-chu-va-so: true
-  # Captcha có phân biệt chữ hoa/thường không
   phan-biet-hoa-thuong: false
-  # Tin nhắn captcha
   tin-nhan-captcha: "&e[Captcha] &fVui lòng nhập mã: &a&l{captcha}"
   tin-nhan-sai: "&c❌ Mã captcha sai! Dùng /captcha để lấy mã mới"
 
-# Xác thực 2 yếu tố (2FA - TOTP)
+# =====================================================
+#  XÁC THỰC 2 YẾU TỐ (2FA - TOTP)
+# =====================================================
 two-factor:
-  # Bật tính năng 2FA
   bat: true
-  # Tên ứng dụng hiển thị trong Google Authenticator
   ten-issuer: "BloginVN"
-  # Bắt buộc 2FA đối với admin
   bat-buoc-admin: true
-  # Số chữ số mã (6 hoặc 8)
   so-chu-so: 6
-  # Thời gian hiệu lực mỗi mã (giây, mặc định TOTP 30s)
   thoi-gian-hieu-luc: 30
-  # Độ lệch cho phép (± step)
   do-lech-cho-phep: 1
 
-# Khóa IP (chỉ cho phép IP đã đăng ký)
+# =====================================================
+#  KHÓA IP
+# =====================================================
 ip-lock:
+  # Bật/tắt cơ chế khoá IP
   bat: false
-  # Lưu IP khi đăng nhập thành công để tự động đăng nhập lần sau
+  # Tự động đăng nhập nếu IP người chơi trùng IP đã đăng ký
+  # (KHÔNG áp dụng cho tài khoản đã bật 2FA)
   tu-dong-dang-nhap: true
 
-# Giới hạn người chơi chưa đăng nhập
+# =====================================================
+#  GIỚI HẠN NGƯỜI CHƠI CHƯA ĐĂNG NHẬP
+# =====================================================
 gioi-han:
   chat: true
   lenh: true
@@ -92,6 +109,9 @@ gioi-han:
   tan-cong: true
   nhat-do: true
   tuong-tac-thuc-the: true
+  # Danh sách lệnh được phép chạy khi chưa đăng nhập (thêm ngoài danh sách mặc định)
+  lenh-cho-phep:
+    - "help"
 
 # Tin nhắn khi người chơi chưa đăng nhập cố làm gì đó
 canh-bao:
@@ -102,7 +122,21 @@ canh-bao:
   tan-cong: "&c⚠ Không thể tấn công khi chưa đăng nhập!"
   tuong-tac: "&c⚠ Không thể tương tác khi chưa đăng nhập!"
 
-# Tin nhắn hệ thống (có thể dùng mã màu &0-&f, &l, &o, &n, &k, &m, &x..., hex: &#RRGGBB)
+# =====================================================
+#  GUI ĐĂNG NHẬP (Chest GUI)
+# =====================================================
+gui:
+  # Bật GUI đăng nhập
+  bat: true
+  # Tự mở GUI khi người chơi vào server
+  auto-mo: true
+  # Tiêu đề panel (hỗ trợ hex: &#RRGGBB)
+  tieu-de: "&8✦ &6&lBLOGIN &8✦ &7| &f{player}"
+
+# =====================================================
+#  TIN NHẮN HỆ THỐNG
+#  (hỗ trợ hex: &#RRGGBB, mã màu &0-&f, &l, &o, &n, &k, &m)
+# =====================================================
 tin-nhan:
   da-dang-nhap: "&a✔ Đăng nhập thành công! Chào mừng {player} trở lại!"
   da-dang-xuat: "&e👋 Đã đăng xuất khỏi tài khoản!"
@@ -126,24 +160,31 @@ tin-nhan:
   can-2fa: "&e🔐 Tài khoản này yêu cầu mã 2FA. Vui lòng nhập: /login <mật_khẩu> <mã_6_so>"
   bat-2fa-thanh-cong: "&a✔ Đã bật 2FA cho tài khoản của bạn!"
   tat-2fa-thanh-cong: "&a✔ Đã tắt 2FA cho tài khoản của bạn!"
+  ip-blocked: "&c⛔ IP của bạn đang bị tạm khóa, vui lòng thử lại sau!"
+  qua-nhieu-lan-dang-nhap: "&c⛔ IP của bạn đã đạt giới hạn {max} phiên đăng nhập đồng thời!"
 
 # Tin nhắn admin
 admin:
   reload-thanh-cong: "&a✔ Đã tải lại cấu hình Blogin!"
   unregister-thanh-cong: "&a✔ Đã xóa tài khoản của {player}!"
   force-login: "&a✔ Đã ép buộc đăng nhập cho {player}!"
-  info-header: "&6&l═══════ Thông tin tài khoản {player} ═══════"
+  info-header: "&6&l═══════ Thông tin {player} ═══════"
+  info-uuid: "&eUUID: &f{uuid}"
   info-status: "&eTrạng thái: {status}"
   info-2fa: "&e2FA: {status}"
   info-ip: "&eIP đã đăng ký: {ip}"
   info-last-login: "&eLần đăng nhập cuối: {time}"
-  info-footer: "&6&l═══════════════════════════════════════════"
+  info-login-count: "&eTổng lần đăng nhập: {count}"
+  info-registered: "&eNgày đăng ký: {time}"
+  info-footer: "&6&l═══════════════════════════════"
   status-on: "&a✔ Đã đăng nhập"
   status-off: "&c✘ Chưa đăng nhập"
   bat-2fa: "&a✔ Bật"
   tat-2fa: "&c✘ Tắt"
 
-# Âm thanh khi đăng nhập/đăng ký
+# =====================================================
+#  ÂM THANH
+# =====================================================
 am-thanh:
   dang-nhap-thanh-cong:
     bat: true
@@ -184,30 +225,42 @@ gioi-han-ip: 3
 # =====================================================
 #  HỆ THỐNG WELCOME & HIỆU ỨNG ĐẸP MẮT
 # =====================================================
-
 welcome:
   # Bật/tắt toàn bộ hệ thống welcome
   bat: true
 
-  # Mức độ hiệu ứng: MINIMAL | NORMAL | EPIC | DISABLED
+  # Mức độ hiệu ứng: MINIMAL | NORMAL | EPIC | CUSTOM | DISABLED
   #   MINIMAL  - Chỉ title + âm thanh ngắn
   #   NORMAL   - Title + particle + âm thanh
   #   EPIC     - Tất cả + BossBar + Fireworks + Broadcast
+  #   CUSTOM   - Tự bật/tắt từng thành phần bên dưới
   muc-do: "EPIC"
 
-  # Các particle được random khi welcome (chọn ngẫu nhiên 1)
-  # Có thể chọn: HEART, STAR, SPIRAL, CIRCLE, HELIX, FIREWORK, RAINBOW, WINGS, GALAXY, HEARTS_RAIN
+  # Ngưỡng số người chơi online để tự giảm tần suất particle
+  # (server đông sẽ spawn particle thưa hơn để giữ TPS ổn định)
+  nguong-chat-server: 60
+
+  # Các particle được random khi welcome
+  # Có thể chọn: HEART, STAR, SPIRAL, CIRCLE, HELIX, FIREWORK, RAINBOW,
+  #               WINGS, GALAXY, HEARTS_RAIN, PORTAL, AURA
   particle-types:
     - "RAINBOW"
     - "STAR"
     - "GALAXY"
     - "SPIRAL"
+    - "PORTAL"
 
   # Particle khi đăng nhập thành công
   particle-login: "FIREWORK"
 
   # Particle khi đăng ký thành công (welcome thành viên mới)
   particle-register: "HEARTS_RAIN"
+
+  # Hào quang neon bao quanh người chơi khi vừa vào server
+  # (hiệu ứng đặc trưng, tắt mặc định để tiết kiệm tài nguyên)
+  halo-neon:
+    bat: false
+    thoi-gian: 100
 
   # Hiển thị pháo hoa thật (entity Firework)
   phao-hoa: true
@@ -221,10 +274,25 @@ welcome:
   # Màu sắc BossBar theo thời gian
   bossbar-mau-xanh: "GREEN"    # > 15s còn lại
   bossbar-mau-vang: "YELLOW"   # 5-15s
-  bossbar-mau-do:   "RED"      # < 5s
+  bossbar-mau-do: "RED"        # < 5s
+
+  # Nội dung BossBar đếm ngược (hỗ trợ {time})
+  bossbar-text-green: "&a⏰ &fCòn &a{time}s &fđể đăng nhập!"
+  bossbar-text-yellow: "&e⏰ &fCòn &e{time}s &fđể đăng nhập!"
+  bossbar-text-red: "&c⏰ &fCòn &c{time}s &fđể đăng nhập!"
+
+  # BossBar khi đăng nhập thành công
+  bossbar-login-thanh-cong: "&a&l✦ &eChào mừng &b{player} &a✦"
+
+  # BossBar khi đăng ký thành công
+  bossbar-dang-ky-thanh-cong: "&6&l🎉 &eChào mừng thành viên mới &b{player} &6🎉"
 
   # Hiển thị tin nhắn broadcast cho mọi người khi có người mới vào
   broadcast-join: true
+
+  # Ẩn thông báo "joined the game" mặc định của Minecraft & hiển thị thông báo tuỳ chỉnh
+  an-thong-bao-join: false
+  thong-bao-join: "&8» &b{player} &7vừa tham gia server!"
 
   # Tiêu đề welcome hiển thị khi vào server (title lớn)
   title-chao:
@@ -240,6 +308,7 @@ welcome:
     bat: true
     text-new: "&a&l➤ &eChào mừng thành viên mới &b&l{player} &e&l➤"
     text-back: "&a&l➤ &eChào mừng trở lại &b&l{player} &e&l➤"
+    text-back-short: "&e&lBlogin &7» &fChào mừng &b{player} &fđã trở lại!"
     duration: 100  # ticks
 
   # Tin nhắn chat hiển thị khi có người mới (EPIC mode)

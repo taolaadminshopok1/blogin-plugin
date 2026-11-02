@@ -1,61 +1,45 @@
 package vn.blogin.placeholder;
-
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.OfflinePlayer;
-import org.jetbrains.annotations.NotNull;
 import vn.blogin.Blogin;
 import vn.blogin.database.PlayerDAO.PlayerData;
-
-/**
- * PlaceholderAPI Expansion cho Blogin.
- *
- * <p>Các placeholder có sẵn:
- * <ul>
- *   <li>{@code %blogin_authenticated%} - "yes" / "no"</li>
- *   <li>{@code %blogin_registered%} - "yes" / "no"</li>
- *   <li>{@code %blogin_2fa%} - "yes" / "no"</li>
- *   <li>{@code %blogin_ip%} - IP đã đăng ký</li>
- *   <li>{@code %blogin_logins%} - Tổng số lần đăng nhập</li>
- *   <li>{@code %blogin_last_login%} - Lần đăng nhập cuối (timestamp)</li>
- *   <li>{@code %blogin_lock_remaining%} - Thời gian khóa còn lại (giây)</li>
- * </ul>
- *
- * @author BloginVN
- */
 public class BloginPlaceholder extends PlaceholderExpansion {
-
     private final Blogin plugin;
-
     public BloginPlaceholder(Blogin plugin) {
         this.plugin = plugin;
     }
-
     @Override
-    public @NotNull String getIdentifier() {
+    public String getIdentifier() {
         return "blogin";
     }
-
     @Override
-    public @NotNull String getAuthor() {
+    public String getAuthor() {
         return "BloginVN";
     }
-
     @Override
-    public @NotNull String getVersion() {
+    public String getVersion() {
         return plugin.getDescription().getVersion();
     }
-
     @Override
     public boolean persist() {
         return true;
     }
-
     @Override
-    public String onRequest(OfflinePlayer player, @NotNull String params) {
-        if (player == null) return "";
+    public String onRequest(OfflinePlayer player, String params) {
         String key = params.toLowerCase();
-
-        // Các placeholder cần người chơi online
+        switch (key) {
+            case "total_players" -> {
+                return String.valueOf(plugin.getAuthManager().getPlayerDAO().countPlayers());
+            }
+            case "totp_enabled_count" -> {
+                return String.valueOf(plugin.getAuthManager().getPlayerDAO().countTotpEnabled());
+            }
+            case "version" -> {
+                return plugin.getDescription().getVersion();
+            }
+            default -> { }
+        }
+        if (player == null) return "";
         if (player.isOnline() && player.getPlayer() != null) {
             var sm = plugin.getSessionManager();
             switch (key) {
@@ -68,10 +52,21 @@ public class BloginPlaceholder extends PlaceholderExpansion {
                     long sec = plugin.getAuthManager().getLockRemainingSeconds(player.getName(), ip);
                     return String.valueOf(sec);
                 }
+                case "remaining_attempts" -> {
+                    String ip = player.getPlayer().getAddress() != null
+                            ? player.getPlayer().getAddress().getAddress().getHostAddress() : "0.0.0.0";
+                    return String.valueOf(plugin.getAuthManager().getRemainingAttempts(player.getName(), ip));
+                }
+                case "timeout" -> {
+                    return String.valueOf(sm.getRemainingTime(player.getUniqueId()));
+                }
+                case "ip_current" -> {
+                    return player.getPlayer().getAddress() != null
+                            ? player.getPlayer().getAddress().getAddress().getHostAddress() : "";
+                }
+                default -> { }
             }
         }
-
-        // Các placeholder chỉ cần truy vấn DB
         PlayerData data = plugin.getAuthManager().getPlayerDAO().getPlayerData(player.getName());
         switch (key) {
             case "registered" -> {
@@ -89,7 +84,12 @@ public class BloginPlaceholder extends PlaceholderExpansion {
             case "last_login" -> {
                 return data != null ? String.valueOf(data.lastLogin()) : "0";
             }
+            case "registered_at" -> {
+                return data != null ? String.valueOf(data.registrationDate()) : "0";
+            }
+            default -> {
+                return null;
+            }
         }
-        return null;
     }
 }
