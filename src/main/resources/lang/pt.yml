@@ -1,0 +1,312 @@
+# =====================================================
+#  Blogin - Português (pt)
+#  Código de idioma: pt
+# =====================================================
+
+
+tin-nhap:
+  - "&6&l✦ &e&lBLOGIN &6&l✦"
+  - "&fBem-vindo &b{player}&f ao servidor!"
+  - "&7Inicie sessão com &a/login <palavra-passe>"
+  - "&7Ainda não tem conta? Use &a/register <senha> <senha>"
+
+tin-nhan:
+  da-dang-nhap: "&a✔ Sessão iniciada com sucesso! Bem-vindo de volta, {player}!"
+  da-dang-xuat: "&e👋 Terminou a sessão!"
+  dang-ky-thanh-cong: "&a✔ Conta criada! Iniciou sessão automaticamente."
+  sai-mat-khau: "&c❌ Palavra-passe errada! Restam {remaining} tentativa(s) antes do bloqueio."
+  mat-khau-da-thay-doi: "&a✔ Palavra-passe alterada com sucesso!"
+  tai-khoan-da-ton-tai: "&c❌ A conta já existe! Use /login."
+  chua-dang-ky: "&c❌ Não tem conta! Use /register <palavra-passe> <palavra-passe>."
+  da-dang-nhap-roi: "&c⚠ Já iniciou sessão!"
+  chua-dang-nhap: "&c⚠ Não iniciou sessão!"
+  mat-khau-khong-khop: "&c❌ A confirmação não coincide!"
+  mat-khau-qua-ngan: "&c❌ A palavra-passe deve ter pelo menos {min} caracteres!"
+  mat-khau-qua-dai: "&c❌ A palavra-passe não pode exceder {max} caracteres!"
+  mat-khau-yeu: "&c❌ A palavra-passe deve conter maiúsculas, minúsculas e números!"
+  bi-khoa: "&c⛔ A sua conta está bloqueada! Tente novamente em {time} segundos."
+  het-thoi-gian: "&c⏰ Tempo de sessão esgotado! Foi expulso do servidor."
+  canh-bao-thoi-gian: "&e⏰ Restam {time} segundos para iniciar sessão!"
+  loi-chung: "&c✖ Ocorreu um erro, tente novamente!"
+  su-dung-sai: "&cUtilização incorreta!"
+  sai-2fa: "&c❌ Código 2FA incorreto!"
+  can-2fa: "&e🔐 Esta conta requer um código 2FA. Use: /login <palavra-passe> <código de 6 dígitos>"
+  bat-2fa-thanh-cong: "&a✔ 2FA ativado na sua conta!"
+  tat-2fa-thanh-cong: "&a✔ 2FA desativado na sua conta!"
+  ip-blocked: "&c⛔ O seu IP está temporariamente bloqueado, tente mais tarde!"
+  qua-nhieu-lan-dang-nhap: "&c⛔ O seu IP atingiu o limite de {max} sessões simultâneas!"
+  admin-reset-mat-khau: "&eUm administrador repôs a sua palavra-passe, inicie sessão novamente."
+  admin-xoa-tai-khoan: "&cUm administrador eliminou a sua conta!"
+  tu-dong-dang-nhap-ip: "&7🔒 &fSessão automática — IP verificado."
+  admin-nhac-bat-2fa: "&e⏰ &7É administrador — ative o 2FA para proteger a conta: &a/2fa enable"
+
+canh-bao:
+  chat: "&c⚠ Precisa de iniciar sessão antes de conversar!"
+  lenh: "&c⚠ Por favor, inicie sessão primeiro!"
+  di-chuyen: "&c⚠ Não se pode mover antes de iniciar sessão!"
+  pha-khoi: "&c⚠ Não se pode partir blocos antes de iniciar sessão!"
+  tan-cong: "&c⚠ Não se pode atacar antes de iniciar sessão!"
+  tuong-tac: "&c⚠ Não se pode interagir antes de iniciar sessão!"
+
+captcha:
+  tin-nhan-captcha: "&e[Captcha] &fIntroduza o código: &a&l{captcha}"
+  tin-nhan-sai: "&c❌ Código errado! Use /captcha para obter um novo"
+  off: "&cO captcha está desativado!"
+
+gui:
+  tieu-de: "&8✦ &6&lBLOGIN &8✦ &7| &f{player}"
+  item:
+    head:
+      name: "&6&l✦ &e&lBLOGIN &6&l✦"
+      lore:
+        - "&7Olá, &f{player}&7!"
+        - "&7Inicie sessão para continuar."
+    info:
+      name: "&e&lINFORMAÇÕES DE SESSÃO"
+      lore:
+        - "&7Conta: &f{player}"
+        - "&7IP: &f{ip}"
+        - "&7Registada: &f{status}"
+        - "&7Tentativas restantes: &f{remaining}"
+        - ""
+        - "&8As palavras-passe são guardadas com BCrypt"
+    captcha:
+      name: "&6&lCÓDIGO CAPTCHA"
+      lore:
+        - "&7Código atual: &a&l{captcha}"
+        - "&7Clique para obter um novo código."
+      lore-rong: "&7Ainda não tem um código captcha."
+      off-name: "&a&l✔ CAPTCHA IGNORADO"
+      off-lore: "&7O captcha está desativado na configuração."
+    login:
+      name: "&a&lINICIAR SESSÃO"
+      lore:
+        - "&7Clique para confirmar a sessão"
+        - ""
+        - "&7Palavra-passe introduzida: &f{chuc}"
+        - "&72FA: &f{tfa}"
+        - "&7Captcha: &f{cap}"
+        - ""
+        - "&eShift + clique para fechar"
+    help:
+      name: "&b&lAJUDA"
+      lore:
+        - "&7Clique em &f< espaço de senha > &7para introduzir a palavra-passe"
+        - "&7Clique em &f< espaço 2FA > &7para o código 2FA (se ativado)"
+        - "&7Clique no botão verde para iniciar sessão"
+        - ""
+        - "&7Ou use o comando &a/login <palavra-passe>"
+    password:
+      name: "&e&lESPAÇO DE PALAVRA-PASSE"
+      lore:
+        - "&7Clique para introduzir a palavra-passe"
+        - ""
+        - "&8Atual: &7{chuc}"
+    totp:
+      name: "&d&lESPAÇO DE CÓDIGO 2FA"
+      lore:
+        - "&7Clique para introduzir o código de 6 dígitos"
+        - ""
+        - "&8Atual: &7{tfa}"
+    close:
+      name: "&c&lFECHAR"
+      lore:
+        - "&7Fechar este painel"
+  prompt:
+    password: "&eEscreva a palavra-passe no chat (escreva &f/cancel &epara cancelar):"
+    totp: "&dEscreva o código 2FA no chat (escreva &f/cancel &dpara cancelar):"
+    captcha: "&6Escreva o código captcha &7(&f{captcha}&7) no chat &8(escreva &f/cancel &8para cancelar):"
+  hint:
+    captcha-click: "&7Clique no espaço do captcha para um novo código, ou use &a/captcha"
+    timeout-reopen: "&7O tempo expirou, o painel foi reaberto."
+    chua-nhap-mat-khau: "&c✖ Introduza primeiro a palavra-passe!"
+    da-dang-nhap-roi: "&cJá iniciou sessão!"
+    dang-ky-ngay: "&7Registe-se agora: &a/register <palavra-passe> <confirmar>"
+  value:
+    co: "Sim"
+    khong: "Não"
+    chua-nhap: "Não introduzida"
+    khong-co: "Nenhum"
+    chua-co: "Nenhum"
+
+commands:
+  chi-choi: "&cEste comando é apenas para jogadores!"
+  login:
+    usage: "&cUtilização: /login <palavra-passe> [código 2FA]"
+    captcha-usage: "&7Sintaxe: &f/login <captcha> <palavra-passe> [código 2FA]"
+  register:
+    usage: "&cUtilização: /register <palavra-passe> <confirmar>"
+    captcha-usage: "&cUtilização: /register <captcha> <palavra-passe> <confirmar>"
+  changepassword:
+    usage: "&cUtilização: /changepassword <palavra-passe atual> <nova>"
+  captcha:
+    off: "&cO captcha está desativado!"
+  gui:
+    off: "&cA interface de início de sessão está desativada na configuração!"
+    use-login: "&7Use o comando: &f/login <palavra-passe>"
+  logout:
+    not-logged-in: "&c⚠ Não iniciou sessão!"
+  2fa:
+    off: "&cO 2FA está desativado na configuração!"
+    not-authenticated: "&c⚠ Precisa de iniciar sessão primeiro!"
+    setup-header: "&6&l═══════ Configuração 2FA &6&l═══════"
+    setup-huong-dan: "&eDigitalize o código QR ou introduza a chave manualmente no Google Authenticator:"
+    setup-secret: "&aChave: &f{secret}"
+    setup-buoc-2: "&eDepois de adicionar, introduza o código atual:"
+    setup-lenh: "&a/2fa confirm <código de {digits} dígitos>"
+    setup-otpauth: "&7URL otpauth: &f{url}"
+    setup-luu-y: "&8Nota: a chave é guardada cifrada com AES-GCM na base de dados."
+    setup-footer: "&6&l═══════════════════════════════"
+    confirm-usage: "&cUtilização: /2fa confirm <código de 6 dígitos>"
+    disable-usage: "&cUtilização: /2fa disable <código atual de 6 dígitos>"
+    status-header: "&6&l═══════ Estado 2FA &6&l═══════"
+    status-label: "&eEstado: "
+    status-on: "&a✔ Ativado"
+    status-off: "&c✘ Desativado"
+    status-footer: "&6&l═══════════════════════════════"
+    help-header: "&6&l═══════ Comandos 2FA &6&l═══════"
+    help-enable: "&e/2fa enable &7- Ativar 2FA"
+    help-confirm: "&e/2fa confirm <code> &7- Confirmar ativação"
+    help-disable: "&e/2fa disable <code> &7- Desativar 2FA"
+    help-status: "&e/2fa status &7- Ver estado"
+    help-footer: "&6&l═══════════════════════════════"
+
+admin:
+  su-dung-unregister: "&cUtilização: /blogin unregister <jogador>"
+  su-dung-info: "&cUtilização: /blogin info <jogador>"
+  su-dung-force: "&cUtilização: /blogin force <jogador>"
+  su-dung-unlock: "&cUtilização: /blogin unlock <jogador>"
+  su-dung-reset: "&cUtilização: /blogin reset <jogador> <nova_senha>"
+  su-dung-2fa: "&cUtilização: /blogin 2fa <jogador> <on|off|secret>"
+  reload-thanh-cong: "&a✔ Configuração do Blogin recarregada!"
+  unregister-thanh-cong: "&a✔ Conta de {player} eliminada!"
+  force-login: "&a✔ Sessão forçada para {player}!"
+  reset-thanh-cong: "&a✔ Palavra-passe de &e{player} reposta"
+  reset-that-bai: "&cReposição falhou (palavra-passe não cumpre os requisitos ou conta não encontrada)."
+  mo-khoa-thanh-cong: "&a✔ Conta desbloqueada: &e{player}"
+  quyen: "&c❌ Não tem permissão para usar este comando!"
+  khong-tim-thay: "&cJogador não encontrado: &f{player}"
+  khong-online: "&cO jogador não está online: &f{player}"
+  2fa-bat: "&a✔ 2FA ativado para &e{player}"
+  2fa-tat: "&a✔ 2FA desativado para &e{player}"
+  2fa-secret: "&eChave 2FA de &b{player}&e: &f{secret}"
+  2fa-chua-thiet-lap: "&cEste jogador ainda não configurou o 2FA."
+  info-header: "&6&l═══════ Informações de {player} ═══════"
+  info-uuid: "&eUUID: &f{uuid}"
+  info-status: "&eEstado: {status}"
+  info-2fa: "&e2FA: {status}"
+  info-ip: "&eIP registada: &f{ip}"
+  info-last-login: "&eÚltima sessão: &f{time}"
+  info-login-count: "&eTotal de sessões: &f{count}"
+  info-registered: "&eRegistada em: &f{time}"
+  info-footer: "&6&l═══════════════════════════════"
+  status-on: "&a✔ Com sessão iniciada"
+  status-off: "&c✘ Sem sessão iniciada"
+  bat-2fa: "&aAtivado"
+  tat-2fa: "&cDesativado"
+  chua-dang-nhap: "Nunca iniciou sessão"
+  chua-co-ip: "Nenhum"
+  list-header: "&6&l═══════ Lista de contas &7({current}/{max}) &6&l═══════"
+  list-empty: "&8Nenhuma conta encontrada."
+  list-item: "&8• &f{player} &8| &7Sessões: &f{count} &8| &7{time}"
+  list-next: "&7Próxima página: &f/blogin list {page}"
+  status-header: "&6&l═══════ Estado do Blogin &6&l═══════"
+  status-version: "&eVersão: &f{version}"
+  status-database: "&eBase de dados: &f{type} &8(pool &f{pool}&8)"
+  status-tai-khoan: "&eContas registadas: &f{count}"
+  status-2fa: "&eContas com 2FA: &f{count}"
+  status-dang-nhap-24h: "&eSessões em 24 h: &f{count}"
+  status-tong-dang-nhap: "&eTotal de sessões: &f{count}"
+  status-online: "&eJogadores online: &f{count}"
+  status-da-dang-nhap: "&eCom sessão: &f{count}"
+  status-captcha: "&eCaptcha: &f{status}"
+  status-2fa-bat: "&e2FA: &f{status}"
+  status-bcrypt: "&eCusto BCrypt: &f{count}"
+  status-footer: "&6&l════════════════════════════════"
+  bat: "&aAtivado"
+  tat: "&cDesativado"
+  help-header: "&6&l═══════ Comandos de administração do Blogin &6&l═══════"
+  help-reload: "&e/blogin reload &7- Recarregar a configuração"
+  help-unregister: "&e/blogin unregister <player> &7- Eliminar uma conta"
+  help-info: "&e/blogin info <player> &7- Ver informações da conta"
+  help-force: "&e/blogin force <player> &7- Forçar sessão"
+  help-unlock: "&e/blogin unlock <player> &7- Desbloquear conta"
+  help-reset: "&e/blogin reset <player> <senha> &7- Repor palavra-passe"
+  help-2fa: "&e/blogin 2fa <player> <on|off|secret> &7- Gerir 2FA"
+  help-list: "&e/blogin list [página] &7- Listar contas"
+  help-status: "&e/blogin status &7- Estado do servidor"
+  help-gui: "&e/blogin gui &7- Abrir a interface de sessão"
+  help-language: "&e/blogin language <código> &7- Mudar o idioma"
+  help-footer: "&6&l════════════════════════════════"
+
+
+language:
+  display-name: "Português"
+
+  header: "&6&l═══════ Idioma do Blogin &6&l═══════"
+  current: "&eO seu idioma atual: &f{lang}"
+  changed: "&a✔ O seu idioma foi alterado para &f{lang}"
+  server-default: "&eIdioma predefinido do servidor: &f{lang}"
+  available: "&eIdiomas disponíveis: &f{list}"
+  invalid: "&cCódigo de idioma inválido! Use: &f/blogin language <código>"
+  usage: "&cUtilização: /blogin language <código>"
+  select: "&7Escolha um idioma escrevendo o respetivo código:"
+  footer: "&6&l═══════════════════════════════"
+
+welcome:
+  title-chao:
+    line1: "&6&l✦ &e&lBEM-VINDO &6&l✦"
+    line2-new: "&b&l{player} &fentrou no servidor!"
+    line2-back: "&b&l{player} &7está de volta!"
+  actionbar:
+    text-new: "&a&l➤ &eBem-vindo novo membro &b&l{player} &e&l➤"
+    text-back: "&a&l➤ &eBem-vindo de volta &b&l{player} &e&l➤"
+    text-back-short: "&e&lBlogin &7» &fBem-vindo de volta &b{player} &f!"
+  bossbar-text-green: "&a⏰ &fFaltam &a{time}s &fpara iniciar sessão!"
+  bossbar-text-yellow: "&e⏰ &fFaltam &e{time}s &fpara iniciar sessão!"
+  bossbar-text-red: "&c⏰ &fFaltam &c{time}s &fpara iniciar sessão!"
+  bossbar-timeout-title: "&e⏰ &fTempo de sessão restante"
+  bossbar-login-thanh-cong: "&a&l✦ &eBem-vindo &b{player} &a✦"
+  bossbar-dang-ky-thanh-cong: "&6&l🎉 &eBem-vindo novo membro &b{player} &6🎉"
+  tin-chao-moi: |
+    &6&l✦══════════════════════════════════✦
+    &e&l   🌟 BEM-VINDO NOVO MEMBRO 🌟
+    &6&l✦══════════════════════════════════✦
+    &f   ▶ &b{player} &fentrou no servidor!
+    &7   Dê-lhe as boas-vindas e ajude-o!
+    &6&l✦══════════════════════════════════✦
+  tin-chao-lai: "&a&l➤ &e{player} &7está de volta ao servidor!"
+  tin-dang-ky-thanh-cong: |
+    &6&l★═══════════════════════════════════★
+    &e   🎉 &b&l{player} &e&lacabou de criar uma conta!
+    &7   Vamos dar as boas-vindas ao nosso novo membro!
+    &6&l★═══════════════════════════════════★
+  thong-bao-join: "&8» &b{player} &7entrou no servidor!"
+  title-login-thanh-cong:
+    line1: "&a&l✔ SUCESSO &a&l✔"
+    line2: "&fOlá &b{player}&f!"
+  title-dang-ky-thanh-cong:
+    line1: "&6&l✦ &e&lBEM-VINDO &6&l✦"
+    line2: "&b&l{player} &fentrou no servidor!"
+
+misc:
+  do-ma-ngau:
+    label: "&8» &7Força: "
+    label-moi: "&8» &7Força da nova palavra-passe: "
+    label-hien-tai: "&8» &7Força atual: "
+    label-da-nhap: "&8» &7Força da palavra-passe introduzida: "
+    "0": "&c&lMUITO FRACA"
+    "1": "&c&lFRACA"
+    "2": "&e&lACEITÁVEL"
+    "3": "&a&lBOA"
+    "4": "&b&lFORTE"
+    "5": "&d&lMUITO FORTE"
+  goi-y:
+    chung: "&7Dica: combine maiúsculas, minúsculas, números e caracteres especiais."
+    manh: "&7Dica: combine maiúsculas, minúsculas, números e caracteres especiais, pelo menos 8 caracteres."
+  chat:
+    huy: "&7Introdução cancelada."
+    invalid: "&c✖ Dados inválidos, tente novamente."
+    saved-password: "&a✔ Palavra-passe guardada. Clique no botão verde para iniciar sessão."
+    saved-totp: "&a✔ Código 2FA guardado. Clique no botão verde para iniciar sessão."
+    captcha-ok: "&a✔ Captcha confirmado. Clique no botão verde para iniciar sessão."

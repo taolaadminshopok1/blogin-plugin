@@ -1,0 +1,309 @@
+# =====================================================
+#  Blogin - 中文语言文件 (zh)
+#  语言代码: zh
+# =====================================================
+
+tin-nhap:
+  - "&6&l✦ &e&lBLOGIN &6&l✦"
+  - "&f欢迎 &b{player}&f 加入服务器！"
+  - "&7请使用 &a/login <密码> 登录"
+  - "&7还没有账号？使用 &a/register <密码> <密码>"
+
+tin-nhan:
+  da-dang-nhap: "&a✔ 登录成功！欢迎回来，{player}！"
+  da-dang-xuat: "&e👋 已退出你的账号！"
+  dang-ky-thanh-cong: "&a✔ 账号注册成功！你已自动登录。"
+  sai-mat-khau: "&c❌ 密码错误！在被锁定前还剩 {remaining} 次尝试。"
+  mat-khau-da-thay-doi: "&a✔ 密码修改成功！"
+  tai-khoan-da-ton-tai: "&c❌ 账号已存在！请使用 /login。"
+  chua-dang-ky: "&c❌ 你还没有账号！使用 /register <密码> <密码>。"
+  da-dang-nhap-roi: "&c⚠ 你已经登录了！"
+  chua-dang-nhap: "&c⚠ 你尚未登录！"
+  mat-khau-khong-khop: "&c❌ 两次输入的密码不一致！"
+  mat-khau-qua-ngan: "&c❌ 密码至少需要 {min} 个字符！"
+  mat-khau-qua-dai: "&c❌ 密码不能超过 {max} 个字符！"
+  mat-khau-yeu: "&c❌ 密码必须包含大写字母、小写字母和数字！"
+  bi-khoa: "&c⛔ 你的账号已被锁定！请在 {time} 秒后重试。"
+  het-thoi-gian: "&c⏰ 登录时间已过！你已被踢出服务器。"
+  canh-bao-thoi-gian: "&e⏰ 还有 {time} 秒可以登录！"
+  loi-chung: "&c✖ 发生错误，请重试！"
+  su-dung-sai: "&c用法错误！"
+  sai-2fa: "&c❌ 2FA 验证码不正确！"
+  can-2fa: "&e🔐 此账号需要 2FA 验证码。请输入：/login <密码> <6位验证码>"
+  bat-2fa-thanh-cong: "&a✔ 已为你的账号启用 2FA！"
+  tat-2fa-thanh-cong: "&a✔ 已为你的账号禁用 2FA！"
+  ip-blocked: "&c⛔ 你的 IP 已被临时封禁，请稍后再试！"
+  qua-nhieu-lan-dang-nhap: "&c⛔ 你的 IP 已达到 {max} 个同时登录会话的上限！"
+  admin-reset-mat-khau: "&e管理员已重置你的密码，请重新登录。"
+  admin-xoa-tai-khoan: "&c你的账号已被管理员删除！"
+  tu-dong-dang-nhap-ip: "&7🔒 &f自动登录 — IP 已验证。"
+  admin-nhac-bat-2fa: "&e⏰ &7你是管理员 — 请启用 2FA 保护账号：&a/2fa enable"
+
+canh-bao:
+  chat: "&c⚠ 聊天前请先登录！"
+  lenh: "&c⚠ 请先登录！"
+  di-chuyen: "&c⚠ 登录前无法移动！"
+  pha-khoi: "&c⚠ 登录前无法破坏方块！"
+  tan-cong: "&c⚠ 登录前无法攻击！"
+  tuong-tac: "&c⚠ 登录前无法交互！"
+
+captcha:
+  tin-nhan-captcha: "&e[验证码] &f请输入验证码：&a&l{captcha}"
+  tin-nhan-sai: "&c❌ 验证码错误！使用 /captcha 获取新验证码"
+  off: "&c验证码当前已关闭！"
+
+gui:
+  tieu-de: "&8✦ &6&lBLOGIN &8✦ &7| &f{player}"
+  item:
+    head:
+      name: "&6&l✦ &e&lBLOGIN &6&l✦"
+      lore:
+        - "&7你好，&f{player}&7！"
+        - "&7请登录以继续。"
+    info:
+      name: "&e&l登录信息"
+      lore:
+        - "&7账号：&f{player}"
+        - "&7IP：&f{ip}"
+        - "&7已注册：&f{status}"
+        - "&7剩余尝试次数：&f{remaining}"
+        - ""
+        - "&8密码使用 BCrypt 存储"
+    captcha:
+      name: "&6&l验证码"
+      lore:
+        - "&7当前验证码：&a&l{captcha}"
+        - "&7点击获取新验证码。"
+      lore-rong: "&7你还没有验证码。"
+      off-name: "&a&l✔ 已跳过验证码"
+      off-lore: "&7配置中已关闭验证码。"
+    login:
+      name: "&a&l登录"
+      lore:
+        - "&7点击确认登录"
+        - ""
+        - "&7已输入密码：&f{chuc}"
+        - "&72FA：&f{tfa}"
+        - "&7验证码：&f{cap}"
+        - ""
+        - "&eShift + 点击关闭"
+    help:
+      name: "&b&l帮助"
+      lore:
+        - "&7点击 &f< 密码格 > &7输入密码"
+        - "&7点击 &f< 2FA 格 > &7输入 2FA 验证码（如已启用）"
+        - "&7点击绿色按钮登录"
+        - ""
+        - "&7或使用命令 &a/login <密码>"
+    password:
+      name: "&e&l密码输入格"
+      lore:
+        - "&7点击输入密码"
+        - ""
+        - "&8当前：&7{chuc}"
+    totp:
+      name: "&d&l2FA 验证码格"
+      lore:
+        - "&7点击输入 6 位验证码"
+        - ""
+        - "&8当前：&7{tfa}"
+    close:
+      name: "&c&l关闭"
+      lore:
+        - "&7关闭此面板"
+  prompt:
+    password: "&e在聊天中输入密码（输入 &f/cancel &e取消）："
+    totp: "&d在聊天中输入 2FA 验证码（输入 &f/cancel &d取消）："
+    captcha: "&6在聊天中输入验证码 &7(&f{captcha}&7) &8(输入 &f/cancel &8取消)："
+  hint:
+    captcha-click: "&7点击上方的验证码格获取新码，或使用 &a/captcha"
+    timeout-reopen: "&7输入超时，面板已重新打开。"
+    chua-nhap-mat-khau: "&c✖ 请先输入密码！"
+    da-dang-nhap-roi: "&c你已经登录了！"
+    dang-ky-ngay: "&7立即注册：&a/register <密码> <确认密码>"
+  value:
+    co: "是"
+    khong: "否"
+    chua-nhap: "未输入"
+    khong-co: "无"
+    chua-co: "无"
+
+commands:
+  chi-choi: "&c此命令仅限玩家使用！"
+  login:
+    usage: "&c用法：/login <密码> [2FA验证码]"
+    captcha-usage: "&7语法：&f/login <验证码> <密码> [2FA验证码]"
+  register:
+    usage: "&c用法：/register <密码> <确认密码>"
+    captcha-usage: "&c用法：/register <验证码> <密码> <确认密码>"
+  changepassword:
+    usage: "&c用法：/changepassword <旧密码> <新密码>"
+  captcha:
+    off: "&c验证码当前已关闭！"
+  gui:
+    off: "&c登录 GUI 已在配置中关闭！"
+    use-login: "&7使用命令：&f/login <密码>"
+  logout:
+    not-logged-in: "&c⚠ 你尚未登录！"
+  2fa:
+    off: "&c2FA 已在配置中关闭！"
+    not-authenticated: "&c⚠ 请先登录！"
+    setup-header: "&6&l═══════ 设置 2FA &6&l═══════"
+    setup-huong-dan: "&e扫描二维码或手动输入密钥到 Google Authenticator："
+    setup-secret: "&a密钥：&f{secret}"
+    setup-buoc-2: "&e添加后，请输入当前验证码："
+    setup-lenh: "&a/2fa confirm <{digits}位验证码>"
+    setup-otpauth: "&7otpauth 链接：&f{url}"
+    setup-luu-y: "&8注意：密钥以 AES-GCM 加密形式存储在数据库中。"
+    setup-footer: "&6&l═══════════════════════════════"
+    confirm-usage: "&c用法：/2fa confirm <6位验证码>"
+    disable-usage: "&c用法：/2fa disable <当前6位验证码>"
+    status-header: "&6&l═══════ 2FA 状态 &6&l═══════"
+    status-label: "&e状态："
+    status-on: "&a✔ 已启用"
+    status-off: "&c✘ 已禁用"
+    status-footer: "&6&l═══════════════════════════════"
+    help-header: "&6&l═══════ 2FA 命令 &6&l═══════"
+    help-enable: "&e/2fa enable &7- 启用 2FA"
+    help-confirm: "&e/2fa confirm <code> &7- 确认启用"
+    help-disable: "&e/2fa disable <code> &7- 禁用 2FA"
+    help-status: "&e/2fa status &7- 查看状态"
+    help-footer: "&6&l═══════════════════════════════"
+
+admin:
+  su-dung-unregister: "&c用法：/blogin unregister <玩家>"
+  su-dung-info: "&c用法：/blogin info <玩家>"
+  su-dung-force: "&c用法：/blogin force <玩家>"
+  su-dung-unlock: "&c用法：/blogin unlock <玩家>"
+  su-dung-reset: "&c用法：/blogin reset <玩家> <新密码>"
+  su-dung-2fa: "&c用法：/blogin 2fa <玩家> <on|off|secret>"
+  reload-thanh-cong: "&a✔ 已重新加载 Blogin 配置！"
+  unregister-thanh-cong: "&a✔ 已删除 {player} 的账号！"
+  force-login: "&a✔ 已强制 {player} 登录！"
+  reset-thanh-cong: "&a✔ 已重置 &e{player} 的密码"
+  reset-that-bai: "&c重置失败（密码不符合要求或找不到账号）。"
+  mo-khoa-thanh-cong: "&a✔ 已解锁账号：&e{player}"
+  quyen: "&c❌ 你没有权限使用此命令！"
+  khong-tim-thay: "&c找不到玩家：&f{player}"
+  khong-online: "&c玩家不在线：&f{player}"
+  2fa-bat: "&a✔ 已为 &e{player} 启用 2FA"
+  2fa-tat: "&a✔ 已为 &e{player} 禁用 2FA"
+  2fa-secret: "&e&b{player} &e的 2FA 密钥：&f{secret}"
+  2fa-chua-thiet-lap: "&c该玩家尚未设置 2FA。"
+  info-header: "&6&l═══════ {player} 信息 ═══════"
+  info-uuid: "&eUUID：&f{uuid}"
+  info-status: "&e状态：{status}"
+  info-2fa: "&e2FA：{status}"
+  info-ip: "&e已注册 IP：&f{ip}"
+  info-last-login: "&e上次登录：&f{time}"
+  info-login-count: "&e登录总次数：&f{count}"
+  info-registered: "&e注册日期：&f{time}"
+  info-footer: "&6&l═══════════════════════════════"
+  status-on: "&a✔ 已登录"
+  status-off: "&c✘ 未登录"
+  bat-2fa: "&a已启用"
+  tat-2fa: "&c已禁用"
+  chua-dang-nhap: "从未登录"
+  chua-co-ip: "无"
+  list-header: "&6&l═══════ 账号列表 &7({current}/{max}) &6&l═══════"
+  list-empty: "&8没有任何账号。"
+  list-item: "&8• &f{player} &8| &7登录次数：&f{count} &8| &7{time}"
+  list-next: "&7下一页：&f/blogin list {page}"
+  status-header: "&6&l═══════ Blogin 状态 &6&l═══════"
+  status-version: "&e版本：&f{version}"
+  status-database: "&e数据库：&f{type} &8(连接池 &f{pool}&8)"
+  status-tai-khoan: "&e已注册账号：&f{count}"
+  status-2fa: "&e已启用 2FA 的账号：&f{count}"
+  status-dang-nhap-24h: "&e最近 24 小时登录：&f{count}"
+  status-tong-dang-nhap: "&e登录总次数：&f{count}"
+  status-online: "&e在线玩家：&f{count}"
+  status-da-dang-nhap: "&e已登录：&f{count}"
+  status-captcha: "&e验证码：&f{status}"
+  status-2fa-bat: "&e2FA：&f{status}"
+  status-bcrypt: "&eBCrypt cost：&f{count}"
+  status-footer: "&6&l════════════════════════════════"
+  bat: "&a已启用"
+  tat: "&c已禁用"
+  help-header: "&6&l═══════ Blogin 管理命令 &6&l═══════"
+  help-reload: "&e/blogin reload &7- 重新加载配置"
+  help-unregister: "&e/blogin unregister <player> &7- 删除账号"
+  help-info: "&e/blogin info <player> &7- 查看账号信息"
+  help-force: "&e/blogin force <player> &7- 强制登录"
+  help-unlock: "&e/blogin unlock <player> &7- 解锁账号"
+  help-reset: "&e/blogin reset <player> <密码> &7- 重置密码"
+  help-2fa: "&e/blogin 2fa <player> <on|off|secret> &7- 管理 2FA"
+  help-list: "&e/blogin list [页码] &7- 账号列表"
+  help-status: "&e/blogin status &7- 服务器状态"
+  help-gui: "&e/blogin gui &7- 打开登录 GUI"
+  help-language: "&e/blogin language <代码> &7- 更改语言"
+  help-footer: "&6&l════════════════════════════════"
+
+language:
+  display-name: "简体中文"
+  header: "&6&l═══════ Blogin 语言 &6&l═══════"
+  current: "&e你当前的语言：&f{lang}"
+  changed: "&a✔ 你的语言已切换为 &f{lang}"
+  server-default: "&e服务器默认语言：&f{lang}"
+  available: "&e可用语言：&f{list}"
+  invalid: "&c语言代码无效！使用：&f/blogin language <代码>"
+  usage: "&c用法：&f/blogin language <代码>"
+  select: "&7输入对应的语言代码来选择："
+  footer: "&6&l═══════════════════════════════"
+
+welcome:
+  title-chao:
+    line1: "&6&l✦ &e&l欢迎 &6&l✦"
+    line2-new: "&b&l{player} &f加入了服务器！"
+    line2-back: "&b&l{player} &7回来了！"
+  actionbar:
+    text-new: "&a&l➤ &e欢迎新成员 &b&l{player} &e&l➤"
+    text-back: "&a&l➤ &e欢迎回来 &b&l{player} &e&l➤"
+    text-back-short: "&e&lBlogin &7» &f欢迎 &b{player} &f回来了！"
+  bossbar-text-green: "&a⏰ &f还有 &a{time} 秒 &f可以登录！"
+  bossbar-text-yellow: "&e⏰ &f还有 &e{time} 秒 &f可以登录！"
+  bossbar-text-red: "&c⏰ &f还有 &c{time} 秒 &f可以登录！"
+  bossbar-timeout-title: "&e⏰ &f剩余登录时间"
+  bossbar-login-thanh-cong: "&a&l✦ &e欢迎 &b{player} &a✦"
+  bossbar-dang-ky-thanh-cong: "&6&l🎉 &e欢迎新成员 &b{player} &6🎉"
+  tin-chao-moi: |
+    &6&l✦══════════════════════════════════✦
+    &e&l   🌟 欢迎新成员 🌟
+    &6&l✦══════════════════════════════════✦
+    &f   ▶ &b{player} &f加入了服务器！
+    &7   去打个招呼并帮助他们吧！
+    &6&l✦══════════════════════════════════✦
+  tin-chao-lai: "&a&l➤ &e{player} &7回到了服务器！"
+  tin-dang-ky-thanh-cong: |
+    &6&l★═══════════════════════════════════★
+    &e   🎉 &b&l{player} &e&l刚刚注册了账号！
+    &7   让我们欢迎这位新成员！
+    &6&l★═══════════════════════════════════★
+  thong-bao-join: "&8» &b{player} &7加入了服务器！"
+  title-login-thanh-cong:
+    line1: "&a&l✔ 成功 &a&l✔"
+    line2: "&f你好 &b{player}&f！"
+  title-dang-ky-thanh-cong:
+    line1: "&6&l✦ &e&l欢迎 &6&l✦"
+    line2: "&b&l{player} &f加入了服务器！"
+
+misc:
+  do-ma-ngau:
+    label: "&8» &7强度："
+    label-moi: "&8» &7新密码强度："
+    label-hien-tai: "&8» &7当前强度："
+    label-da-nhap: "&8» &7已输入密码强度："
+    "0": "&c&l非常弱"
+    "1": "&c&l弱"
+    "2": "&e&l一般"
+    "3": "&a&l良好"
+    "4": "&b&l强"
+    "5": "&d&l非常强"
+  goi-y:
+    chung: "&7建议：组合大写字母、小写字母、数字和特殊字符。"
+    manh: "&7建议：组合大写字母、小写字母、数字和特殊字符，至少 8 个字符。"
+  chat:
+    huy: "&7已取消输入。"
+    invalid: "&c✖ 输入无效，请重试。"
+    saved-password: "&a✔ 密码已保存。点击绿色按钮登录。"
+    saved-totp: "&a✔ 2FA 验证码已保存。点击绿色按钮登录。"
+    captcha-ok: "&a✔ 验证码已确认。点击绿色按钮登录。"

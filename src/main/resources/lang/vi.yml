@@ -1,0 +1,341 @@
+# =====================================================
+#  Blogin - Ngôn ngữ Tiếng Việt (vi)
+#  Đây là tệp ngôn ngữ mặc định. Bạn có thể thoải mái chỉnh sửa.
+#  Mã ngôn ngữ: vi
+# =====================================================
+
+# =====================================================
+#  TIN NHẮN CHÀO MỪNG KHI VÀO SERVER
+#  (hiển thị lần lượt, mỗi dòng cách nhau 1 giây)
+# =====================================================
+tin-nhap:
+  - "&6&l✦ &e&lBLOGIN &6&l✦"
+  - "&fChào mừng &b{player}&f đến với server!"
+  - "&7Vui lòng đăng nhập bằng lệnh &a/login <mật_khẩu>"
+  - "&7Nếu chưa có tài khoản, dùng &a/register <mk> <mk>"
+
+# =====================================================
+#  THÔNG ĐIỆP HỆ THỐNG
+# =====================================================
+tin-nhan:
+  da-dang-nhap: "&a✔ Đăng nhập thành công! Chào mừng {player} trở lại!"
+  da-dang-xuat: "&e👋 Đã đăng xuất khỏi tài khoản!"
+  dang-ky-thanh-cong: "&a✔ Đăng ký tài khoản thành công! Bạn đã được đăng nhập tự động."
+  sai-mat-khau: "&c❌ Mật khẩu không đúng! Còn {remaining} lần thử trước khi bị khóa."
+  mat-khau-da-thay-doi: "&a✔ Mật khẩu đã được thay đổi thành công!"
+  tai-khoan-da-ton-tai: "&c❌ Tài khoản đã tồn tại! Hãy dùng /login."
+  chua-dang-ky: "&c❌ Bạn chưa có tài khoản! Dùng /register <mật khẩu> <mật khẩu>."
+  da-dang-nhap-roi: "&c⚠ Bạn đã đăng nhập rồi!"
+  chua-dang-nhap: "&c⚠ Bạn chưa đăng nhập!"
+  mat-khau-khong-khop: "&c❌ Mật khẩu xác nhận không khớp!"
+  mat-khau-qua-ngan: "&c❌ Mật khẩu phải có ít nhất {min} ký tự!"
+  mat-khau-qua-dai: "&c❌ Mật khẩu không được vượt quá {max} ký tự!"
+  mat-khau-yeu: "&c❌ Mật khẩu phải có chữ hoa, chữ thường và số!"
+  bi-khoa: "&c⛔ Tài khoản của bạn đã bị khóa! Thử lại sau {time} giây."
+  het-thoi-gian: "&c⏰ Hết thời gian đăng nhập! Bạn đã bị kick khỏi server."
+  canh-bao-thoi-gian: "&e⏰ Còn {time} giây để đăng nhập!"
+  loi-chung: "&c✖ Đã xảy ra lỗi, vui lòng thử lại!"
+  su-dung-sai: "&cSử dụng sai cú pháp!"
+  sai-2fa: "&c❌ Mã 2FA không đúng!"
+  can-2fa: "&e🔐 Tài khoản này yêu cầu mã 2FA. Vui lòng nhập: /login <mật khẩu> <mã_6_so>"
+  bat-2fa-thanh-cong: "&a✔ Đã bật 2FA cho tài khoản của bạn!"
+  tat-2fa-thanh-cong: "&a✔ Đã tắt 2FA cho tài khoản của bạn!"
+  ip-blocked: "&c⛔ IP của bạn đang bị tạm khóa, vui lòng thử lại sau!"
+  qua-nhieu-lan-dang-nhap: "&c⛔ IP của bạn đã đạt giới hạn {max} phiên đăng nhập đồng thời!"
+  admin-reset-mat-khau: "&eMật khẩu của bạn đã được admin reset, hãy đăng nhập lại."
+  admin-xoa-tai-khoan: "&cTài khoản của bạn đã bị admin xóa!"
+  tu-dong-dang-nhap-ip: "&7🔒 &fĐăng nhập tự động — IP đã được xác thực."
+  admin-nhac-bat-2fa: "&e⏰ &7Bạn là admin — hãy bật 2FA để bảo vệ tài khoản: &a/2fa enable"
+
+# =====================================================
+#  CẢNH BÁO KHI CHƯA ĐĂNG NHẬP
+# =====================================================
+canh-bao:
+  chat: "&c⚠ Bạn cần đăng nhập trước khi chat!"
+  lenh: "&c⚠ Vui lòng đăng nhập trước!"
+  di-chuyen: "&c⚠ Không thể di chuyển khi chưa đăng nhập!"
+  pha-khoi: "&c⚠ Không thể phá khối khi chưa đăng nhập!"
+  tan-cong: "&c⚠ Không thể tấn công khi chưa đăng nhập!"
+  tuong-tac: "&c⚠ Không thể tương tác khi chưa đăng nhập!"
+
+# =====================================================
+#  CAPTCHA
+# =====================================================
+captcha:
+  tin-nhan-captcha: "&e[Captcha] &fVui lòng nhập mã: &a&l{captcha}"
+  tin-nhan-sai: "&c❌ Mã captcha sai! Dùng /captcha để lấy mã mới"
+  off: "&cCaptcha hiện đang tắt!"
+
+# =====================================================
+#  GIAO DIỆN ĐĂNG NHẬP (CHEST GUI)
+# =====================================================
+gui:
+  tieu-de: "&8✦ &6&lBLOGIN &8✦ &7| &f{player}"
+  item:
+    head:
+      name: "&6&l✦ &e&lBLOGIN &6&l✦"
+      lore:
+        - "&7Xin chào, &f{player}&7!"
+        - "&7Vui lòng đăng nhập để tiếp tục."
+    info:
+      name: "&e&lTHÔNG TIN ĐĂNG NHẬP"
+      lore:
+        - "&7Tài khoản: &f{player}"
+        - "&7IP: &f{ip}"
+        - "&7Đã đăng ký: &f{status}"
+        - "&7Số lần thử còn lại: &f{remaining}"
+        - ""
+        - "&8Mật khẩu được lưu dạng BCrypt"
+    captcha:
+      name: "&6&lMÃ CAPTCHA"
+      lore:
+        - "&7Mã hiện tại: &a&l{captcha}"
+        - "&7Nhấn để lấy mã mới."
+      lore-rong: "&7Bạn chưa có mã captcha."
+      off-name: "&a&l✔ CAPTCHA ĐÃ ĐƯỢC BỎ QUA"
+      off-lore: "&7Captcha đang tắt trong cấu hình."
+    login:
+      name: "&a&lĐĂNG NHẬP"
+      lore:
+        - "&7Nhấn để xác nhận đăng nhập"
+        - ""
+        - "&7Mật khẩu đã nhập: &f{chuc}"
+        - "&72FA: &f{tfa}"
+        - "&7Captcha: &f{cap}"
+        - ""
+        - "&eNhấn Shift + Click để đóng"
+    help:
+      name: "&b&lHƯỚNG DẪN"
+      lore:
+        - "&7Vào &f< ô mật khẩu > &7để nhập mật khẩu"
+        - "&7Vào &f< ô 2FA > &7để nhập mã 2FA (nếu có)"
+        - "&7Nhấn nút xanh lá để đăng nhập"
+        - ""
+        - "&7Hoặc dùng lệnh &a/login <mật khẩu>"
+    password:
+      name: "&e&lÔ NHẬP MẬT KHẨU"
+      lore:
+        - "&7Nhấn để nhập mật khẩu"
+        - ""
+        - "&8Hiện tại: &7{chuc}"
+    totp:
+      name: "&d&lÔ NHẬP MÃ 2FA"
+      lore:
+        - "&7Nhấn để nhập mã 6 số"
+        - ""
+        - "&8Hiện tại: &7{tfa}"
+    close:
+      name: "&c&lĐÓNG"
+      lore:
+        - "&7Đóng panel"
+  prompt:
+    password: "&eNhập mật khẩu trong chat (gõ &f/cancel &eđể huỷ):"
+    totp: "&dNhập mã 2FA trong chat (gõ &f/cancel &dđể huỷ):"
+    captcha: "&6Nhập mã captcha &7(&f{captcha}&7) trong chat &8(gõ &f/cancel &8để huỷ):"
+  hint:
+    captcha-click: "&7Nhấn ô captcha trên panel để lấy mã mới, hoặc dùng &a/captcha"
+    timeout-reopen: "&7Đã hết thời gian nhập, panel đã mở lại."
+    chua-nhap-mat-khau: "&c✖ Vui lòng nhập mật khẩu trước!"
+    da-dang-nhap-roi: "&cBạn đã đăng nhập rồi!"
+    dang-ky-ngay: "&7Đăng ký ngay: &a/register <mật khẩu> <xác_nhận mật khẩu>"
+  value:
+    co: "Có"
+    khong: "Không"
+    chua-nhap: "Chưa nhập"
+    khong-co: "Không có"
+    chua-co: "Chưa có"
+
+# =====================================================
+#  LỆNH NGƯỜI CHƠI
+# =====================================================
+commands:
+  chi-choi: "&cLệnh này chỉ dành cho người chơi!"
+  login:
+    usage: "&cSử dụng: /login <mật khẩu> [mã 2FA]"
+    captcha-usage: "&7Cú pháp: &f/login <captcha> <mật khẩu> [mã 2FA]"
+  register:
+    usage: "&cSử dụng: /register <mật khẩu> <xác nhận mật khẩu>"
+    captcha-usage: "&cSử dụng: /register <captcha> <mật khẩu> <xác nhận mật khẩu>"
+  changepassword:
+    usage: "&cSử dụng: /changepassword <mật khẩu cũ> <mật khẩu mới>"
+  captcha:
+    off: "&cCaptcha hiện đang tắt!"
+  gui:
+    off: "&cGUI đăng nhập đang tắt trong cấu hình!"
+    use-login: "&7Dùng lệnh: &f/login <mật khẩu>"
+  logout:
+    not-logged-in: "&c⚠ Bạn chưa đăng nhập!"
+  2fa:
+    off: "&c2FA hiện đang tắt trong cấu hình!"
+    not-authenticated: "&c⚠ Bạn cần đăng nhập trước!"
+    setup-header: "&6&l═══════ Thiết lập 2FA &6&l═══════"
+    setup-huong-dan: "&eQuét mã QR hoặc nhập thủ công secret key vào Google Authenticator:"
+    setup-secret: "&aSecret: &f{secret}"
+    setup-buoc-2: "&eSau khi thêm, nhập mã hiện tại:"
+    setup-lenh: "&a/2fa confirm <mã_{digits}_số>"
+    setup-otpauth: "&7URL otpauth: &f{url}"
+    setup-luu-y: "&8Lưu ý: secret được lưu mã hoá AES-GCM trong database."
+    setup-footer: "&6&l═══════════════════════════════"
+    confirm-usage: "&cSử dụng: /2fa confirm <mã_6_số>"
+    disable-usage: "&cSử dụng: /2fa disable <mã_6_số_hiện_tại>"
+    status-header: "&6&l═══════ Trạng thái 2FA &6&l═══════"
+    status-label: "&eTrạng thái:"
+    status-on: "&a✔ Đang bật"
+    status-off: "&c✘ Đang tắt"
+    status-footer: "&6&l═══════════════════════════════"
+    help-header: "&6&l═══════ 2FA Commands &6&l═══════"
+    help-enable: "&e/2fa enable &7- Bật 2FA"
+    help-confirm: "&e/2fa confirm <code> &7- Xác nhận bật"
+    help-disable: "&e/2fa disable <code> &7- Tắt 2FA"
+    help-status: "&e/2fa status &7- Xem trạng thái"
+    help-footer: "&6&l═══════════════════════════════"
+
+# =====================================================
+#  LỆNH QUẢN TRỊ VIÊN
+# =====================================================
+admin:
+  su-dung-unregister: "&cSử dụng: /blogin unregister <player>"
+  su-dung-info: "&cSử dụng: /blogin info <player>"
+  su-dung-force: "&cSử dụng: /blogin force <player>"
+  su-dung-unlock: "&cSử dụng: /blogin unlock <player>"
+  su-dung-reset: "&cSử dụng: /blogin reset <player> <mật khẩu_mới>"
+  su-dung-2fa: "&cSử dụng: /blogin 2fa <player> <on|off|secret>"
+  reload-thanh-cong: "&a✔ Đã tải lại cấu hình Blogin!"
+  unregister-thanh-cong: "&a✔ Đã xóa tài khoản của {player}!"
+  force-login: "&a✔ Đã ép buộc đăng nhập cho {player}!"
+  reset-thanh-cong: "&a✔ Đã reset mật khẩu cho &e{player}"
+  reset-that-bai: "&cReset thất bại (mật khẩu không đạt yêu cầu hoặc không tìm thấy tài khoản)."
+  mo-khoa-thanh-cong: "&a✔ Đã mở khóa tài khoản: &e{player}"
+  quyen: "&c❌ Bạn không có quyền sử dụng lệnh này!"
+  khong-tim-thay: "&cKhông tìm thấy người chơi: &f{player}"
+  khong-online: "&cNgười chơi không online: &f{player}"
+  2fa-bat: "&a✔ Đã bật 2FA cho &e{player}"
+  2fa-tat: "&a✔ Đã tắt 2FA cho &e{player}"
+  2fa-secret: "&eSecret 2FA của &b{player}&e: &f{secret}"
+  2fa-chua-thiet-lap: "&cNgười chơi chưa thiết lập 2FA."
+  info-header: "&6&l═══════ Thông tin {player} ═══════"
+  info-uuid: "&eUUID: &f{uuid}"
+  info-status: "&eTrạng thái: {status}"
+  info-2fa: "&e2FA: {status}"
+  info-ip: "&eIP đã đăng ký: &f{ip}"
+  info-last-login: "&eLần đăng nhập cuối: &f{time}"
+  info-login-count: "&eTổng lần đăng nhập: &f{count}"
+  info-registered: "&eNgày đăng ký: &f{time}"
+  info-footer: "&6&l═══════════════════════════════"
+  status-on: "&a✔ Đã đăng nhập"
+  status-off: "&c✘ Chưa đăng nhập"
+  bat-2fa: "&aBật"
+  tat-2fa: "&cTắt"
+  chua-dang-nhap: "Chưa đăng nhập"
+  chua-co-ip: "Chưa có"
+  list-header: "&6&l═══════ Danh sách tài khoản &7({current}/{max}) &6&l═══════"
+  list-empty: "&8Không có tài khoản nào."
+  list-item: "&8• &f{player} &8| &7Đăng nhập: &f{count} &8| &7{time}"
+  list-next: "&7Trang tiếp: &f/blogin list {page}"
+  status-header: "&6&l═══════ Blogin Status &6&l═══════"
+  status-version: "&ePhiên bản: &f{version}"
+  status-database: "&eDatabase: &f{type} &8(pool &f{pool}&8)"
+  status-tai-khoan: "&eTài khoản đã đăng ký: &f{count}"
+  status-2fa: "&eTài khoản bật 2FA: &f{count}"
+  status-dang-nhap-24h: "&eĐăng nhập 24h gần nhất: &f{count}"
+  status-tong-dang-nhap: "&eTổng lần đăng nhập: &f{count}"
+  status-online: "&eNgười chơi online: &f{count}"
+  status-da-dang-nhap: "&eĐã đăng nhập: &f{count}"
+  status-captcha: "&eCaptcha: &f{status}"
+  status-2fa-bat: "&e2FA: &f{status}"
+  status-bcrypt: "&eBCrypt cost: &f{count}"
+  status-footer: "&6&l════════════════════════════════"
+  bat: "&aBật"
+  tat: "&cTắt"
+  help-header: "&6&l═══════ Blogin Admin Commands &6&l═══════"
+  help-reload: "&e/blogin reload &7- Tải lại cấu hình"
+  help-unregister: "&e/blogin unregister <player> &7- Xóa tài khoản"
+  help-info: "&e/blogin info <player> &7- Xem thông tin"
+  help-force: "&e/blogin force <player> &7- Ép buộc đăng nhập"
+  help-unlock: "&e/blogin unlock <player> &7- Mở khóa tài khoản"
+  help-reset: "&e/blogin reset <player> <mk> &7- Reset mật khẩu"
+  help-2fa: "&e/blogin 2fa <player> <on|off|secret> &7- Quản lý 2FA"
+  help-list: "&e/blogin list [trang] &7- Danh sách tài khoản"
+  help-status: "&e/blogin status &7- Trạng thái server"
+  help-gui: "&e/blogin gui &7- Mở GUI đăng nhập"
+  help-language: "&e/blogin language <mã> &7- Đổi ngôn ngữ"
+  help-footer: "&6&l════════════════════════════════"
+
+# =====================================================
+#  NGÔN NGỮ
+# =====================================================
+language:
+  display-name: "Tiếng Việt"
+  header: "&6&l═══════ Ngôn ngữ Blogin &6&l═══════"
+  current: "&eNgôn ngữ hiện tại của bạn: &f{lang}"
+  changed: "&a✔ Đã đổi ngôn ngữ sang &f{lang}"
+  server-default: "&eNgôn ngữ mặc định của server: &f{lang}"
+  available: "&eCác ngôn ngữ có sẵn: &f{list}"
+  invalid: "&cMã ngôn ngữ không hợp lệ! Dùng: &f/blogin language <mã>"
+  usage: "&cSử dụng: &f/blogin language <mã>"
+  select: "&7Chọn một ngôn ngữ bằng cách nhập mã tương ứng:"
+  footer: "&6&l═══════════════════════════════"
+
+# =====================================================
+#  HỆ THỐNG CHÀO MỪNG (WELCOME)
+# =====================================================
+welcome:
+  title-chao:
+    line1: "&6&l✦ &e&lCHÀO MỪNG &6&l✦"
+    line2-new: "&b&l{player} &fđã gia nhập server!"
+    line2-back: "&b&l{player} &7đã quay lại!"
+  actionbar:
+    text-new: "&a&l➤ &eChào mừng thành viên mới &b&l{player} &e&l➤"
+    text-back: "&a&l➤ &eChào mừng trở lại &b&l{player} &e&l➤"
+    text-back-short: "&e&lBlogin &7» &fChào mừng &b{player} &fđã trở lại!"
+  bossbar-text-green: "&a⏰ &fCòn &a{time}s &fđể đăng nhập!"
+  bossbar-text-yellow: "&e⏰ &fCòn &e{time}s &fđể đăng nhập!"
+  bossbar-text-red: "&c⏰ &fCòn &c{time}s &fđể đăng nhập!"
+  bossbar-timeout-title: "&e⏰ &fThời gian đăng nhập còn lại"
+  bossbar-login-thanh-cong: "&a&l✦ &eChào mừng &b{player} &a✦"
+  bossbar-dang-ky-thanh-cong: "&6&l🎉 &eChào mừng thành viên mới &b{player} &6🎉"
+  tin-chao-moi: |
+    &6&l✦══════════════════════════════════✦
+    &e&l   🌟 CHÀO MỪNG THÀNH VIÊN MỚI 🌟
+    &6&l✦══════════════════════════════════✦
+    &f   ▶ &b{player} &fđã gia nhập server!
+    &7   Hãy chào hỏi và giúp đỡ họ nhé!
+    &6&l✦══════════════════════════════════✦
+  tin-chao-lai: "&a&l➤ &e{player} &7đã quay lại server!"
+  tin-dang-ky-thanh-cong: |
+    &6&l★═══════════════════════════════════★
+    &e   🎉 &b&l{player} &e&lvừa đăng ký tài khoản!
+    &7   Hãy chào mừng thành viên mới của chúng ta!
+    &6&l★═══════════════════════════════════★
+  thong-bao-join: "&8» &b{player} &7vừa tham gia server!"
+  title-login-thanh-cong:
+    line1: "&a&l✔ THÀNH CÔNG &a&l✔"
+    line2: "&fXin chào &b{player}&f!"
+  title-dang-ky-thanh-cong:
+    line1: "&6&l✦ &e&lCHÀO MỪNG &6&l✦"
+    line2: "&b&l{player} &fđã gia nhập server!"
+
+# =====================================================
+#  MISC - ĐỘ MẠNH MẬT KHẨU & NHẬP QUA CHAT
+# =====================================================
+misc:
+  do-ma-ngau:
+    label: "&8» &7Độ mạnh: "
+    label-moi: "&8» &7Độ mạnh mật khẩu mới: "
+    label-hien-tai: "&8» &7Độ mạnh hiện tại: "
+    label-da-nhap: "&8» &7Độ mạnh mật khẩu đã nhập: "
+    "0": "&c&lRẤT YẾU"
+    "1": "&c&lYẾU"
+    "2": "&e&lTRUNG BÌNH"
+    "3": "&a&lKHÁ"
+    "4": "&b&lMẠNH"
+    "5": "&d&lRẤT MẠNH"
+  goi-y:
+    chung: "&7Gợi ý: kết hợp chữ hoa, chữ thường, số & ký tự đặc biệt."
+    manh: "&7Gợi ý: kết hợp chữ hoa, chữ thường, số & ký tự đặc biệt, tối thiểu 8 ký tự."
+  chat:
+    huy: "&7Đã huỷ nhập."
+    invalid: "&c✖ Dữ liệu không hợp lệ, vui lòng nhập lại."
+    saved-password: "&a✔ Đã lưu mật khẩu. Nhấn nút xanh lá để đăng nhập."
+    saved-totp: "&a✔ Đã lưu mã 2FA. Nhấn nút xanh lá để đăng nhập."
+    captcha-ok: "&a✔ Đã xác nhận captcha. Nhấn nút xanh lá để đăng nhập."

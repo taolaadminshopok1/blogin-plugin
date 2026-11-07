@@ -1,0 +1,312 @@
+# =====================================================
+#  Blogin - Русский (ru)
+#  Код языка: ru
+# =====================================================
+
+
+tin-nhap:
+  - "&6&l✦ &e&lBLOGIN &6&l✦"
+  - "&fДобро пожаловать, &b{player}&f, на сервер!"
+  - "&7Войдите с помощью &a/login <пароль>"
+  - "&7Нет аккаунта? Используйте &a/register <пароль> <пароль>"
+
+tin-nhan:
+  da-dang-nhap: "&a✔ Вход выполнен! С возвращением, {player}!"
+  da-dang-xuat: "&e👋 Вы вышли из аккаунта!"
+  dang-ky-thanh-cong: "&a✔ Аккаунт создан! Вы вошли автоматически."
+  sai-mat-khau: "&c❌ Неверный пароль! Осталось попыток до блокировки: {remaining}."
+  mat-khau-da-thay-doi: "&a✔ Пароль успешно изменён!"
+  tai-khoan-da-ton-tai: "&c❌ Аккаунт уже существует! Используйте /login."
+  chua-dang-ky: "&c❌ У вас нет аккаунта! Используйте /register <пароль> <пароль>."
+  da-dang-nhap-roi: "&c⚠ Вы уже вошли!"
+  chua-dang-nhap: "&c⚠ Вы не вошли!"
+  mat-khau-khong-khop: "&c❌ Подтверждение пароля не совпадает!"
+  mat-khau-qua-ngan: "&c❌ Пароль должен содержать не менее {min} символов!"
+  mat-khau-qua-dai: "&c❌ Пароль не может превышать {max} символов!"
+  mat-khau-yeu: "&c❌ Пароль должен содержать заглавные, строчные буквы и цифры!"
+  bi-khoa: "&c⛔ Ваш аккаунт заблокирован! Повторите попытку через {time} секунд."
+  het-thoi-gian: "&c⏰ Время на вход истекло! Вас исключили с сервера."
+  canh-bao-thoi-gian: "&e⏰ Осталось {time} секунд на вход!"
+  loi-chung: "&c✖ Произошла ошибка, попробуйте ещё раз!"
+  su-dung-sai: "&cНеверное использование!"
+  sai-2fa: "&c❌ Неверный код 2FA!"
+  can-2fa: "&e🔐 Для этого аккаунта нужен код 2FA. Используйте: /login <пароль> <6-значный код>"
+  bat-2fa-thanh-cong: "&a✔ 2FA включён для вашего аккаунта!"
+  tat-2fa-thanh-cong: "&a✔ 2FA отключён для вашего аккаунта!"
+  ip-blocked: "&c⛔ Ваш IP временно заблокирован, попробуйте позже!"
+  qua-nhieu-lan-dang-nhap: "&c⛔ Ваш IP достиг лимита в {max} одновременных сессий!"
+  admin-reset-mat-khau: "&eАдминистратор сбросил ваш пароль, войдите заново."
+  admin-xoa-tai-khoan: "&cАдминистратор удалил ваш аккаунт!"
+  tu-dong-dang-nhap-ip: "&7🔒 &fАвтоматический вход — IP подтверждён."
+  admin-nhac-bat-2fa: "&e⏰ &7Вы администратор — включите 2FA для защиты аккаунта: &a/2fa enable"
+
+canh-bao:
+  chat: "&c⚠ Чтобы писать в чат, сначала войдите!"
+  lenh: "&c⚠ Пожалуйста, сначала войдите!"
+  di-chuyen: "&c⚠ Нельзя двигаться до входа!"
+  pha-khoi: "&c⚠ Нельзя ломать блоки до входа!"
+  tan-cong: "&c⚠ Нельзя атаковать до входа!"
+  tuong-tac: "&c⚠ Нельзя взаимодействовать до входа!"
+
+captcha:
+  tin-nhan-captcha: "&e[Капча] &fВведите код: &a&l{captcha}"
+  tin-nhan-sai: "&c❌ Неверный код капчи! Используйте /captcha, чтобы получить новый"
+  off: "&cКапча сейчас отключена!"
+
+gui:
+  tieu-de: "&8✦ &6&lBLOGIN &8✦ &7| &f{player}"
+  item:
+    head:
+      name: "&6&l✦ &e&lBLOGIN &6&l✦"
+      lore:
+        - "&7Здравствуйте, &f{player}&7!"
+        - "&7Войдите, чтобы продолжить."
+    info:
+      name: "&e&lИНФОРМАЦИЯ О ВХОДЕ"
+      lore:
+        - "&7Аккаунт: &f{player}"
+        - "&7IP: &f{ip}"
+        - "&7Зарегистрирован: &f{status}"
+        - "&7Осталось попыток: &f{remaining}"
+        - ""
+        - "&8Пароли хранятся с помощью BCrypt"
+    captcha:
+      name: "&6&lКОД КАПЧИ"
+      lore:
+        - "&7Текущий код: &a&l{captcha}"
+        - "&7Нажмите, чтобы получить новый код."
+      lore-rong: "&7У вас пока нет кода капчи."
+      off-name: "&a&l✔ КАПЧА ПРОПУЩЕНА"
+      off-lore: "&7Капча отключена в конфигурации."
+    login:
+      name: "&a&lВОЙТИ"
+      lore:
+        - "&7Нажмите, чтобы подтвердить вход"
+        - ""
+        - "&7Введённый пароль: &f{chuc}"
+        - "&72FA: &f{tfa}"
+        - "&7Капча: &f{cap}"
+        - ""
+        - "&eShift + клик, чтобы закрыть"
+    help:
+      name: "&b&lПОМОЩЬ"
+      lore:
+        - "&7Нажмите &f< слот пароля > &7чтобы ввести пароль"
+        - "&7Нажмите &f< слот 2FA > &7чтобы ввести код 2FA (если включено)"
+        - "&7Нажмите зелёную кнопку, чтобы войти"
+        - ""
+        - "&7Или используйте команду &a/login <пароль>"
+    password:
+      name: "&e&lСЛОТ ПАРОЛЯ"
+      lore:
+        - "&7Нажмите, чтобы ввести пароль"
+        - ""
+        - "&8Сейчас: &7{chuc}"
+    totp:
+      name: "&d&lСЛОТ КОДА 2FA"
+      lore:
+        - "&7Нажмите, чтобы ввести 6-значный код"
+        - ""
+        - "&8Сейчас: &7{tfa}"
+    close:
+      name: "&c&lЗАКРЫТЬ"
+      lore:
+        - "&7Закрыть эту панель"
+  prompt:
+    password: "&eВведите пароль в чат (введите &f/cancel &eдля отмены):"
+    totp: "&dВведите код 2FA в чат (введите &f/cancel &dдля отмены):"
+    captcha: "&6Введите код капчи &7(&f{captcha}&7) в чат &8(введите &f/cancel &8для отмены):"
+  hint:
+    captcha-click: "&7Нажмите слот капчи для нового кода или используйте &a/captcha"
+    timeout-reopen: "&7Время ожидания истекло, панель открыта снова."
+    chua-nhap-mat-khau: "&c✖ Сначала введите пароль!"
+    da-dang-nhap-roi: "&cВы уже вошли!"
+    dang-ky-ngay: "&7Зарегистрируйтесь: &a/register <пароль> <подтверждение>"
+  value:
+    co: "Да"
+    khong: "Нет"
+    chua-nhap: "Не введён"
+    khong-co: "Нет"
+    chua-co: "Нет"
+
+commands:
+  chi-choi: "&cЭта команда только для игроков!"
+  login:
+    usage: "&cИспользование: /login <пароль> [код 2FA]"
+    captcha-usage: "&7Синтаксис: &f/login <капча> <пароль> [код 2FA]"
+  register:
+    usage: "&cИспользование: /register <пароль> <подтверждение>"
+    captcha-usage: "&cИспользование: /register <капча> <пароль> <подтверждение>"
+  changepassword:
+    usage: "&cИспользование: /changepassword <старый пароль> <новый пароль>"
+  captcha:
+    off: "&cКапча сейчас отключена!"
+  gui:
+    off: "&cИнтерфейс входа отключён в конфигурации!"
+    use-login: "&7Используйте команду: &f/login <пароль>"
+  logout:
+    not-logged-in: "&c⚠ Вы не вошли!"
+  2fa:
+    off: "&c2FA отключена в конфигурации!"
+    not-authenticated: "&c⚠ Сначала войдите!"
+    setup-header: "&6&l═══════ Настройка 2FA &6&l═══════"
+    setup-huong-dan: "&eОтсканируйте QR-код или введите секретный ключ вручную в Google Authenticator:"
+    setup-secret: "&aСекрет: &f{secret}"
+    setup-buoc-2: "&eПосле добавления введите текущий код:"
+    setup-lenh: "&a/2fa confirm <код из {digits} цифр>"
+    setup-otpauth: "&7URL otpauth: &f{url}"
+    setup-luu-y: "&8Примечание: секрет хранится зашифрованным AES-GCM в базе данных."
+    setup-footer: "&6&l═══════════════════════════════"
+    confirm-usage: "&cИспользование: /2fa confirm <6-значный код>"
+    disable-usage: "&cИспользование: /2fa disable <текущий 6-значный код>"
+    status-header: "&6&l═══════ Статус 2FA &6&l═══════"
+    status-label: "&eСтатус: "
+    status-on: "&a✔ Включена"
+    status-off: "&c✘ Выключена"
+    status-footer: "&6&l═══════════════════════════════"
+    help-header: "&6&l═══════ Команды 2FA &6&l═══════"
+    help-enable: "&e/2fa enable &7- Включить 2FA"
+    help-confirm: "&e/2fa confirm <code> &7- Подтвердить включение"
+    help-disable: "&e/2fa disable <code> &7- Отключить 2FA"
+    help-status: "&e/2fa status &7- Показать статус"
+    help-footer: "&6&l═══════════════════════════════"
+
+admin:
+  su-dung-unregister: "&cИспользование: /blogin unregister <игрок>"
+  su-dung-info: "&cИспользование: /blogin info <игрок>"
+  su-dung-force: "&cИспользование: /blogin force <игрок>"
+  su-dung-unlock: "&cИспользование: /blogin unlock <игрок>"
+  su-dung-reset: "&cИспользование: /blogin reset <игрок> <новый_пароль>"
+  su-dung-2fa: "&cИспользование: /blogin 2fa <игрок> <on|off|secret>"
+  reload-thanh-cong: "&a✔ Конфигурация Blogin перезагружена!"
+  unregister-thanh-cong: "&a✔ Аккаунт {player} удалён!"
+  force-login: "&a✔ {player} принудительно авторизован!"
+  reset-thanh-cong: "&a✔ Пароль для &e{player} сброшен"
+  reset-that-bai: "&cСброс не удался (пароль не соответствует требованиям или аккаунт не найден)."
+  mo-khoa-thanh-cong: "&a✔ Аккаунт разблокирован: &e{player}"
+  quyen: "&c❌ У вас нет прав на эту команду!"
+  khong-tim-thay: "&cИгрок не найден: &f{player}"
+  khong-online: "&cИгрок не в сети: &f{player}"
+  2fa-bat: "&a✔ 2FA включена для &e{player}"
+  2fa-tat: "&a✔ 2FA отключена для &e{player}"
+  2fa-secret: "&eСекрет 2FA игрока &b{player}&e: &f{secret}"
+  2fa-chua-thiet-lap: "&cЭтот игрок ещё не настроил 2FA."
+  info-header: "&6&l═══════ Информация об {player} ═══════"
+  info-uuid: "&eUUID: &f{uuid}"
+  info-status: "&eСтатус: {status}"
+  info-2fa: "&e2FA: {status}"
+  info-ip: "&eЗарегистрированный IP: &f{ip}"
+  info-last-login: "&eПоследний вход: &f{time}"
+  info-login-count: "&eВсего входов: &f{count}"
+  info-registered: "&eДата регистрации: &f{time}"
+  info-footer: "&6&l═══════════════════════════════"
+  status-on: "&a✔ Авторизован"
+  status-off: "&c✘ Не авторизован"
+  bat-2fa: "&aВключена"
+  tat-2fa: "&cВыключена"
+  chua-dang-nhap: "Никогда не входил"
+  chua-co-ip: "Нет"
+  list-header: "&6&l═══════ Список аккаунтов &7({current}/{max}) &6&l═══════"
+  list-empty: "&8Аккаунты не найдены."
+  list-item: "&8• &f{player} &8| &7Входов: &f{count} &8| &7{time}"
+  list-next: "&7Следующая страница: &f/blogin list {page}"
+  status-header: "&6&l═══════ Статус Blogin &6&l═══════"
+  status-version: "&eВерсия: &f{version}"
+  status-database: "&eБаза данных: &f{type} &8(пул &f{pool}&8)"
+  status-tai-khoan: "&eЗарегистрированных аккаунтов: &f{count}"
+  status-2fa: "&eАккаунтов с 2FA: &f{count}"
+  status-dang-nhap-24h: "&eВходов за 24 ч: &f{count}"
+  status-tong-dang-nhap: "&eВсего входов: &f{count}"
+  status-online: "&eИгроков в сети: &f{count}"
+  status-da-dang-nhap: "&eАвторизовано: &f{count}"
+  status-captcha: "&eКапча: &f{status}"
+  status-2fa-bat: "&e2FA: &f{status}"
+  status-bcrypt: "&eСтоимость BCrypt: &f{count}"
+  status-footer: "&6&l════════════════════════════════"
+  bat: "&aВключена"
+  tat: "&cВыключена"
+  help-header: "&6&l═══════ Админ-команды Blogin &6&l═══════"
+  help-reload: "&e/blogin reload &7- Перезагрузить конфигурацию"
+  help-unregister: "&e/blogin unregister <player> &7- Удалить аккаунт"
+  help-info: "&e/blogin info <player> &7- Информация об аккаунте"
+  help-force: "&e/blogin force <player> &7- Принудительный вход"
+  help-unlock: "&e/blogin unlock <player> &7- Разблокировать аккаунт"
+  help-reset: "&e/blogin reset <player> <пароль> &7- Сбросить пароль"
+  help-2fa: "&e/blogin 2fa <player> <on|off|secret> &7- Управление 2FA"
+  help-list: "&e/blogin list [страница] &7- Список аккаунтов"
+  help-status: "&e/blogin status &7- Статус сервера"
+  help-gui: "&e/blogin gui &7- Открыть интерфейс входа"
+  help-language: "&e/blogin language <код> &7- Сменить язык"
+  help-footer: "&6&l════════════════════════════════"
+
+
+language:
+  display-name: "Русский"
+
+  header: "&6&l═══════ Язык Blogin &6&l═══════"
+  current: "&eВаш текущий язык: &f{lang}"
+  changed: "&a✔ Ваш язык изменён на &f{lang}"
+  server-default: "&eЯзык сервера по умолчанию: &f{lang}"
+  available: "&eДоступные языки: &f{list}"
+  invalid: "&cНекорректный код языка! Используйте: &f/blogin language <код>"
+  usage: "&cИспользование: /blogin language <код>"
+  select: "&7Выберите язык, введя его код:"
+  footer: "&6&l═══════════════════════════════"
+
+welcome:
+  title-chao:
+    line1: "&6&l✦ &e&lДОБРО ПОЖАЛОВАТЬ &6&l✦"
+    line2-new: "&b&l{player} &fприсоединился к серверу!"
+    line2-back: "&b&l{player} &7снова здесь!"
+  actionbar:
+    text-new: "&a&l➤ &eДобро пожаловать, новый участник &b&l{player} &e&l➤"
+    text-back: "&a&l➤ &eС возвращением &b&l{player} &e&l➤"
+    text-back-short: "&e&lBlogin &7» &fС возвращением &b{player} &f!"
+  bossbar-text-green: "&a⏰ &fОсталось &a{time} с &fна вход!"
+  bossbar-text-yellow: "&e⏰ &fОсталось &e{time} с &fна вход!"
+  bossbar-text-red: "&c⏰ &fОсталось &c{time} с &fна вход!"
+  bossbar-timeout-title: "&e⏰ &fОсталось времени на вход"
+  bossbar-login-thanh-cong: "&a&l✦ &eДобро пожаловать &b{player} &a✦"
+  bossbar-dang-ky-thanh-cong: "&6&l🎉 &eДобро пожаловать, новый участник &b{player} &6🎉"
+  tin-chao-moi: |
+    &6&l✦══════════════════════════════════✦
+    &e&l   🌟 ДОБРО ПОЖАЛОВАТЬ НОВОГО УЧАСТНИКА 🌟
+    &6&l✦══════════════════════════════════✦
+    &f   ▶ &b{player} &fприсоединился к серверу!
+    &7   Поздоровайтесь и помогите ему!
+    &6&l✦══════════════════════════════════✦
+  tin-chao-lai: "&a&l➤ &e{player} &7снова на сервере!"
+  tin-dang-ky-thanh-cong: |
+    &6&l★═══════════════════════════════════★
+    &e   🎉 &b&l{player} &e&lтолько что создал аккаунт!
+    &7   Давайте поприветствуем нашего нового участника!
+    &6&l★═══════════════════════════════════★
+  thong-bao-join: "&8» &b{player} &7присоединился к серверу!"
+  title-login-thanh-cong:
+    line1: "&a&l✔ УСПЕХ &a&l✔"
+    line2: "&fЗдравствуйте, &b{player}&f!"
+  title-dang-ky-thanh-cong:
+    line1: "&6&l✦ &e&lДОБРО ПОЖАЛОВАТЬ &6&l✦"
+    line2: "&b&l{player} &fприсоединился к серверу!"
+
+misc:
+  do-ma-ngau:
+    label: "&8» &7Надёжность: "
+    label-moi: "&8» &7Надёжность нового пароля: "
+    label-hien-tai: "&8» &7Текущая надёжность: "
+    label-da-nhap: "&8» &7Надёжность введённого пароля: "
+    "0": "&c&lОЧЕНЬ СЛАБЫЙ"
+    "1": "&c&lСЛАБЫЙ"
+    "2": "&e&lСРЕДНИЙ"
+    "3": "&a&lХОРОШИЙ"
+    "4": "&b&lНАДЁЖНЫЙ"
+    "5": "&d&lОЧЕНЬ НАДЁЖНЫЙ"
+  goi-y:
+    chung: "&7Совет: используйте заглавные и строчные буквы, цифры и спецсимволы."
+    manh: "&7Совет: используйте заглавные и строчные буквы, цифры и спецсимволы, минимум 8 символов."
+  chat:
+    huy: "&7Ввод отменён."
+    invalid: "&c✖ Некорректные данные, попробуйте ещё раз."
+    saved-password: "&a✔ Пароль сохранён. Нажмите зелёную кнопку, чтобы войти."
+    saved-totp: "&a✔ Код 2FA сохранён. Нажмите зелёную кнопку, чтобы войти."
+    captcha-ok: "&a✔ Капча подтверждена. Нажмите зелёную кнопку, чтобы войти."

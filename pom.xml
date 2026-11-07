@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>vn.blogin</groupId>
+    <artifactId>Blogin</artifactId>
+    <version>3.2.0</version>
+    <packaging>jar</packaging>
+
+    <name>Blogin</name>
+    <description>Plugin Login cao cấp, bảo mật, GUI đăng nhập, Việt hóa cho Minecraft 1.20.1 - 26.x</description>
+
+    <properties>
+        <java.version>17</java.version>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <!-- API Paper dùng để BIÊN DỊCH.
+             Mặc định là 1.20.1 (Java 17 bytecode) để JAR chạy được trên server
+             1.20.1 -> 1.21.11 và các bản 26.x (Java 17 và Java 21 đều OK).
+             Toan bo hang so doi giua cac phien ban duoc xu ly qua lop
+             vn.blogin.utils.Compat nen bien dich 1.20.1 van chay duoc tren
+             1.21.11+.
+
+             De bien dich cho phien ban cu the, dung profile:
+               mvn clean package -P paper-1.21.11
+               mvn clean package -P paper-26
+             -->
+        <paper.api.version>1.20.1-R0.1-SNAPSHOT</paper.api.version>
+    </properties>
+
+    <profiles>
+        <!-- Bien dich cho Minecraft 1.21.11 -->
+        <profile>
+            <id>paper-1.21.11</id>
+            <properties>
+                <paper.api.version>1.21.11-R0.1-SNAPSHOT</paper.api.version>
+            </properties>
+        </profile>
+
+        <!-- Bien dich cho cac phien ban Paper moi (26.x tro len)
+             LUU Y: paper-api 26.x duoc bien dich bang Java 25 (class file major 69)
+             nen CAN JDK 25+ de bien dich. Profile nay se tu dong nang len Java 25.
+             Server 26.x deu chay Java 25 nen plugin build ra cung chay duoc. -->
+        <profile>
+            <id>paper-26</id>
+            <properties>
+                <paper.api.version>26.1.2.build.22-alpha</paper.api.version>
+                <maven.compiler.source>25</maven.compiler.source>
+                <maven.compiler.target>25</maven.compiler.target>
+            </properties>
+        </profile>
+    </profiles>
+
+    <repositories>
+        <repository>
+            <id>papermc</id>
+            <url>https://repo.papermc.io/repository/maven-public/</url>
+        </repository>
+        <repository>
+            <id>placeholderapi</id>
+            <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
+        </repository>
+        <repository>
+            <id>codemc-releases</id>
+            <url>https://repo.codemc.io/repository/maven-releases/</url>
+        </repository>
+        <repository>
+            <id>codemc-snapshots</id>
+            <url>https://repo.codemc.io/repository/maven-snapshots/</url>
+        </repository>
+    </repositories>
+
+    <dependencies>
+        <!-- Paper API - hỗ trợ 1.21.4 -->
+        <dependency>
+            <groupId>io.papermc.paper</groupId>
+            <artifactId>paper-api</artifactId>
+            <version>${paper.api.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- BCrypt cho password hashing -->
+        <dependency>
+            <groupId>org.mindrot</groupId>
+            <artifactId>jbcrypt</artifactId>
+            <version>0.4</version>
+        </dependency>
+
+        <!-- MySQL Driver -->
+        <dependency>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+            <version>8.3.0</version>
+        </dependency>
+
+        <!-- SQLite Driver (dùng cho mode SQLite) -->
+        <dependency>
+            <groupId>org.xerial</groupId>
+            <artifactId>sqlite-jdbc</artifactId>
+            <version>3.46.0.0</version>
+        </dependency>
+
+        <!-- PlaceholderAPI -->
+        <dependency>
+            <groupId>me.clip</groupId>
+            <artifactId>placeholderapi</artifactId>
+            <version>2.11.6</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>${project.name}-${project.version}</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.13.0</version>
+                <configuration>
+                    <source>17</source>
+                    <target>17</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.5.3</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                <configuration>
+                    <createDependencyReducedPom>false</createDependencyReducedPom>
+                    <relocations>
+                        <relocation>
+                            <pattern>org.mindrot.jbcrypt</pattern>
+                            <shadedPattern>vn.blogin.lib.jbcrypt</shadedPattern>
+                        </relocation>
+                    </relocations>
+                    <filters>
+                        <filter>
+                            <artifact>*:*</artifact>
+                            <excludes>
+                                <exclude>META-INF/*.SF</exclude>
+                                <exclude>META-INF/*.DSA</exclude>
+                                <exclude>META-INF/*.RSA</exclude>
+                                <exclude>META-INF/maven/**</exclude>
+                            </excludes>
+                        </filter>
+                    </filters>
+                    <transformers>
+                        <!-- Gộp file META-INF/services của các driver JDBC
+                             để DriverManager tự phát hiện driver sau khi shade -->
+                        <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+                        <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                            <manifestEntries>
+                                <Multi-Release>true</Multi-Release>
+                            </manifestEntries>
+                        </transformer>
+                    </transformers>
+                </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

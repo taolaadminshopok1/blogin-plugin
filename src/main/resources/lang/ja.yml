@@ -1,0 +1,312 @@
+# =====================================================
+#  Blogin - 日本語 (ja)
+#  言語コード: ja
+# =====================================================
+
+
+tin-nhap:
+  - "&6&l✦ &e&lBLOGIN &6&l✦"
+  - "&f&b{player}&f さん、サーバーへようこそ！"
+  - "&7&a/login <パスワード> でログインしてください"
+  - "&7アカウントがない場合は &a/register <パスワード> <パスワード> を使ってください"
+
+tin-nhan:
+  da-dang-nhap: "&a✔ ログインに成功しました！おかえりなさい、{player} さん！"
+  da-dang-xuat: "&e👋 ログアウトしました！"
+  dang-ky-thanh-cong: "&a✔ アカウントを登録しました！自動的にログインしました。"
+  sai-mat-khau: "&c❌ パスワードが違います！ロックされるまで残り {remaining} 回です。"
+  mat-khau-da-thay-doi: "&a✔ パスワードを変更しました！"
+  tai-khoan-da-ton-tai: "&c❌ アカウントは既に存在します！/login を使ってください。"
+  chua-dang-ky: "&c❌ アカウントがありません！/register <パスワード> <パスワード> を使ってください。"
+  da-dang-nhap-roi: "&c⚠ 既にログインしています！"
+  chua-dang-nhap: "&c⚠ ログインしていません！"
+  mat-khau-khong-khop: "&c❌ 確認用パスワードが一致しません！"
+  mat-khau-qua-ngan: "&c❌ パスワードは {min} 文字以上で入力してください！"
+  mat-khau-qua-dai: "&c❌ パスワードは {max} 文字以下で入力してください！"
+  mat-khau-yeu: "&c❌ パスワードには大文字・小文字・数字を含める必要があります！"
+  bi-khoa: "&c⛔ アカウントがロックされました！{time} 秒後に再試行してください。"
+  het-thoi-gian: "&c⏰ ログイン時間が終了しました！サーバーからキックされました。"
+  canh-bao-thoi-gian: "&e⏰ ログインまでの残り時間：{time} 秒"
+  loi-chung: "&c✖ エラーが発生しました。もう一度お試しください！"
+  su-dung-sai: "&c使用方法に誤りがあります！"
+  sai-2fa: "&c❌ 2FA コードが正しくありません！"
+  can-2fa: "&e🔐 このアカウントには 2FA コードが必要です。/login <パスワード> <6桁コード> を使ってください"
+  bat-2fa-thanh-cong: "&a✔ アカウントに 2FA を有効にしました！"
+  tat-2fa-thanh-cong: "&a✔ アカウントの 2FA を無効にしました！"
+  ip-blocked: "&c⛔ IP が一時的にブロックされています。しばらくしてからお試しください！"
+  qua-nhieu-lan-dang-nhap: "&c⛔ 同時ログイン数の上限（{max} 件）に達しました！"
+  admin-reset-mat-khau: "&e管理者によってパスワードがリセットされました。再度ログインしてください。"
+  admin-xoa-tai-khoan: "&c管理者によってアカウントが削除されました！"
+  tu-dong-dang-nhap-ip: "&7🔒 &f自動ログイン — IP が認証されました。"
+  admin-nhac-bat-2fa: "&e⏰ &7あなたは管理者です。2FA を有効にしてアカウントを守りましょう：&a/2fa enable"
+
+canh-bao:
+  chat: "&c⚠ チャットするにはログインが必要です！"
+  lenh: "&c⚠ 先にログインしてください！"
+  di-chuyen: "&c⚠ ログイン前には移動できません！"
+  pha-khoi: "&c⚠ ログイン前にはブロックを壊せません！"
+  tan-cong: "&c⚠ ログイン前には攻撃できません！"
+  tuong-tac: "&c⚠ ログイン前には操作できません！"
+
+captcha:
+  tin-nhan-captcha: "&e[認証コード] &fコードを入力してください：&a&l{captcha}"
+  tin-nhan-sai: "&c❌ 認証コードが違います！/captcha で新しいコードを取得してください"
+  off: "&c認証コードは現在無効です！"
+
+gui:
+  tieu-de: "&8✦ &6&lBLOGIN &8✦ &7| &f{player}"
+  item:
+    head:
+      name: "&6&l✦ &e&lBLOGIN &6&l✦"
+      lore:
+        - "&7こんにちは、&f{player}&7 さん！"
+        - "&7続けるにはログインしてください。"
+    info:
+      name: "&e&lログイン情報"
+      lore:
+        - "&7アカウント：&f{player}"
+        - "&7IP：&f{ip}"
+        - "&7登録済み：&f{status}"
+        - "&7残り試行回数：&f{remaining}"
+        - ""
+        - "&8パスワードは BCrypt で保存されます"
+    captcha:
+      name: "&6&l認証コード"
+      lore:
+        - "&7現在のコード：&a&l{captcha}"
+        - "&7クリックすると新しいコードが発行されます。"
+      lore-rong: "&7まだ認証コードがありません。"
+      off-name: "&a&l✔ 認証コード スキップ"
+      off-lore: "&7設定で認証コードが無効です。"
+    login:
+      name: "&a&lログイン"
+      lore:
+        - "&7クリックでログインを確定"
+        - ""
+        - "&7入力したパスワード：&f{chuc}"
+        - "&72FA：&f{tfa}"
+        - "&7認証コード：&f{cap}"
+        - ""
+        - "&eShift + クリックで閉じる"
+    help:
+      name: "&b&lヘルプ"
+      lore:
+        - "&7&f< パスワード枠 > &7をクリックしてパスワードを入力"
+        - "&7&f< 2FA 枠 > &7をクリックして 2FA コードを入力（有効な場合）"
+        - "&7緑のボタンを押してログイン"
+        - ""
+        - "&7または &a/login <パスワード> コマンドを使用"
+    password:
+      name: "&e&lパスワード入力欄"
+      lore:
+        - "&7クリックしてパスワードを入力"
+        - ""
+        - "&8現在：&7{chuc}"
+    totp:
+      name: "&d&l2FA コード入力欄"
+      lore:
+        - "&7クリックして 6 桁のコードを入力"
+        - ""
+        - "&8現在：&7{tfa}"
+    close:
+      name: "&c&l閉じる"
+      lore:
+        - "&7このパネルを閉じる"
+  prompt:
+    password: "&eチャットでパスワードを入力してください（&f/cancel &eでキャンセル）："
+    totp: "&dチャットで 2FA コードを入力してください（&f/cancel &dでキャンセル）："
+    captcha: "&6チャットで認証コード &7(&f{captcha}&7) を入力 &8(&f/cancel &8でキャンセル)："
+  hint:
+    captcha-click: "&7認証コード枠をクリックして新しいコードを取得するか、&a/captcha を使ってください"
+    timeout-reopen: "&7入力がタイムアウトしました。パネルを再表示しました。"
+    chua-nhap-mat-khau: "&c✖ 先にパスワードを入力してください！"
+    da-dang-nhap-roi: "&c既にログインしています！"
+    dang-ky-ngay: "&7今すぐ登録：&a/register <パスワード> <確認パスワード>"
+  value:
+    co: "あり"
+    khong: "なし"
+    chua-nhap: "未入力"
+    khong-co: "なし"
+    chua-co: "なし"
+
+commands:
+  chi-choi: "&cこのコマンドはプレイヤーのみ使用できます！"
+  login:
+    usage: "&c使い方：/login <パスワード> [2FAコード]"
+    captcha-usage: "&7構文：&f/login <認証コード> <パスワード> [2FAコード]"
+  register:
+    usage: "&c使い方：/register <パスワード> <確認パスワード>"
+    captcha-usage: "&c使い方：/register <認証コード> <パスワード> <確認パスワード>"
+  changepassword:
+    usage: "&c使い方：/changepassword <旧パスワード> <新パスワード>"
+  captcha:
+    off: "&c認証コードは現在無効です！"
+  gui:
+    off: "&cログイン GUI は設定で無効になっています！"
+    use-login: "&7コマンドを使用：&f/login <パスワード>"
+  logout:
+    not-logged-in: "&c⚠ ログインしていません！"
+  2fa:
+    off: "&c2FA は設定で無効になっています！"
+    not-authenticated: "&c⚠ 先にログインしてください！"
+    setup-header: "&6&l═══════ 2FA 設定 &6&l═══════"
+    setup-huong-dan: "&eQR コードをスキャンするか、秘密鍵を手動で Google Authenticator に入力してください："
+    setup-secret: "&a秘密鍵：&f{secret}"
+    setup-buoc-2: "&e追加したら、現在のコードを入力してください："
+    setup-lenh: "&a/2fa confirm <{digits}桁コード>"
+    setup-otpauth: "&7otpauth URL：&f{url}"
+    setup-luu-y: "&8注意：秘密鍵は AES-GCM で暗号化してデータベースに保存されます。"
+    setup-footer: "&6&l═══════════════════════════════"
+    confirm-usage: "&c使い方：/2fa confirm <6桁コード>"
+    disable-usage: "&c使い方：/2fa disable <現在の6桁コード>"
+    status-header: "&6&l═══════ 2FA ステータス &6&l═══════"
+    status-label: "&e状態："
+    status-on: "&a✔ 有効"
+    status-off: "&c✘ 無効"
+    status-footer: "&6&l═══════════════════════════════"
+    help-header: "&6&l═══════ 2FA コマンド &6&l═══════"
+    help-enable: "&e/2fa enable &7- 2FA を有効にする"
+    help-confirm: "&e/2fa confirm <code> &7- 有効化を確認"
+    help-disable: "&e/2fa disable <code> &7- 2FA を無効にする"
+    help-status: "&e/2fa status &7- 状態を表示"
+    help-footer: "&6&l═══════════════════════════════"
+
+admin:
+  su-dung-unregister: "&c使い方：/blogin unregister <プレイヤー>"
+  su-dung-info: "&c使い方：/blogin info <プレイヤー>"
+  su-dung-force: "&c使い方：/blogin force <プレイヤー>"
+  su-dung-unlock: "&c使い方：/blogin unlock <プレイヤー>"
+  su-dung-reset: "&c使い方：/blogin reset <プレイヤー> <新しいパスワード>"
+  su-dung-2fa: "&c使い方：/blogin 2fa <プレイヤー> <on|off|secret>"
+  reload-thanh-cong: "&a✔ Blogin の設定を再読み込みしました！"
+  unregister-thanh-cong: "&a✔ {player} さんのアカウントを削除しました！"
+  force-login: "&a✔ {player} さんのログインを強制しました！"
+  reset-thanh-cong: "&a✔ &e{player} &aさんのパスワードをリセットしました"
+  reset-that-bai: "&cリセットに失敗しました（パスワードが条件を満たさない、またはアカウントが見つかりません）。"
+  mo-khoa-thanh-cong: "&a✔ アカウントのロックを解除しました：&e{player}"
+  quyen: "&c❌ このコマンドを使用する権限がありません！"
+  khong-tim-thay: "&cプレイヤーが見つかりません：&f{player}"
+  khong-online: "&cプレイヤーはオフラインです：&f{player}"
+  2fa-bat: "&a✔ &e{player} &aさんに 2FA を有効にしました"
+  2fa-tat: "&a✔ &e{player} &aさんの 2FA を無効にしました"
+  2fa-secret: "&e&b{player} &eの 2FA 秘密鍵：&f{secret}"
+  2fa-chua-thiet-lap: "&cこのプレイヤーはまだ 2FA を設定していません。"
+  info-header: "&6&l═══════ {player} の情報 ═══════"
+  info-uuid: "&eUUID：&f{uuid}"
+  info-status: "&e状態：{status}"
+  info-2fa: "&e2FA：{status}"
+  info-ip: "&e登録 IP：&f{ip}"
+  info-last-login: "&e前回のログイン：&f{time}"
+  info-login-count: "&e総ログイン回数：&f{count}"
+  info-registered: "&e登録日：&f{time}"
+  info-footer: "&6&l═══════════════════════════════"
+  status-on: "&a✔ ログイン済み"
+  status-off: "&c✘ 未ログイン"
+  bat-2fa: "&a有効"
+  tat-2fa: "&c無効"
+  chua-dang-nhap: "未ログイン"
+  chua-co-ip: "なし"
+  list-header: "&6&l═══════ アカウント一覧 &7({current}/{max}) &6&l═══════"
+  list-empty: "&8アカウントが見つかりません。"
+  list-item: "&8• &f{player} &8| &7ログイン：&f{count} &8| &7{time}"
+  list-next: "&7次のページ：&f/blogin list {page}"
+  status-header: "&6&l═══════ Blogin ステータス &6&l═══════"
+  status-version: "&eバージョン：&f{version}"
+  status-database: "&eデータベース：&f{type} &8(プール &f{pool}&8)"
+  status-tai-khoan: "&e登録アカウント：&f{count}"
+  status-2fa: "&e2FA 有効アカウント：&f{count}"
+  status-dang-nhap-24h: "&e24時間のログイン：&f{count}"
+  status-tong-dang-nhap: "&e総ログイン回数：&f{count}"
+  status-online: "&eオンラインプレイヤー：&f{count}"
+  status-da-dang-nhap: "&eログイン済み：&f{count}"
+  status-captcha: "&e認証コード：&f{status}"
+  status-2fa-bat: "&e2FA：&f{status}"
+  status-bcrypt: "&eBCrypt コスト：&f{count}"
+  status-footer: "&6&l════════════════════════════════"
+  bat: "&a有効"
+  tat: "&c無効"
+  help-header: "&6&l═══════ Blogin 管理者コマンド &6&l═══════"
+  help-reload: "&e/blogin reload &7- 設定を再読み込み"
+  help-unregister: "&e/blogin unregister <player> &7- アカウントを削除"
+  help-info: "&e/blogin info <player> &7- アカウント情報を表示"
+  help-force: "&e/blogin force <player> &7- ログインを強制"
+  help-unlock: "&e/blogin unlock <player> &7- ロックを解除"
+  help-reset: "&e/blogin reset <player> <パスワード> &7- パスワードをリセット"
+  help-2fa: "&e/blogin 2fa <player> <on|off|secret> &7- 2FA を管理"
+  help-list: "&e/blogin list [ページ] &7- アカウント一覧"
+  help-status: "&e/blogin status &7- サーバーステータス"
+  help-gui: "&e/blogin gui &7- ログイン GUI を開く"
+  help-language: "&e/blogin language <コード> &7- 言語を変更"
+  help-footer: "&6&l════════════════════════════════"
+
+
+language:
+  display-name: "日本語"
+
+  header: "&6&l═══════ Blogin 言語設定 &6&l═══════"
+  current: "&e現在の言語：&f{lang}"
+  changed: "&a✔ 言語を &f{lang} に変更しました"
+  server-default: "&eサーバーの既定言語：&f{lang}"
+  available: "&e利用可能な言語：&f{list}"
+  invalid: "&c言語コードが無効です！/blogin language <コード> を使ってください"
+  usage: "&c使い方：/blogin language <コード>"
+  select: "&7コードを入力して言語を選択してください："
+  footer: "&6&l═══════════════════════════════"
+
+welcome:
+  title-chao:
+    line1: "&6&l✦ &e&lようこそ &6&l✦"
+    line2-new: "&b&l{player} &fさんがサーバーに参加しました！"
+    line2-back: "&b&l{player} &7さんが戻ってきました！"
+  actionbar:
+    text-new: "&a&l➤ &e新メンバー &b&l{player} &e&lさんを歓迎！"
+    text-back: "&a&l➤ &eおかえりなさい &b&l{player} &e&lさん！"
+    text-back-short: "&e&lBlogin &7» &fおかえりなさい &b{player} &fさん！"
+  bossbar-text-green: "&a⏰ &fログインまで &a{time} 秒！"
+  bossbar-text-yellow: "&e⏰ &fログインまで &e{time} 秒！"
+  bossbar-text-red: "&c⏰ &fログインまで &c{time} 秒！"
+  bossbar-timeout-title: "&e⏰ &f残りログイン時間"
+  bossbar-login-thanh-cong: "&a&l✦ &eようこそ &b{player} &a✦"
+  bossbar-dang-ky-thanh-cong: "&6&l🎉 &e新メンバー &b{player} &6🎉さんを歓迎！"
+  tin-chao-moi: |
+    &6&l✦══════════════════════════════════✦
+    &e&l   🌟 新メンバーを歓迎します 🌟
+    &6&l✦══════════════════════════════════✦
+    &f   ▶ &b{player} &fさんがサーバーに参加しました！
+    &7   あいさつして助けてあげましょう！
+    &6&l✦══════════════════════════════════✦
+  tin-chao-lai: "&a&l➤ &e{player} &7さんがサーバーに戻りました！"
+  tin-dang-ky-thanh-cong: |
+    &6&l★═══════════════════════════════════★
+    &e   🎉 &b&l{player} &e&lさんがアカウントを登録しました！
+    &7   新メンバーを欢迎しましょう！
+    &6&l★═══════════════════════════════════★
+  thong-bao-join: "&8» &b{player} &7さんがサーバーに参加しました！"
+  title-login-thanh-cong:
+    line1: "&a&l✔ 成功 &a&l✔"
+    line2: "&fこんにちは &b{player}&f さん！"
+  title-dang-ky-thanh-cong:
+    line1: "&6&l✦ &e&lようこそ &6&l✦"
+    line2: "&b&l{player} &fさんがサーバーに参加しました！"
+
+misc:
+  do-ma-ngau:
+    label: "&8» &7強度："
+    label-moi: "&8» &7新しいパスワードの強度："
+    label-hien-tai: "&8» &7現在の強度："
+    label-da-nhap: "&8» &7入力したパスワードの強度："
+    "0": "&c&l非常に弱い"
+    "1": "&c&l弱い"
+    "2": "&e&l普通"
+    "3": "&a&l良い"
+    "4": "&b&l強い"
+    "5": "&d&l非常に強い"
+  goi-y:
+    chung: "&7ヒント：大文字・小文字・数字・記号を組み合わせましょう。"
+    manh: "&7ヒント：大文字・小文字・数字・記号を組み合わせ、8 文字以上にしましょう。"
+  chat:
+    huy: "&7入力をキャンセルしました。"
+    invalid: "&c✖ 入力が不正です。もう一度お試しください。"
+    saved-password: "&a✔ パスワードを保存しました。緑のボタンでログインしてください。"
+    saved-totp: "&a✔ 2FA コードを保存しました。緑のボタンでログインしてください。"
+    captcha-ok: "&a✔ 認証コードを確認しました。緑のボタンでログインしてください。"

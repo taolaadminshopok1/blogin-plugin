@@ -1,0 +1,312 @@
+# =====================================================
+#  Blogin - 한국어 (ko)
+#  언어 코드: ko
+# =====================================================
+
+
+tin-nhap:
+  - "&6&l✦ &e&lBLOGIN &6&l✦"
+  - "&f&b{player}&f님, 서버에 오신 것을 환영합니다!"
+  - "&7&a/login <비밀번호> 로 로그인해 주세요"
+  - "&7계정이 없으시면 &a/register <비밀번호> <비밀번호> 를 사용하세요"
+
+tin-nhan:
+  da-dang-nhap: "&a✔ 로그인 성공! 다시 오신 것을 환영합니다, {player}님!"
+  da-dang-xuat: "&e👋 로그아웃되었습니다!"
+  dang-ky-thanh-cong: "&a✔ 계정이 생성되었습니다! 자동으로 로그인되었습니다."
+  sai-mat-khau: "&c❌ 비밀번호가 틀렸습니다! 잠금되기까지 {remaining}회 남았습니다."
+  mat-khau-da-thay-doi: "&a✔ 비밀번호가 성공적으로 변경되었습니다!"
+  tai-khoan-da-ton-tai: "&c❌ 이미 존재하는 계정입니다! /login 을 사용하세요."
+  chua-dang-ky: "&c❌ 계정이 없습니다! /register <비밀번호> <비밀번호> 를 사용하세요."
+  da-dang-nhap-roi: "&c⚠ 이미 로그인되어 있습니다!"
+  chua-dang-nhap: "&c⚠ 로그인하지 않았습니다!"
+  mat-khau-khong-khop: "&c❌ 비밀번호 확인이 일치하지 않습니다!"
+  mat-khau-qua-ngan: "&c❌ 비밀번호는 최소 {min}자 이상이어야 합니다!"
+  mat-khau-qua-dai: "&c❌ 비밀번호는 {max}자를 초과할 수 없습니다!"
+  mat-khau-yeu: "&c❌ 비밀번호에는 대문자, 소문자, 숫자가 포함되어야 합니다!"
+  bi-khoa: "&c⛔ 계정이 잠겼습니다! {time}초 후에 다시 시도하세요."
+  het-thoi-gian: "&c⏰ 로그인 시간이 만료되었습니다! 서버에서 추방되었습니다."
+  canh-bao-thoi-gian: "&e⏰ 로그인까지 {time}초 남았습니다!"
+  loi-chung: "&c✖ 오류가 발생했습니다. 다시 시도해 주세요!"
+  su-dung-sai: "&c잘못된 사용법입니다!"
+  sai-2fa: "&c❌ 2FA 코드가 올바르지 않습니다!"
+  can-2fa: "&e🔐 이 계정에는 2FA 코드가 필요합니다: /login <비밀번호> <6자리 코드>"
+  bat-2fa-thanh-cong: "&a✔ 계정에 2FA가 활성화되었습니다!"
+  tat-2fa-thanh-cong: "&a✔ 계정에서 2FA가 비활성화되었습니다!"
+  ip-blocked: "&c⛔ IP가 일시적으로 차단되었습니다. 잠시 후 다시 시도하세요!"
+  qua-nhieu-lan-dang-nhap: "&c⛔ IP가 동시 로그인 {max}건 한도에 도달했습니다!"
+  admin-reset-mat-khau: "&e관리자가 비밀번호를 초기화했습니다. 다시 로그인해 주세요."
+  admin-xoa-tai-khoan: "&c관리자가 계정을 삭제했습니다!"
+  tu-dong-dang-nhap-ip: "&7🔒 &f자동 로그인 — IP가 인증되었습니다."
+  admin-nhac-bat-2fa: "&e⏰ &7당신은 관리자입니다. 2FA를 활성화해 계정을 보호하세요: &a/2fa enable"
+
+canh-bao:
+  chat: "&c⚠ 채팅하기 전에 로그인해야 합니다!"
+  lenh: "&c⚠ 먼저 로그인해 주세요!"
+  di-chuyen: "&c⚠ 로그인 전에는 이동할 수 없습니다!"
+  pha-khoi: "&c⚠ 로그인 전에는 블록을 부술 수 없습니다!"
+  tan-cong: "&c⚠ 로그인 전에는 공격할 수 없습니다!"
+  tuong-tac: "&c⚠ 로그인 전에는 상호작용할 수 없습니다!"
+
+captcha:
+  tin-nhan-captcha: "&e[캡차] &f코드를 입력하세요: &a&l{captcha}"
+  tin-nhan-sai: "&c❌ 캡차 코드가 틀렸습니다! /captcha 로 새 코드를 받으세요"
+  off: "&c캡차가 현재 비활성화되어 있습니다!"
+
+gui:
+  tieu-de: "&8✦ &6&lBLOGIN &8✦ &7| &f{player}"
+  item:
+    head:
+      name: "&6&l✦ &e&lBLOGIN &6&l✦"
+      lore:
+        - "&7안녕하세요, &f{player}&7님!"
+        - "&7계속하려면 로그인해 주세요."
+    info:
+      name: "&e&l로그인 정보"
+      lore:
+        - "&7계정: &f{player}"
+        - "&7IP: &f{ip}"
+        - "&7가입 여부: &f{status}"
+        - "&7남은 시도 횟수: &f{remaining}"
+        - ""
+        - "&8비밀번호는 BCrypt로 저장됩니다"
+    captcha:
+      name: "&6&l캡차 코드"
+      lore:
+        - "&7현재 코드: &a&l{captcha}"
+        - "&7클릭하면 새 코드가 생성됩니다."
+      lore-rong: "&7아직 캡차 코드가 없습니다."
+      off-name: "&a&l✔ 캡차 건너뜀"
+      off-lore: "&7설정에서 캡차가 비활성화되어 있습니다."
+    login:
+      name: "&a&l로그인"
+      lore:
+        - "&7클릭하여 로그인을 확인"
+        - ""
+        - "&7입력한 비밀번호: &f{chuc}"
+        - "&72FA: &f{tfa}"
+        - "&7캡차: &f{cap}"
+        - ""
+        - "&eShift + 클릭하여 닫기"
+    help:
+      name: "&b&l도움말"
+      lore:
+        - "&7&f< 비밀번호 칸 > &7을 클릭하여 비밀번호 입력"
+        - "&7&f< 2FA 칸 > &7을 클릭하여 2FA 코드 입력 (활성화된 경우)"
+        - "&7초록 버튼을 눌러 로그인"
+        - ""
+        - "&7또는 &a/login <비밀번호> 명령어 사용"
+    password:
+      name: "&e&l비밀번호 입력 칸"
+      lore:
+        - "&7클릭하여 비밀번호 입력"
+        - ""
+        - "&8현재: &7{chuc}"
+    totp:
+      name: "&d&l2FA 코드 입력 칸"
+      lore:
+        - "&7클릭하여 6자리 코드 입력"
+        - ""
+        - "&8현재: &7{tfa}"
+    close:
+      name: "&c&l닫기"
+      lore:
+        - "&7이 패널 닫기"
+  prompt:
+    password: "&e채팅으로 비밀번호를 입력하세요 (&f/cancel &e취소):"
+    totp: "&d채팅으로 2FA 코드를 입력하세요 (&f/cancel &d취소):"
+    captcha: "&6채팅으로 캡차 코드 &7(&f{captcha}&7) 입력 &8(&f/cancel &8취소):"
+  hint:
+    captcha-click: "&7새 코드를 받으려면 캡차 칸을 클릭하거나 &a/captcha 를 사용하세요"
+    timeout-reopen: "&7입력이 시간 초과되어 패널이 다시 열렸습니다."
+    chua-nhap-mat-khau: "&c✖ 먼저 비밀번호를 입력해 주세요!"
+    da-dang-nhap-roi: "&c이미 로그인되어 있습니다!"
+    dang-ky-ngay: "&7지금 가입: &a/register <비밀번호> <비밀번호 확인>"
+  value:
+    co: "예"
+    khong: "아니오"
+    chua-nhap: "입력 안 됨"
+    khong-co: "없음"
+    chua-co: "없음"
+
+commands:
+  chi-choi: "&c이 명령어는 플레이어 전용입니다!"
+  login:
+    usage: "&c사용법: /login <비밀번호> [2FA 코드]"
+    captcha-usage: "&7문법: &f/login <캡차> <비밀번호> [2FA 코드]"
+  register:
+    usage: "&c사용법: /register <비밀번호> <비밀번호 확인>"
+    captcha-usage: "&c사용법: /register <캡차> <비밀번호> <비밀번호 확인>"
+  changepassword:
+    usage: "&c사용법: /changepassword <기존 비밀번호> <새 비밀번호>"
+  captcha:
+    off: "&c캡차가 현재 비활성화되어 있습니다!"
+  gui:
+    off: "&c로그인 GUI가 설정에서 비활성화되어 있습니다!"
+    use-login: "&7명령어 사용: &f/login <비밀번호>"
+  logout:
+    not-logged-in: "&c⚠ 로그인하지 않았습니다!"
+  2fa:
+    off: "&c2FA가 설정에서 비활성화되어 있습니다!"
+    not-authenticated: "&c⚠ 먼저 로그인해야 합니다!"
+    setup-header: "&6&l═══════ 2FA 설정 &6&l═══════"
+    setup-huong-dan: "&eQR 코드를 스캔하거나 시크릿 키를 Google Authenticator에 직접 입력하세요:"
+    setup-secret: "&a시크릿: &f{secret}"
+    setup-buoc-2: "&e추가한 후 현재 코드를 입력하세요:"
+    setup-lenh: "&a/2fa confirm <{digits}자리 코드>"
+    setup-otpauth: "&7otpauth URL: &f{url}"
+    setup-luu-y: "&8참고: 시크릿은 AES-GCM으로 암호화되어 데이터베이스에 저장됩니다."
+    setup-footer: "&6&l═══════════════════════════════"
+    confirm-usage: "&c사용법: /2fa confirm <6자리 코드>"
+    disable-usage: "&c사용법: /2fa disable <현재 6자리 코드>"
+    status-header: "&6&l═══════ 2FA 상태 &6&l═══════"
+    status-label: "&e상태: "
+    status-on: "&a✔ 활성화됨"
+    status-off: "&c✘ 비활성화됨"
+    status-footer: "&6&l═══════════════════════════════"
+    help-header: "&6&l═══════ 2FA 명령어 &6&l═══════"
+    help-enable: "&e/2fa enable &7- 2FA 활성화"
+    help-confirm: "&e/2fa confirm <code> &7- 활성화 확인"
+    help-disable: "&e/2fa disable <code> &7- 2FA 비활성화"
+    help-status: "&e/2fa status &7- 상태 보기"
+    help-footer: "&6&l═══════════════════════════════"
+
+admin:
+  su-dung-unregister: "&c사용법: /blogin unregister <플레이어>"
+  su-dung-info: "&c사용법: /blogin info <플레이어>"
+  su-dung-force: "&c사용법: /blogin force <플레이어>"
+  su-dung-unlock: "&c사용법: /blogin unlock <플레이어>"
+  su-dung-reset: "&c사용법: /blogin reset <플레이어> <새 비밀번호>"
+  su-dung-2fa: "&c사용법: /blogin 2fa <플레이어> <on|off|secret>"
+  reload-thanh-cong: "&a✔ Blogin 설정을 다시 불러왔습니다!"
+  unregister-thanh-cong: "&a✔ {player}님의 계정을 삭제했습니다!"
+  force-login: "&a✔ {player}님의 로그인을 강제했습니다!"
+  reset-thanh-cong: "&a✔ &e{player}님의 비밀번호를 초기화했습니다"
+  reset-that-bai: "&c초기화 실패 (비밀번호가 조건을 충족하지 않거나 계정을 찾을 수 없음)."
+  mo-khoa-thanh-cong: "&a✔ 계정 잠금 해제: &e{player}"
+  quyen: "&c❌ 이 명령어를 사용할 권한이 없습니다!"
+  khong-tim-thay: "&c플레이어를 찾을 수 없습니다: &f{player}"
+  khong-online: "&c플레이어가 접속 중이 아닙니다: &f{player}"
+  2fa-bat: "&a✔ &e{player}님에 대해 2FA를 활성화했습니다"
+  2fa-tat: "&a✔ &e{player}님의 2FA를 비활성화했습니다"
+  2fa-secret: "&e&b{player} &e님의 2FA 시크릿: &f{secret}"
+  2fa-chua-thiet-lap: "&c이 플레이어는 아직 2FA를 설정하지 않았습니다."
+  info-header: "&6&l═══════ {player} 정보 ═══════"
+  info-uuid: "&eUUID: &f{uuid}"
+  info-status: "&e상태: {status}"
+  info-2fa: "&e2FA: {status}"
+  info-ip: "&e등록된 IP: &f{ip}"
+  info-last-login: "&e마지막 로그인: &f{time}"
+  info-login-count: "&e총 로그인 횟수: &f{count}"
+  info-registered: "&e가입일: &f{time}"
+  info-footer: "&6&l═══════════════════════════════"
+  status-on: "&a✔ 로그인됨"
+  status-off: "&c✘ 로그인 안 됨"
+  bat-2fa: "&a활성화"
+  tat-2fa: "&c비활성화"
+  chua-dang-nhap: "로그인한 적 없음"
+  chua-co-ip: "없음"
+  list-header: "&6&l═══════ 계정 목록 &7({current}/{max}) &6&l═══════"
+  list-empty: "&8계정이 없습니다."
+  list-item: "&8• &f{player} &8| &7로그인: &f{count} &8| &7{time}"
+  list-next: "&7다음 페이지: &f/blogin list {page}"
+  status-header: "&6&l═══════ Blogin 상태 &6&l═══════"
+  status-version: "&e버전: &f{version}"
+  status-database: "&e데이터베이스: &f{type} &8(풀 &f{pool}&8)"
+  status-tai-khoan: "&e등록된 계정: &f{count}"
+  status-2fa: "&e2FA 활성화 계정: &f{count}"
+  status-dang-nhap-24h: "&e24시간 로그인: &f{count}"
+  status-tong-dang-nhap: "&e총 로그인 횟수: &f{count}"
+  status-online: "&e접속 중인 플레이어: &f{count}"
+  status-da-dang-nhap: "&e로그인됨: &f{count}"
+  status-captcha: "&e캡차: &f{status}"
+  status-2fa-bat: "&e2FA: &f{status}"
+  status-bcrypt: "&eBCrypt 비용: &f{count}"
+  status-footer: "&6&l════════════════════════════════"
+  bat: "&a활성화"
+  tat: "&c비활성화"
+  help-header: "&6&l═══════ Blogin 관리자 명령어 &6&l═══════"
+  help-reload: "&e/blogin reload &7- 설정 다시 불러오기"
+  help-unregister: "&e/blogin unregister <player> &7- 계정 삭제"
+  help-info: "&e/blogin info <player> &7- 계정 정보 보기"
+  help-force: "&e/blogin force <player> &7- 로그인 강제"
+  help-unlock: "&e/blogin unlock <player> &7- 잠금 해제"
+  help-reset: "&e/blogin reset <player> <비밀번호> &7- 비밀번호 초기화"
+  help-2fa: "&e/blogin 2fa <player> <on|off|secret> &7- 2FA 관리"
+  help-list: "&e/blogin list [페이지] &7- 계정 목록"
+  help-status: "&e/blogin status &7- 서버 상태"
+  help-gui: "&e/blogin gui &7- 로그인 GUI 열기"
+  help-language: "&e/blogin language <코드> &7- 언어 변경"
+  help-footer: "&6&l════════════════════════════════"
+
+
+language:
+  display-name: "한국어"
+
+  header: "&6&l═══════ Blogin 언어 &6&l═══════"
+  current: "&e현재 언어: &f{lang}"
+  changed: "&a✔ 언어가 &f{lang}(으)로 변경되었습니다"
+  server-default: "&e서버 기본 언어: &f{lang}"
+  available: "&e사용 가능한 언어: &f{list}"
+  invalid: "&c잘못된 언어 코드입니다! /blogin language <코드> 를 사용하세요"
+  usage: "&c사용법: /blogin language <코드>"
+  select: "&7코드를 입력하여 언어를 선택하세요:"
+  footer: "&6&l═══════════════════════════════"
+
+welcome:
+  title-chao:
+    line1: "&6&l✦ &e&l환영합니다 &6&l✦"
+    line2-new: "&b&l{player} &f님이 서버에 접속했습니다!"
+    line2-back: "&b&l{player} &7님이 다시 오셨습니다!"
+  actionbar:
+    text-new: "&a&l➤ &e새 멤버 &b&l{player} &e&l님을 환영합니다!"
+    text-back: "&a&l➤ &e다시 오신 것을 환영합니다 &b&l{player} &e&l님!"
+    text-back-short: "&e&lBlogin &7» &f다시 오신 것을 환영합니다 &b{player} &f님!"
+  bossbar-text-green: "&a⏰ &f로그인까지 &a{time}초 남습니다!"
+  bossbar-text-yellow: "&e⏰ &f로그인까지 &e{time}초 남습니다!"
+  bossbar-text-red: "&c⏰ &f로그인까지 &c{time}초 남습니다!"
+  bossbar-timeout-title: "&e⏰ &f남은 로그인 시간"
+  bossbar-login-thanh-cong: "&a&l✦ &e환영합니다 &b{player} &a✦"
+  bossbar-dang-ky-thanh-cong: "&6&l🎉 &e새 멤버 &b{player} &6🎉님을 환영합니다!"
+  tin-chao-moi: |
+    &6&l✦══════════════════════════════════✦
+    &e&l   🌟 새 멤버를 환영합니다 🌟
+    &6&l✦══════════════════════════════════✦
+    &f   ▶ &b{player} &f님이 서버에 접속했습니다!
+    &7   인사하고 도와주세요!
+    &6&l✦══════════════════════════════════✦
+  tin-chao-lai: "&a&l➤ &e{player} &7님이 서버에 돌아오셨습니다!"
+  tin-dang-ky-thanh-cong: |
+    &6&l★═══════════════════════════════════★
+    &e   🎉 &b&l{player} &e&l님이 계정을 만들었습니다!
+    &7   새 멤버를 환영해 주세요!
+    &6&l★═══════════════════════════════════★
+  thong-bao-join: "&8» &b{player} &7님이 서버에 접속했습니다!"
+  title-login-thanh-cong:
+    line1: "&a&l✔ 성공 &a&l✔"
+    line2: "&f안녕하세요 &b{player}&f님!"
+  title-dang-ky-thanh-cong:
+    line1: "&6&l✦ &e&l환영합니다 &6&l✦"
+    line2: "&b&l{player} &f님이 서버에 접속했습니다!"
+
+misc:
+  do-ma-ngau:
+    label: "&8» &7강도: "
+    label-moi: "&8» &7새 비밀번호 강도: "
+    label-hien-tai: "&8» &7현재 강도: "
+    label-da-nhap: "&8» &7입력한 비밀번호 강도: "
+    "0": "&c&l매우 약함"
+    "1": "&c&l약함"
+    "2": "&e&l보통"
+    "3": "&a&l좋음"
+    "4": "&b&l강함"
+    "5": "&d&l매우 강함"
+  goi-y:
+    chung: "&7팁: 대문자, 소문자, 숫자, 특수문자를 조합하세요."
+    manh: "&7팁: 대문자, 소문자, 숫자, 특수문자를 조합하고 최소 8자 이상 사용하세요."
+  chat:
+    huy: "&7입력을 취소했습니다."
+    invalid: "&c✖ 잘못된 입력입니다. 다시 시도해 주세요."
+    saved-password: "&a✔ 비밀번호가 저장되었습니다. 초록 버튼을 눌러 로그인하세요."
+    saved-totp: "&a✔ 2FA 코드가 저장되었습니다. 초록 버튼을 눌러 로그인하세요."
+    captcha-ok: "&a✔ 캡차가 확인되었습니다. 초록 버튼을 눌러 로그인하세요."

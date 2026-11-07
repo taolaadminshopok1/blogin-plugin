@@ -1,0 +1,339 @@
+# =====================================================
+#  Blogin - English Language File (en)
+#  Feel free to edit this file. Language code: en
+# =====================================================
+
+# =====================================================
+#  JOIN MESSAGES (shown one by one, 1 second apart)
+# =====================================================
+tin-nhap:
+  - "&6&l✦ &e&lBLOGIN &6&l✦"
+  - "&fWelcome &b{player}&f to the server!"
+  - "&7Please log in with &a/login <password>"
+  - "&7No account yet? Use &a/register <pw> <pw>"
+
+# =====================================================
+#  SYSTEM MESSAGES
+# =====================================================
+tin-nhan:
+  da-dang-nhap: "&a✔ Successfully logged in! Welcome back, {player}!"
+  da-dang-xuat: "&e👋 Logged out of your account!"
+  dang-ky-thanh-cong: "&a✔ Account registered! You are now logged in automatically."
+  sai-mat-khau: "&c❌ Wrong password! {remaining} attempt(s) left before you get locked."
+  mat-khau-da-thay-doi: "&a✔ Password changed successfully!"
+  tai-khoan-da-ton-tai: "&c❌ Account already exists! Use /login instead."
+  chua-dang-ky: "&c❌ You don't have an account! Use /register <password> <password>."
+  da-dang-nhap-roi: "&c⚠ You are already logged in!"
+  chua-dang-nhap: "&c⚠ You are not logged in!"
+  mat-khau-khong-khop: "&c❌ Password confirmation does not match!"
+  mat-khau-qua-ngan: "&c❌ Password must be at least {min} characters long!"
+  mat-khau-qua-dai: "&c❌ Password must not exceed {max} characters!"
+  mat-khau-yeu: "&c❌ Password must contain upper case, lower case and digits!"
+  bi-khoa: "&c⛔ Your account is locked! Try again in {time} seconds."
+  het-thoi-gian: "&c⏰ Login time expired! You have been kicked from the server."
+  canh-bao-thoi-gian: "&e⏰ {time} seconds left to log in!"
+  loi-chung: "&c✖ Something went wrong, please try again!"
+  su-dung-sai: "&cIncorrect usage!"
+  sai-2fa: "&c❌ Incorrect 2FA code!"
+  can-2fa: "&e🔐 This account requires a 2FA code. Use: /login <password> <6-digit code>"
+  bat-2fa-thanh-cong: "&a✔ 2FA has been enabled for your account!"
+  tat-2fa-thanh-cong: "&a✔ 2FA has been disabled for your account!"
+  ip-blocked: "&c⛔ Your IP is temporarily blocked, please try again later!"
+  qua-nhieu-lan-dang-nhap: "&c⛔ Your IP has reached the limit of {max} simultaneous login sessions!"
+  admin-reset-mat-khau: "&eYour password was reset by an admin, please log in again."
+  admin-xoa-tai-khoan: "&cYour account was deleted by an admin!"
+  tu-dong-dang-nhap-ip: "&7🔒 &fAuto-login — your IP has been verified."
+  admin-nhac-bat-2fa: "&e⏰ &7You are an admin — enable 2FA to protect your account: &a/2fa enable"
+
+# =====================================================
+#  WARNINGS WHILE NOT LOGGED IN
+# =====================================================
+canh-bao:
+  chat: "&c⚠ You need to log in before chatting!"
+  lenh: "&c⚠ Please log in first!"
+  di-chuyen: "&c⚠ You can't move before logging in!"
+  pha-khoi: "&c⚠ You can't break blocks before logging in!"
+  tan-cong: "&c⚠ You can't attack before logging in!"
+  tuong-tac: "&c⚠ You can't interact before logging in!"
+
+# =====================================================
+#  CAPTCHA
+# =====================================================
+captcha:
+  tin-nhan-captcha: "&e[Captcha] &fPlease enter the code: &a&l{captcha}"
+  tin-nhan-sai: "&c❌ Wrong captcha code! Use /captcha to get a new one"
+  off: "&cCaptcha is currently disabled!"
+
+# =====================================================
+#  LOGIN GUI (CHEST GUI)
+# =====================================================
+gui:
+  tieu-de: "&8✦ &6&lBLOGIN &8✦ &7| &f{player}"
+  item:
+    head:
+      name: "&6&l✦ &e&lBLOGIN &6&l✦"
+      lore:
+        - "&7Hello, &f{player}&7!"
+        - "&7Please log in to continue."
+    info:
+      name: "&e&lLOGIN INFO"
+      lore:
+        - "&7Account: &f{player}"
+        - "&7IP: &f{ip}"
+        - "&7Registered: &f{status}"
+        - "&7Attempts left: &f{remaining}"
+        - ""
+        - "&8Passwords are stored with BCrypt"
+    captcha:
+      name: "&6&lCAPTCHA CODE"
+      lore:
+        - "&7Current code: &a&l{captcha}"
+        - "&7Click to get a new code."
+      lore-rong: "&7You don't have a captcha code yet."
+      off-name: "&a&l✔ CAPTCHA SKIPPED"
+      off-lore: "&7Captcha is disabled in the config."
+    login:
+      name: "&a&lLOG IN"
+      lore:
+        - "&7Click to confirm your login"
+        - ""
+        - "&7Password entered: &f{chuc}"
+        - "&72FA: &f{tfa}"
+        - "&7Captcha: &f{cap}"
+        - ""
+        - "&eShift + Click to close"
+    help:
+      name: "&b&lHELP"
+      lore:
+        - "&7Click &f< password slot > &7to enter your password"
+        - "&7Click &f< 2FA slot > &7to enter your 2FA code (if enabled)"
+        - "&7Click the green button to log in"
+        - ""
+        - "&7Or use the command &a/login <password>"
+    password:
+      name: "&e&lPASSWORD SLOT"
+      lore:
+        - "&7Click to enter your password"
+        - ""
+        - "&8Current: &7{chuc}"
+    totp:
+      name: "&d&l2FA CODE SLOT"
+      lore:
+        - "&7Click to enter your 6-digit code"
+        - ""
+        - "&8Current: &7{tfa}"
+    close:
+      name: "&c&lCLOSE"
+      lore:
+        - "&7Close this panel"
+  prompt:
+    password: "&eType your password in chat (type &f/cancel &eto abort):"
+    totp: "&dType your 2FA code in chat (type &f/cancel &dto abort):"
+    captcha: "&6Type the captcha code &7(&f{captcha}&7) in chat &8(type &f/cancel &8to abort):"
+  hint:
+    captcha-click: "&7Click the captcha slot above for a new code, or use &a/captcha"
+    timeout-reopen: "&7Input timed out, the panel has been reopened."
+    chua-nhap-mat-khau: "&c✖ Please enter your password first!"
+    da-dang-nhap-roi: "&cYou are already logged in!"
+    dang-ky-ngay: "&7Register now: &a/register <password> <confirm password>"
+  value:
+    co: "Yes"
+    khong: "No"
+    chua-nhap: "Not entered"
+    khong-co: "None"
+    chua-co: "None"
+
+# =====================================================
+#  PLAYER COMMANDS
+# =====================================================
+commands:
+  chi-choi: "&cThis command is for players only!"
+  login:
+    usage: "&cUsage: /login <password> [2FA code]"
+    captcha-usage: "&7Syntax: &f/login <captcha> <password> [2FA code]"
+  register:
+    usage: "&cUsage: /register <password> <confirm password>"
+    captcha-usage: "&cUsage: /register <captcha> <password> <confirm password>"
+  changepassword:
+    usage: "&cUsage: /changepassword <old password> <new password>"
+  captcha:
+    off: "&cCaptcha is currently disabled!"
+  gui:
+    off: "&cThe login GUI is disabled in the config!"
+    use-login: "&7Use the command: &f/login <password>"
+  logout:
+    not-logged-in: "&c⚠ You are not logged in!"
+  2fa:
+    off: "&c2FA is currently disabled in the config!"
+    not-authenticated: "&c⚠ You need to log in first!"
+    setup-header: "&6&l═══════ 2FA Setup &6&l═══════"
+    setup-huong-dan: "&eScan the QR code or enter the secret key manually in Google Authenticator:"
+    setup-secret: "&aSecret: &f{secret}"
+    setup-buoc-2: "&eOnce added, enter the current code:"
+    setup-lenh: "&a/2fa confirm <{digits}-digit code>"
+    setup-otpauth: "&7otpauth URL: &f{url}"
+    setup-luu-y: "&8Note: the secret is stored AES-GCM encrypted in the database."
+    setup-footer: "&6&l═══════════════════════════════"
+    confirm-usage: "&cUsage: /2fa confirm <6-digit code>"
+    disable-usage: "&cUsage: /2fa disable <current 6-digit code>"
+    status-header: "&6&l═══════ 2FA Status &6&l═══════"
+    status-label: "&eStatus: "
+    status-on: "&a✔ Enabled"
+    status-off: "&c✘ Disabled"
+    status-footer: "&6&l═══════════════════════════════"
+    help-header: "&6&l═══════ 2FA Commands &6&l═══════"
+    help-enable: "&e/2fa enable &7- Enable 2FA"
+    help-confirm: "&e/2fa confirm <code> &7- Confirm enabling"
+    help-disable: "&e/2fa disable <code> &7- Disable 2FA"
+    help-status: "&e/2fa status &7- View status"
+    help-footer: "&6&l═══════════════════════════════"
+
+# =====================================================
+#  ADMIN COMMANDS
+# =====================================================
+admin:
+  su-dung-unregister: "&cUsage: /blogin unregister <player>"
+  su-dung-info: "&cUsage: /blogin info <player>"
+  su-dung-force: "&cUsage: /blogin force <player>"
+  su-dung-unlock: "&cUsage: /blogin unlock <player>"
+  su-dung-reset: "&cUsage: /blogin reset <player> <new_password>"
+  su-dung-2fa: "&cUsage: /blogin 2fa <player> <on|off|secret>"
+  reload-thanh-cong: "&a✔ Blogin config reloaded!"
+  unregister-thanh-cong: "&a✔ Deleted the account of {player}!"
+  force-login: "&a✔ Forced {player} to log in!"
+  reset-thanh-cong: "&a✔ Reset the password for &e{player}"
+  reset-that-bai: "&cReset failed (password does not meet requirements or account not found)."
+  mo-khoa-thanh-cong: "&a✔ Unlocked the account: &e{player}"
+  quyen: "&c❌ You don't have permission to use this command!"
+  khong-tim-thay: "&cPlayer not found: &f{player}"
+  khong-online: "&cPlayer is not online: &f{player}"
+  2fa-bat: "&a✔ Enabled 2FA for &e{player}"
+  2fa-tat: "&a✔ Disabled 2FA for &e{player}"
+  2fa-secret: "&e2FA secret for &b{player}&e: &f{secret}"
+  2fa-chua-thiet-lap: "&cThis player has not set up 2FA."
+  info-header: "&6&l═══════ {player} Info ═══════"
+  info-uuid: "&eUUID: &f{uuid}"
+  info-status: "&eStatus: {status}"
+  info-2fa: "&e2FA: {status}"
+  info-ip: "&eRegistered IP: &f{ip}"
+  info-last-login: "&eLast login: &f{time}"
+  info-login-count: "&eTotal logins: &f{count}"
+  info-registered: "&eRegistered on: &f{time}"
+  info-footer: "&6&l═══════════════════════════════"
+  status-on: "&a✔ Logged in"
+  status-off: "&c✘ Not logged in"
+  bat-2fa: "&aEnabled"
+  tat-2fa: "&cDisabled"
+  chua-dang-nhap: "Never logged in"
+  chua-co-ip: "None"
+  list-header: "&6&l═══════ Account List &7({current}/{max}) &6&l═══════"
+  list-empty: "&8No accounts found."
+  list-item: "&8• &f{player} &8| &7Logins: &f{count} &8| &7{time}"
+  list-next: "&7Next page: &f/blogin list {page}"
+  status-header: "&6&l═══════ Blogin Status &6&l═══════"
+  status-version: "&eVersion: &f{version}"
+  status-database: "&eDatabase: &f{type} &8(pool &f{pool}&8)"
+  status-tai-khoan: "&eRegistered accounts: &f{count}"
+  status-2fa: "&eAccounts with 2FA: &f{count}"
+  status-dang-nhap-24h: "&eLogins in the last 24h: &f{count}"
+  status-tong-dang-nhap: "&eTotal logins: &f{count}"
+  status-online: "&ePlayers online: &f{count}"
+  status-da-dang-nhap: "&eLogged in: &f{count}"
+  status-captcha: "&eCaptcha: &f{status}"
+  status-2fa-bat: "&e2FA: &f{status}"
+  status-bcrypt: "&eBCrypt cost: &f{count}"
+  status-footer: "&6&l════════════════════════════════"
+  bat: "&aEnabled"
+  tat: "&cDisabled"
+  help-header: "&6&l═══════ Blogin Admin Commands &6&l═══════"
+  help-reload: "&e/blogin reload &7- Reload the config"
+  help-unregister: "&e/blogin unregister <player> &7- Delete an account"
+  help-info: "&e/blogin info <player> &7- View account info"
+  help-force: "&e/blogin force <player> &7- Force a login"
+  help-unlock: "&e/blogin unlock <player> &7- Unlock an account"
+  help-reset: "&e/blogin reset <player> <pw> &7- Reset a password"
+  help-2fa: "&e/blogin 2fa <player> <on|off|secret> &7- Manage 2FA"
+  help-list: "&e/blogin list [page] &7- List accounts"
+  help-status: "&e/blogin status &7- Server status"
+  help-gui: "&e/blogin gui &7- Open the login GUI"
+  help-language: "&e/blogin language <code> &7- Change your language"
+  help-footer: "&6&l════════════════════════════════"
+
+# =====================================================
+#  LANGUAGE
+# =====================================================
+language:
+  display-name: "English"
+  header: "&6&l═══════ Blogin Language &6&l═══════"
+  current: "&eYour current language: &f{lang}"
+  changed: "&a✔ Your language has been changed to &f{lang}"
+  server-default: "&eServer default language: &f{lang}"
+  available: "&eAvailable languages: &f{list}"
+  invalid: "&cInvalid language code! Use: &f/blogin language <code>"
+  usage: "&cUsage: &f/blogin language <code>"
+  select: "&7Pick a language by typing its code:"
+  footer: "&6&l═══════════════════════════════"
+
+# =====================================================
+#  WELCOME SYSTEM
+# =====================================================
+welcome:
+  title-chao:
+    line1: "&6&l✦ &e&lWELCOME &6&l✦"
+    line2-new: "&b&l{player} &fhas joined the server!"
+    line2-back: "&b&l{player} &7is back!"
+  actionbar:
+    text-new: "&a&l➤ &eWelcome new member &b&l{player} &e&l➤"
+    text-back: "&a&l➤ &eWelcome back &b&l{player} &e&l➤"
+    text-back-short: "&e&lBlogin &7» &fWelcome back &b{player} &f!"
+  bossbar-text-green: "&a⏰ &f{time}s &fleft to log in!"
+  bossbar-text-yellow: "&e⏰ &f{time}s &fleft to log in!"
+  bossbar-text-red: "&c⏰ &f{time}s &fleft to log in!"
+  bossbar-timeout-title: "&e⏰ &fLogin time remaining"
+  bossbar-login-thanh-cong: "&a&l✦ &eWelcome &b{player} &a✦"
+  bossbar-dang-ky-thanh-cong: "&6&l🎉 &eWelcome new member &b{player} &6🎉"
+  tin-chao-moi: |
+    &6&l✦══════════════════════════════════✦
+    &e&l   🌟 WELCOME NEW MEMBER 🌟
+    &6&l✦══════════════════════════════════✦
+    &f   ▶ &b{player} &fhas joined the server!
+    &7   Say hi and give them some help!
+    &6&l✦══════════════════════════════════✦
+  tin-chao-lai: "&a&l➤ &e{player} &7is back on the server!"
+  tin-dang-ky-thanh-cong: |
+    &6&l★═══════════════════════════════════★
+    &e   🎉 &b&l{player} &e&ljust registered an account!
+    &7   Let's welcome our new member!
+    &6&l★═══════════════════════════════════★
+  thong-bao-join: "&8» &b{player} &7has joined the server!"
+  title-login-thanh-cong:
+    line1: "&a&l✔ SUCCESS &a&l✔"
+    line2: "&fHello &b{player}&f!"
+  title-dang-ky-thanh-cong:
+    line1: "&6&l✦ &e&lWELCOME &6&l✦"
+    line2: "&b&l{player} &fhas joined the server!"
+
+# =====================================================
+#  MISC - PASSWORD STRENGTH & CHAT INPUT
+# =====================================================
+misc:
+  do-ma-ngau:
+    label: "&8» &7Strength: "
+    label-moi: "&8» &7New password strength: "
+    label-hien-tai: "&8» &7Current strength: "
+    label-da-nhap: "&8» &7Entered password strength: "
+    "0": "&c&lVERY WEAK"
+    "1": "&c&lWEAK"
+    "2": "&e&lFAIR"
+    "3": "&a&lGOOD"
+    "4": "&b&lSTRONG"
+    "5": "&d&lVERY STRONG"
+  goi-y:
+    chung: "&7Tip: combine upper case, lower case, digits & special characters."
+    manh: "&7Tip: combine upper case, lower case, digits & special characters, at least 8 characters."
+  chat:
+    huy: "&7Input cancelled."
+    invalid: "&c✖ Invalid input, please try again."
+    saved-password: "&a✔ Password saved. Click the green button to log in."
+    saved-totp: "&a✔ 2FA code saved. Click the green button to log in."
+    captcha-ok: "&a✔ Captcha confirmed. Click the green button to log in."
