@@ -157,6 +157,36 @@ mvn clean package -P paper-26
 
 > **Lưu ý:** Paper đã đổi từ đánh phiên bản `1.21.x` sang `26.x` sau 1.21.11. Profile `paper-26` **bắt buộc JDK 25** vì `paper-api 26.x` dùng bytecode Java 25.
 
+### 📥 Cách build từ mã nguồn
+
+```bash
+git clone https://github.com/taolaadminshopok1/blogin-plugin.git
+cd blogin-plugin
+
+# Windows (PowerShell) - wrapper tu tim Maven & JDK
+.\mvnw.ps1 clean package
+
+# Linux / macOS - dung Maven truc tiep
+mvn clean package
+```
+
+> 💡 `mvnw.ps1` tự động dò **Maven** (PATH, `~/tools/maven`, scoop, Chocolatey, `C:\Program Files\Apache\maven`)
+> và **JDK 17+** (PATH, `~/tools/jdk`, Adoptium, Microsoft, Zulu) → không cần cấu hình gì.
+
+**Kết quả:** `target/Blogin-3.2.0.jar`
+
+### ⚙️ Tự động build bằng GitHub Actions
+
+Repo có sẵn workflow [`.github/workflows/build.yml`](.github/workflows/build.yml):
+
+| Trigger | Hành động |
+|---------|-----------|
+| Push lên `main` / `master` | Build trên JDK 17 + JDK 21, upload artifact |
+| Pull Request | Build & kiểm tra tự động |
+| Push tag `v*` | Build + **tạo GitHub Release** kèm file JAR |
+
+> Badge trạng thái build sẽ xuất hiện trên trang chủ repo sau lần push đầu tiên.
+
 ### 🔧 Bảo mật
 
 ---
@@ -669,6 +699,8 @@ welcome:
 ```
 Blogin/
 ├── pom.xml                          # Maven build config
+├── mvnw.ps1                         # Wrapper Maven (tu tim Maven + JDK)
+├── .github/workflows/build.yml      # CI: build tu dong + tao Release
 ├── src/main/
 │   ├── java/vn/blogin/
 │   │   ├── Blogin.java              # Main class
