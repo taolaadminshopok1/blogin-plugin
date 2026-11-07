@@ -5,7 +5,7 @@
 ![Version](https://img.shields.io/badge/Phiên_bản-3.0.1-brightgreen?style=for-the-badge)
 ![Minecraft](https://img.shields.io/badge/Paper_%2F_Spigot-1.20.1_--_1.21.4-blue?style=for-the-badge)
 ![Java](https://img.shields.io/badge/Java-17%2B-orange?style=for-the-badge)
-![License](https://img.shields.io/badge/License-MIT-purple?style=for-the-badge)
+
 
 **Plugin đăng nhập/đăng ký thế hệ mới dành riêng cho cộng đồng Minecraft Việt Nam.**  
 Tích hợp **Chest GUI đồ hoạ**, **2FA mã hoá AES-GCM**, **BCrypt bất đồng bộ**, **Captcha chống Bot**, **Brute-force Protection** và **Hệ thống hiệu ứng Welcome rực rỡ** — Tối ưu hoá 100% không gây tụt TPS cho server lớn.
