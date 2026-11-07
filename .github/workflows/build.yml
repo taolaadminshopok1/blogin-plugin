@@ -63,5 +63,48 @@ jobs:
       - name: Publish to GitHub Release
         uses: softprops/action-gh-release@v2
         with:
+          name: Blogin ${{ github.ref_name }}
           files: target/Blogin-*.jar
-          generate_release_notes: true
+          draft: false
+          prerelease: false
+          body: |
+            ## 🛡️ Blogin ${{ github.ref_name }}
+
+            > Plugin đăng nhập/đăng ký cho Minecraft — GUI đồ hoạ, bảo mật cao cấp, 2FA, Captcha, hỗ trợ **10 ngôn ngữ**.
+
+            ### 📥 Tải xuống
+            | File | Dùng cho |
+            |------|----------|
+            | `Blogin-${{ github.ref_name }}.jar` | Paper / Spigot **1.20.1 → 1.21.11 → 26.x** |
+
+            > 💡 JAR này được build từ `paper-api 1.20.1` (bytecode Java 17) nên **một file chạy được trên mọi phiên bản**.
+
+            ### 🌍 Ngôn ngữ hỗ trợ
+            🇻🇳 Tiếng Việt · 🇬🇧 English · 🇨🇳 简体中文 · 🇪🇸 Español · 🇫🇷 Français · 🇩🇪 Deutsch · 🇯🇵 日本語 · 🇰🇷 한국어 · 🇷🇺 Русский · 🇵🇹 Português
+
+            ### ⚡ Tính năng
+            - 🖥️ GUI đăng nhập đồ hoạ (đầu người chơi + glint, ô captcha, thanh độ mạnh mật khẩu)
+            - 🔐 BCrypt + tự re-hash khi nâng cost factor
+            - 🛡️ 2FA (TOTP RFC 6238) — secret mã hoá **AES-GCM**
+            - 🤖 Captcha chống bot đăng ký hàng loạt
+            - 🚫 Chống brute-force (khoá theo tài khoản / IP / cả hai)
+            - 🌍 Đa ngôn ngữ tự động theo client + `/blogin language <mã>`
+            - ⚡ Toàn bộ truy vấn DB chạy bất đồng bộ → không block TPS
+            - 🎆 Hệ thống welcome: 12 loại particle, title typewriter, bossbar gradient, pháo hoa
+            - 📦 SQLite / MySQL / MariaDB
+            - 🔌 Tích hợp PlaceholderAPI (13 placeholder)
+
+            ### 📋 Yêu cầu
+            - **Java 17+**
+            - **Paper** hoặc **Spigot 1.20.1 - 1.21.11** (Paper 26.x dùng JDK 25)
+
+            ### 🔧 Cài đặt
+            1. Copy file `.jar` vào thư mục `plugins/`
+            2. Khởi động server → file `plugins/Blogin/config.yml` được tạo tự động
+            3. Tuỳ chỉnh ngôn ngữ mặc định: `ngon-ngu: "vi"`
+
+            > ⚠️ **Quan trọng:** File `plugins/Blogin/secret.key` là khoá mã hoá 2FA — **KHÔNG được chia sẻ hoặc xoá**.
+
+            ---
+            📖 [Xem tài liệu đầy đủ](https://github.com/taolaadminshopok1/blogin-plugin#readme) ·
+            🐛 [Báo lỗi](https://github.com/taolaadminshopok1/blogin-plugin/issues)
