@@ -46,7 +46,7 @@ public class Blogin extends JavaPlugin {
         long startTime = System.currentTimeMillis();
         log.info("╔══════════════════════════════════════════╗");
         log.info("║   Blogin v" + getDescription().getVersion() + " - Khởi động                  ║");
-        log.info("║   Plugin Login xịn xò - Việt hóa 100%   ║");
+        log.info("║   Plugin Login xịn xò - Đa ngôn ngữ 10NN ║");
         log.info("╚══════════════════════════════════════════╝");
         saveDefaultConfig();
         this.totpGenerator = new TOTPGenerator();

@@ -25,7 +25,11 @@ $cmds = @{
   25  = "blogin help"
   30  = "plugins"
   35  = "blogin reload"
-  40  = "stop"
+  40  = "language"
+  45  = "language en"
+  50  = "language vi"
+  55  = "language zh"
+  60  = "stop"
 }
 $sent = @{}
 while ($sw.Elapsed.TotalSeconds -lt 120) {
