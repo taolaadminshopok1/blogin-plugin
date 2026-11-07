@@ -1,234 +1,118 @@
-# 🛡️ Blogin - Plugin Login Xịn Xò Cho Minecraft
+<div align="center">
 
-> **Phiên bản:** 3.0.1
-> **Hỗ trợ:** Minecraft 1.20.1 - 1.21.4 (Paper / Spigot)
-> **Java:** 17+
-> **Việt hóa:** 100%
-> **Bản quyền:** BloginVN
+# 🛡️ Blogin — Giải Pháp Xác Thực & Bảo Mật Cao Cấp Cho Minecraft
 
-Plugin đăng nhập/đăng ký **xịn xò nhất** cho server Minecraft Việt Nam, tích hợp **GUI đăng nhập đồ hoạ**, **bảo mật cao cấp**, **2FA mã hoá**, **Captcha chống bot**, chống **brute-force**, hỗ trợ **MySQL** và **SQLite** — tối ưu hiệu năng cho server lớn.
+![Version](https://img.shields.io/badge/Phiên_bản-3.0.1-brightgreen?style=for-the-badge)
+![Minecraft](https://img.shields.io/badge/Paper_%2F_Spigot-1.20.1_--_1.21.4-blue?style=for-the-badge)
+![Java](https://img.shields.io/badge/Java-17%2B-orange?style=for-the-badge)
+![License](https://img.shields.io/badge/License-MIT-purple?style=for-the-badge)
 
----
+**Plugin đăng nhập/đăng ký thế hệ mới dành riêng cho cộng đồng Minecraft Việt Nam.**  
+Tích hợp **Chest GUI đồ hoạ**, **2FA mã hoá AES-GCM**, **BCrypt bất đồng bộ**, **Captcha chống Bot**, **Brute-force Protection** và **Hệ thống hiệu ứng Welcome rực rỡ** — Tối ưu hoá 100% không gây tụt TPS cho server lớn.
 
-## 🔧 Bản vá 3.0.1 — Sửa lỗi biên dịch & tương thích đa phiên bản
+[Tính năng](#-tính-năng-nổi-bật) • [Điểm mới v3.0.1](#-cập-nhật-phiên-bản-301) • [Cài đặt](#-hướng-dẫn-cài-đặt) • [Lệnh & Quyền](#-hướng-dẫn-sử-dụng) • [Cấu hình](#️-cấu-hình-configyml)
 
-Phiên bản 3.0.0 **không biên dịch được** (13 lỗi compile) và nhiều lỗi runtime chỉ xuất hiện trên server mới. Bản 3.0.1 đã sửa toàn bộ.
-
-### 🐛 Lỗi biên dịch (plugin không load được — nướng server)
-
-| Lỗi | Nguyên nhân | Sửa |
-|-----|-----------|-----|
-| `Component.Builder` không tồn tại | Adventure 4.14+ đổi tên sang `ComponentBuilder` | Đổi sang `ComponentBuilder` |
-| `TextColor.lerp(from, to, ratio)` sai thứ tự | Adventure đổi signature thành `lerp(ratio, a, b)` | Sửa thứ tự tham số |
-| `PotionEffectType.SLOW` không tồn tại | 1.21+ đổi tên thành `SLOWNESS` | Dùng `Compat` tra cứu động |
-| `Particle.REDSTONE` không tồn tại | 1.20.5+ đổi tên thành `DUST` | Dùng `Compat` tra cứu động |
-| `PlayerInteractEvent.getClickedInventory()` không tồn tại | API này không có trong 1.20.1/1.21.4 | Bỏ, chặn inventory ở `InventoryClickEvent` |
-| `Player.getVersion()` không tồn tại | Đã bị gỡ bỏ | Dùng `getClientBrandName()` |
-| `captchaManager.reload()` không tồn tại | Lớp thiếu method → `/blogin reload` ném lỗi | Bổ sung `CaptchaManager.reload()` |
-| `HashSet<>` không suy luận được | `BossBar#viewers()` trả `Iterable`, không phải `Collection` | Duyệt thủ công, copy sang list |
-| `long` → `float` / `int` mismatch | Chia sai kiểu số | Sửa kiểu |
-
-### 🎯 Lỗi runtime chỉ xảy ra trên server MỚI (1.21.x)
-
-Đây là loại lỗi nguy hiểm nhất: **server 1.20.1 chạy bình thường, server 1.21.4 crash ngay khi plugin load**.
-
-- 🔴 `PotionEffectType.SLOW` → `NoSuchFieldError` trên 1.21.x
-  → Hiệu ứng "chậm" của người chơi chưa đăng nhập **gây crash plugin**
-- 🔴 `Particle.REDSTONE` → `NoSuchFieldError` trên 1.20.5+
-  → Hiệu ứng welcome **gây crash plugin**
-- 🔴 `ExceptionInInitializerError` khi tra cứu enum chưa khởi tạo
-  → Đã bắt `LinkageError` trong `Compat` để không bao giờ làm hỏng plugin
-
-> ✅ **Giải pháp:** lớp mới `vn.blogin.utils.Compat` tự dò đúng hằng số theo phiên bản server đang chạy, có cache để không tốn hiệu năng.
-
-| Ý nghĩa | 1.20.1 | 1.20.5+ / 1.21+ |
-|---------|--------|------------------|
-| Chậm (Slowness) | `SLOW` | `SLOWNESS` |
-| Nhảy cao (Jump) | `JUMP` | `JUMP_BOOST` |
-| Bụi đỏ (Redstone) | `REDSTONE` | `DUST` |
-
-### 🏗️ Build đa phiên bản
-
-- ✅ Chuyển build sang **paper-api 1.20.1** (bytecode Java 17) làm chuẩn
-  → JAR nạp được trên server 1.20.1 (Java 17) **và** 1.21.4 (Java 21)
-  → Trước đây build bằng 1.21.4 tạo bytecode Java 21 → **không chạy được trên 1.20.1**
-- ✅ Xác minh cùng một mã nguồn **biên dịch thành công trên cả hai** API baseline
-- ✅ Xác minh bytecode: toàn bộ class của plugin đều là **major 61 (Java 17)**
-
-### 🔐 Bảo mật
-
-- ✅ `EncryptionUtil` **không còn crash** khi file khoá 2FA bị rỗng
-  (server crash giữa lúc ghi) → tự sinh khoá mới thay vì làm plugin không load
-- ✅ `ConnectionPool` xử lý đúng `Error` (không chỉ `Exception`) khi unwrap JDBC proxy
-- ✅ `PlayerRestrictionUtil` không gọi `removePotionEffect(null)` khi hiệu ứng không resolve được
-
-### 🧪 Kiểm thử tự động
-
-- ✅ `SelfTest`: **35/35 test pass** (Base32 RFC 4648, TOTP RFC 6238, độ mạnh mật khẩu, AES-GCM)
-- ✅ `CompatProbe`: kiểm chứng runtime trên **cả 1.20.1 và 1.21.4** — xác nhận chọn đúng hằng số
-- ✅ Kiểm tra bytecode tự động: không còn tham chiếu cứng tới hằng số đã đổi tên
-
-### 🛠️ Cách build
-
-```bash
-# Yêu cầu: JDK 17 + Maven 3.9+
-mvn clean package
-# JAR: target/Blogin-3.0.1.jar
-```
+</div>
 
 ---
 
-## 🚀 Điểm mới ở phiên bản 3.0
+## 🎯 Tính Năng Nổi Bật
 
-### 🖥️ GUI Đăng nhập (Chest GUI) — TÍNH NĂNG MỚI
-- ✅ Panel đăng nhập 27 ô với item mô tả đẹp mắt (nút đăng nhập, ô nhập mật khẩu, ô nhập 2FA)
-- ✅ Tự động mở GUI khi người chơi vào server (tuỳ chỉnh được)
-- ✅ Nhập mật khẩu / mã 2FA trực tiếp trong chat (tin nhắn **được ẩn** khỏi người khác)
-- ✅ Chặn kéo/thả item, không thể lấy item ra khỏi GUI
-- ✅ Hiển thị số lần thử còn lại, IP, trạng thái 2FA ngay trên panel
-- ✅ Lệnh `/blogingui` (alias `/bgui`) để mở thủ công
+### 🔐 Bảo Mật Đỉnh Cao (Enterprise-Grade Security)
+- **Băm mật khẩu BCrypt:** Hỗ trợ cấu hình `cost factor` (4–16), tự động sinh salt ngẫu nhiên và **tự động re-hash** khi admin nâng cấp độ khó trong config.
+- **Xác thực 2 lớp (2FA / TOTP):** Chuẩn quốc tế **RFC 6238** (tương thích *Google Authenticator, Authy, Microsoft Authenticator*), tích hợp cơ chế chống tấn công đo thời gian (*Timing Attack*).
+- **Mã hoá khoá 2FA bằng AES-GCM:** Toàn bộ mã Secret 2FA của người chơi được mã hoá bằng khoá riêng tại `plugins/Blogin/secret.key` — ngay cả khi lộ Database, kẻ tấn công cũng không thể lấy được mã 2FA.
+- **Chống Brute-Force & IP-Lock:** Khoá tự động theo Tài khoản, IP hoặc Cả hai (`ACCOUNT` / `IP` / `BOTH`). Chặn kết nối xấu ngay từ `PlayerLoginEvent` trước khi người chơi kịp vào thế giới. Hỗ trợ tự động đăng nhập theo IP tin cậy (tự động tắt với tài khoản bật 2FA).
+- **Kiểm soát chất lượng mật khẩu:** Chấm điểm độ mạnh (thang 0–5), chặn các mật khẩu phổ biến dễ đoán (`123456`, `password`...) và nhắc nhở Admin bật 2FA định kỳ.
+- **Captcha thông minh:** Ngăn chặn triệt để các đợt tấn công dùng Bot đăng ký/đăng nhập hàng loạt.
 
-### ⚡ Hiệu năng — KHÔNG CÒN BLOCK TPS
-- ✅ **Toàn bộ truy vấn database chạy bất đồng bộ** trên thread riêng
-- ✅ BCrypt (~250ms) không còn chạy trên main thread → **TPS ổn định khi nhiều người login đồng thời**
-- ✅ **Connection pool thông minh**: connection được trả về pool thay vì đóng vĩnh viễn, có hàng đợi chờ (timeout 5s)
-- ✅ **Tự giảm tần suất particle** khi server đông (>60 người) → không giật FPS
-- ✅ Task dọn dẹp định kỳ: cache khóa hết hạn, bản ghi thất bại cũ, session mồ côi
+### ⚡ Hiệu Năng Vượt Trội — Không Bao Giờ Block Main Thread
+- **100% Bất đồng bộ (Fully Async):** Toàn bộ truy vấn Database và quá trình tính toán BCrypt (~250ms) đều chạy trên Thread Pool riêng biệt — giữ **20.0 TPS** ổn định ngay cả khi hàng trăm người chơi đăng nhập cùng lúc.
+- **Hồ chứa kết nối (Connection Pool) thông minh:** Tự động tái sử dụng kết nối cho cả **MySQL/MariaDB** và **SQLite**, có hàng đợi chịu tải (timeout 5s) và bộ nhớ đệm `PreparedStatement`.
+- **Cơ chế tự điều tiết (Auto-Throttling):** Tự động giảm mật độ hạt (Particle) khi server đông người (>60 người chơi) để bảo vệ FPS cho client yếu.
+- **Quản lý bộ nhớ chặt chẽ:** Sử dụng `ConcurrentHashMap` kết hợp tiến trình tự động dọn dẹp cache hết hạn, bản ghi lỗi cũ và huỷ các task BossBar mồ côi khi người chơi thoát.
 
-### 🔒 Bảo mật nâng cấp
-- ✅ **Secret 2FA được mã hoá AES-GCM** bằng khoá sinh ngẫu nhiên lưu ở `plugins/Blogin/secret.key`
-  → Ngay cả khi lộ database thì mã 2FA vẫn không dùng được
-- ✅ **Đánh giá độ mạnh mật khẩu** (thang 0-5), chặn mật khẩu yếu (`123456`, `password`...)
-- ✅ **Tự re-hash** khi cost factor BCrypt được nâng lên
-- ✅ Cost factor BCrypt **cấu hình được** (4-16) — server yếu dùng 10, server mạnh dùng 13
-- ✅ Chặn IP ngay từ `PlayerLoginEvent` (trước khi người chơi vào thế giới)
-- ✅ **IP-lock**: khoá IP đăng nhập sai quá nhiều lần + tuỳ chọn tự động đăng nhập theo IP đã xác thực
-  (tài khoản có bật 2FA sẽ **không** được auto-login)
-- ✅ **Nhắc admin bật 2FA** sau khi đăng nhập (1 lần mỗi phiên, bất đồng bộ)
-- ✅ Ghi log kết nối (IP + phiên bản client) để quản trị
-- ✅ Cache khóa dùng `ConcurrentHashMap` + dọn dẹp định kỳ — không rò rỉ bộ nhớ
+### 🖥️ Giao Diện (Chest GUI) & Hiệu Ứng Rực Rỡ
+- **GUI Đăng nhập 27 ô:** Giao diện trực quan hiển thị số lần thử còn lại, địa chỉ IP, trạng thái 2FA. Hỗ trợ nhấn vào ô để nhập mật khẩu/2FA kín đáo qua khung chat.
+- **Hệ thống Welcome 4 cấp độ (`MINIMAL` / `NORMAL` / `EPIC` / `CUSTOM`):**
+  - **12 hiệu ứng Particle 3D:** `HEART`, `STAR`, `SPIRAL`, `CIRCLE`, `HELIX`, `FIREWORK`, `RAINBOW`, `WINGS`, `GALAXY`, `HEARTS_RAIN`, `PORTAL` (mới), `AURA` (mới).
+  - **Hoạt ảnh chữ động:** Title chạy chữ kiểu máy đánh chữ (*Typewriter*), ActionBar đổi màu cầu vồng và BossBar đếm ngược chuyển sắc (Xanh $\rightarrow$ Vàng $\rightarrow$ Đỏ).
+  - **Âm thanh giai điệu:** Hợp âm C-E-G arpeggio, pháo hoa thực thể (*Firework Entity*) và âm báo tuỳ chỉnh hoàn toàn trong `config.yml`.
+- **100% Việt hoá & Adventure API:** Hỗ trợ đầy đủ mã màu truyền thống (`&a`, `&l`) lẫn mã màu **Hex 24-bit (`&#RRGGBB`)** và dải màu Gradient.
 
-### 🎨 Giao diện tối ưu cho server
-- ✅ Hỗ trợ **mã màu hex** `&#RRGGBB` trên toàn bộ tin nhắn, title, lore, bossbar
-- ✅ **12 loại particle** (thêm `PORTAL` cổng dịch chuyển & `AURA` hào quang neon)
-- ✅ Khung giao diện mở khung + gradient màu theo ký tự
-- ✅ BossBar đếm ngược đổi màu xanh → vàng → đỏ theo thời gian
-- ✅ Ẩn thông báo "joined the game" mặc định của Minecraft (tuỳ chỉnh được)
-- ✅ `/logout` giờ ẩn người chơi + áp lại hiệu ứng hạn chế (đồng nhất lúc mới vào)
-- ✅ Cảnh báo di chuyển **giảm spam** (1 lần / 2 giây) thay vì spam mỗi tick
-
-### 🐛 Bug đã sửa (v3.0.1)
-- ✅ **`/blogin force` gây lỗi hiển thị**: trước đây admin ép đăng nhập xong người chơi vẫn **bị mù, bị chậm và ẩn khỏi mọi người khác** vì logic gỡ hiệu ứng bị lặp ở nhiều nơi và thiếu ở luồng force-login
-  → Đã gom toàn bộ vào `PlayerRestrictionUtil` (điểm vào duy nhất cho mọi luồng đăng nhập thành công)
-- ✅ **Rò rỉ bộ nhớ**: `PlayerMoveListener` và `PlayerInteractListener` giữ map cảnh báo mãi không xoá khi người chơi thoát
-- ✅ **Rò rỉ task**: BossBar cứ tiếp tục chạy (2-10 tick/lần) sau khi người chơi offline
-  → Đã thêm sổ theo dõi theo UUID + tự huỷ khi thoát + `shutdown()` khi tắt plugin
-- ✅ **Mất Javadoc**: quy trình xử lý file trước đó vô tình cắt mất toàn bộ comment trong source
-  → Đã phục hồi đầy đủ từ bản backup và khôi phục Javadoc cho toàn bộ 45 file
-- ✅ **2FA**: khi mã hoá secret thất bại thì **không còn lưu secret dạng plaintext**; khi tắt 2FA secret cũng được xoá khỏi DB
-- ✅ **`updateTotpSecret(uuid, null)`** dùng `setNull()` đúng chuẩn JDBC thay vì `setString(null)`
-
-### ⚙️ Tuỳ chỉnh được từ config (trước đây bị hard-code)
-- ✅ **Âm thanh**: toàn bộ âm thanh đăng nhập / đăng ký / sai mật khẩu giờ đọc từ `am-thanh.*` (tên âm, âm lượng, cao độ, bật/tắt)
-- ✅ **Màu BossBar đếm ngược** đọc từ `welcome.bossbar-mau-xanh/vang/do`
-- ✅ **`gioi-han.tan-cong`** thực sự có hiệu lực + hiện cảnh báo cho người chơi thay vì chặn âm thầm
-- ✅ **`tin-nhap`**: hiển thị từng dòng cách nhau 1 giây (hiệu ứng typewriter)
-- ✅ **`admin.status-on/off`** và **`admin.info-status`** dùng cho `/blogin info`
-- ✅ **`ngon-ngu`** được ghi nhận chính thức qua `MessageManager#getLanguage()`
-
-### 🛠️ Lệnh admin mới
-| Lệnh | Mô tả |
-|------|-------|
-| `/blogin list [trang]` | Danh sách tài khoản có phân trang |
-| `/blogin reset <player> <mk>` | Reset mật khẩu cho người chơi |
-| `/blogin 2fa <player> <on\|off\|secret>` | Quản lý 2FA từ xa |
-| `/blogin gui` | Mở GUI đăng nhập (không cần quyền admin) |
-| `/2fa status` | Xem trạng thái 2FA của bản thân |
+### 🛡️ Hệ Thống Phong Toả Trước Khi Đăng Nhập
+Người chơi chưa xác thực sẽ bị cô lập hoàn toàn và áp dụng trạng thái ẩn/hạn chế đồng bộ:
+- ❌ Không thể di chuyển (chỉ cho phép xoay góc nhìn), cảnh báo chống spam (2 giây/lần).
+- ❌ Không thể chat, mở túi đồ (Inventory), nhặt/vứt vật phẩm, phá/đặt khối hay tấn công/nhận sát thương.
+- ❌ Chặn mọi câu lệnh ngoại trừ: `/login`, `/register`, `/captcha`, `/2fa`, `/blogin`, `/blogingui`.
 
 ---
 
-## 🎯 Tính năng nổi bật
+## 🔧 Cập Nhật Phiên Bản 3.0.1
 
-### 🔐 Bảo mật đỉnh cao
-- ✅ **BCrypt** hashing với cost factor cấu hình được + salt ngẫu nhiên
-- ✅ **2FA (TOTP)** chuẩn RFC 6238 — Google Authenticator, Authy, Microsoft Authenticator
-- ✅ **Chống brute-force**: khóa tài khoản/IP theo cấu hình (ACCOUNT / IP / BOTH)
-- ✅ **Captcha** chống bot đăng ký hàng loạt
-- ✅ **Chống timing attack** trong xác thực TOTP
-- ✅ Session in-memory, không lưu password plaintext
+> Bản vá **3.0.1** giải quyết triệt để **13 lỗi biên dịch** từ bản 3.0.0 và khắc phục hoàn toàn các lỗi sập ngầm (Runtime Crash) khi chạy trên nền tảng Minecraft 1.20.5+ / 1.21.4.
 
-### 🌐 Database linh hoạt
-- ✅ **SQLite** — cài đặt 0 config, file `blogin.db` tự tạo
-- ✅ **MySQL / MariaDB** — connection pool + prepared statement cache
-- ✅ Tự động tạo bảng + index khi khởi động
-- ✅ Thread pool riêng cho truy vấn bất đồng bộ (`database.async-threads`)
+### 🎯 Tương thích đa phiên bản (1.20.1 – 1.21.4)
+Sử dụng lớp cầu nối mới **`vn.blogin.utils.Compat`** tự động dò tìm và lưu cache hằng số theo phiên bản server lúc chạy (Runtime), đồng thời bắt `LinkageError` để không bao giờ làm sập plugin:
 
-### 🇻🇳 Việt hóa 100%
-- ✅ Toàn bộ thông báo trong `config.yml` đã Việt hóa
-- ✅ Hỗ trợ mã màu `&` + hex `&#RRGGBB` + placeholder `{player}`, `{time}`, `{remaining}`
-- ✅ Mọi thao tác gửi tin dùng Adventure API → hiển thị đồng nhất mọi client
+| Hiệu ứng / Hằng số | Server 1.20.1 | Server 1.20.5+ / 1.21+ | Cơ chế xử lý |
+| :--- | :---: | :---: | :--- |
+| Làm chậm (Slowness) | `SLOW` | `SLOWNESS` | Tra cứu động qua `Compat` |
+| Nhảy cao (Jump Boost) | `JUMP` | `JUMP_BOOST` | Tra cứu động qua `Compat` |
+| Hạt bụi màu (Redstone) | `REDSTONE` | `DUST` | Tra cứu động qua `Compat` |
+| Bytecode chuẩn | Java 17 (Major 61) | Java 21 (Tương thích ngược) | Biên dịch trên baseline Paper 1.20.1 |
 
-### 🛡️ Khóa hành động
-Người chưa đăng nhập **không thể**:
-- ❌ Chat trong server
-- ❌ Di chuyển (chỉ xoay góc nhìn)
-- ❌ Phá / đặt khối
-- ❌ Tấn công / bị tấn công
-- ❌ Mở inventory, tương tác thực thể
-- ❌ Nhặt / thả vật phẩm
-- ❌ Dùng lệnh khác (trừ `/login`, `/register`, `/captcha`, `/2fa`, `/blogin`, `/blogingui`)
+<details>
+<summary><b>📋 Xem chi tiết danh sách lỗi biên dịch & lỗi rò rỉ bộ nhớ đã sửa trong 3.0.1 (Nhấn để mở rộng)</b></summary>
 
-### 🔌 Tích hợp
-- ✅ **PlaceholderAPI** — 13 placeholder có sẵn
-- ✅ Paper API hiện đại (1.20.1 - 1.21.4)
-- ✅ Maven build — shade dependencies
+#### 1. Sửa lỗi biên dịch (Compile Fixes)
+| Lỗi gốc ở 3.0.0 | Nguyên nhân | Giải pháp ở 3.0.1 |
+| :--- | :--- | :--- |
+| `Component.Builder` không tồn tại | Adventure 4.14+ đổi tên API | Chuyển sang `ComponentBuilder` |
+| `TextColor.lerp(from, to, ratio)` sai | Adventure đổi thứ tự tham số | Đổi thành `lerp(ratio, a, b)` |
+| `PlayerInteractEvent.getClickedInventory()` | Không tồn tại trong API 1.20.1–1.21.4 | Chuyển kiểm soát sang `InventoryClickEvent` |
+| `Player.getVersion()` bị gỡ bỏ | API cũ không còn hỗ trợ | Thay bằng `getClientBrandName()` |
+| Thiếu `captchaManager.reload()` | Gây lỗi khi gõ `/blogin reload` | Bổ sung phương thức `reload()` |
+| Lỗi suy luận kiểu `HashSet<>` | `BossBar#viewers()` trả về `Iterable` | Duyệt thủ công và sao chép sang `List` |
 
-### 🎆 Hệ thống Welcome & Hiệu ứng rực rỡ
-- ✅ **12 loại particle**: Trái tim, Ngôi sao, Galaxy, Cầu vồng, Đôi cánh thiên thần, Mưa trái tim, Cổng dịch chuyển, Hào quang...
-- ✅ **Title animation typewriter** đổi màu liên tục
-- ✅ **ActionBar rainbow/pulse/ticker** chạy chữ động
-- ✅ **BossBar gradient** đổi màu cầu vồng, pulse, progress fill
-- ✅ **Pháo hoa thật (entity Firework)** bắn quanh người chơi
-- ✅ **Hệ thống âm thanh** giai điệu (C-E-G arpeggio, pháo hoa, chuông thành công)
-- ✅ **4 mức độ**: MINIMAL / NORMAL / EPIC / CUSTOM
-- ✅ **Tin nhắn broadcast** cho mọi người khi có thành viên mới
-- ✅ **Lệnh admin `/bloginwelcome`** để test từng hiệu ứng
-- ✅ **Countdown 3-2-1-GO** cho sự kiện
+#### 2. Sửa lỗi Logic, Bảo mật & Rò rỉ bộ nhớ (Bug & Security Fixes)
+- **Sửa lỗi `/blogin force`:** Gom toàn bộ logic gỡ hiệu ứng mù/chậm và hiển thị lại người chơi vào một điểm duy nhất là `PlayerRestrictionUtil`, khắc phục lỗi admin ép đăng nhập xong người chơi vẫn bị tàng hình và mù.
+- **Chống rò rỉ bộ nhớ (Memory Leak):** Tự động xoá dữ liệu cảnh báo trong `PlayerMoveListener` / `PlayerInteractListener` và huỷ ngay lập tức tiến trình chạy BossBar khi người chơi thoát game hoặc tắt server.
+- **An toàn khoá 2FA:** Không bao giờ lưu Secret 2FA dạng plaintext nếu quá trình mã hoá lỗi; tự động sinh khoá mới nếu file `secret.key` bị rỗng (0 byte); xoá sạch secret bằng `setNull()` chuẩn JDBC khi người chơi tắt 2FA.
+- **Kiểm thử tự động:** Vượt qua **35/35 bài test** trong `SelfTest` (Base32 RFC 4648, TOTP RFC 6238, độ mạnh mật khẩu, AES-GCM) và kiểm chứng bằng `CompatProbe`.
+
+</details>
 
 ---
 
-## 📦 Cài đặt
+## 📦 Hướng Dẫn Cài Đặt
 
-### Yêu cầu
-- **Java 17** trở lên
-- **Paper** hoặc **Spigot 1.20.1 - 1.21.4**
-- (Tùy chọn) **PlaceholderAPI** nếu muốn dùng placeholder
-- (Tùy chọn) **MySQL/MariaDB** nếu muốn dùng database server
+### 1. Yêu cầu hệ thống
+- **Java:** JDK/JRE 17 trở lên (Khuyên dùng Java 21 cho server 1.21.x).
+- **Nền tảng:** Paper hoặc Spigot `1.20.1` – `1.21.4` (Khuyên dùng **Paper** để tối ưu toàn bộ tính năng Adventure API).
+- **Phụ thuộc (Tuỳ chọn):** `PlaceholderAPI` (để dùng biến hiển thị), `MySQL / MariaDB` (cho mạng lưới server lớn).
 
-### Bước 1: Build plugin (từ mã nguồn)
-```bash
-cd Blogin
-mvn clean package
-```
-File JAR sẽ được tạo tại: `target/Blogin-3.0.0.jar`
+### 2. Các bước cài đặt
+1. Tải file **`Blogin-3.0.1.jar`** (hoặc tự build từ mã nguồn bằng lệnh `mvn clean package`).
+2. Bỏ file `Blogin-3.0.1.jar` vào thư mục `plugins/` của server.
+3. **Khởi động lại (Restart) server** để plugin tạo cấu trúc thư mục và khoá bảo mật. *(Lưu ý: Hạn chế dùng `/reload confirm` của Bukkit để tránh xung đột luồng dữ liệu).*
+4. Tuỳ chỉnh file `plugins/Blogin/config.yml` theo nhu cầu, sau đó dùng lệnh **`/blogin reload`** trong game để áp dụng ngay lập tức.
 
-### Bước 2: Cài lên server
-1. Copy `Blogin-3.0.0.jar` vào thư mục `plugins/` của server
-2. Khởi động server (hoặc dùng `/reload confirm`)
-3. Sửa file `plugins/Blogin/config.yml` theo ý bạn
-4. Dùng lệnh `/blogin reload` để tải lại config
+> ⚠️ **CẢNH BÁO BẢO MẬT QUAN TRỌNG:**  
+> File `plugins/Blogin/secret.key` chứa khoá gốc dùng để mã hoá và giải mã toàn bộ mã 2FA của người chơi. **Tuyệt đối không chia sẻ hoặc xoá file này!** Nếu làm mất file, toàn bộ người chơi đã bật 2FA sẽ phải được Admin reset 2FA mới có thể đăng nhập lại.
 
-> ⚠️ **Quan trọng:** File `plugins/Blogin/secret.key` là khoá mã hoá 2FA — **KHÔNG được chia sẻ hoặc xoá**.
-> Nếu mất file này, toàn bộ secret 2FA đã lưu sẽ không giải mã được.
+<details>
+<summary><b>🗄️ Hướng dẫn cấu hình MySQL / MariaDB (Tuỳ chọn cho Server lớn)</b></summary>
 
-### Bước 3 (Tùy chọn): Cài MySQL
+Chạy câu lệnh SQL sau để tạo cơ sở dữ liệu với bảng mã chuẩn hỗ trợ tiếng Việt:
 ```sql
 CREATE DATABASE blogin CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 CREATE USER 'blogin_user'@'%' IDENTIFIED BY 'mat_khau_cua_ban';
 GRANT ALL PRIVILEGES ON blogin.* TO 'blogin_user'@'%';
 FLUSH PRIVILEGES;
 ```
-Sau đó sửa trong `config.yml`:
+
+Sau đó cập nhật mục `database` trong `plugins/Blogin/config.yml`:
 ```yaml
 database:
   loai: "MYSQL"
@@ -242,87 +126,54 @@ database:
     pool-size: 10
     use-ssl: false
 ```
+</details>
 
 ---
 
-## 🎮 Hướng dẫn sử dụng
+## 🎮 Hướng Dẫn Sử Dụng
 
-### 👤 Cho người chơi
+### 👤 Lệnh dành cho Người chơi
 
-| Lệnh | Alias | Mô tả |
-|------|-------|-------|
-| `/login <mk> [2fa]` | `/dangnhap` | Đăng nhập |
-| `/register <mk> <xác nhận>` | `/dangky`, `/reg` | Đăng ký tài khoản |
-| `/blogingui` | `/bgui`, `/logingui` | Mở GUI đăng nhập |
-| `/logout` | `/dangxuat` | Đăng xuất |
-| `/changepassword <cũ> <mới>` | `/doimatkhau`, `/cpass` | Đổi mật khẩu |
-| `/2fa enable` | `/totp`, `/otp` | Bật xác thực 2 yếu tố |
-| `/2fa confirm <code>` | | Xác nhận bật 2FA |
-| `/2fa disable <code>` | | Tắt 2FA |
-| `/2fa status` | | Xem trạng thái 2FA |
-| `/captcha` | `/cap` | Lấy captcha mới |
+| Câu lệnh | Lệnh viết tắt (Alias) | Mô tả chức năng |
+| :--- | :--- | :--- |
+| `/register <mật_khẩu> <nhập_lại>` | `/dangky`, `/reg` | Đăng ký tài khoản mới khi vào server lần đầu |
+| `/login <mật_khẩu> [mã_2fa]` | `/dangnhap` | Đăng nhập vào tài khoản *(nếu bật Captcha: `/login <captcha> <mk>`)* |
+| `/blogingui` | `/bgui`, `/logingui` | Mở bảng điều khiển đăng nhập dạng Chest GUI |
+| `/changepassword <mk_cũ> <mk_mới>` | `/doimatkhau`, `/cpass` | Thay đổi mật khẩu hiện tại |
+| `/logout` | `/dangxuat` | Đăng xuất khỏi phiên làm việc hiện tại |
+| `/2fa enable` | `/totp`, `/otp` | Nhận mã Secret Key để thiết lập bảo mật 2 lớp |
+| `/2fa confirm <mã_6_số>` | — | Xác nhận và kích hoạt 2FA từ ứng dụng Authenticator |
+| `/2fa disable <mã_6_số>` | — | Huỷ kích hoạt bảo mật 2 lớp |
+| `/2fa status` | — | Kiểm tra trạng thái bật/tắt 2FA của bản thân |
+| `/captcha` | `/cap` | Yêu cầu cấp lại mã Captcha mới |
 
-#### Ví dụ cụ thể:
+### 👑 Lệnh dành cho Quản trị viên (Quyền: `blogin.admin` — Mặc định: OP)
 
-**Đăng ký** (lần đầu vào server):
-```
-/register Matkhau123 Matkhau123
-```
-
-**Đăng nhập** (những lần sau):
-```
-/login Matkhau123
-```
-
-**Đăng nhập có 2FA**:
-```
-/login Matkhau123 482915
-```
-
-**Khi có captcha** — Cú pháp: `/login <captcha> <mật khẩu>`:
-```
-/login aB3x9 Matkhau123
-```
-
-**Bật 2FA**:
-1. `/2fa enable` → nhận secret key
-2. Mở Google Authenticator → nhập secret
-3. `/2fa confirm 123456` (mã hiện tại)
-
-**Dùng GUI**: gõ `/blogingui` → nhấn ô mật khẩu → gõ mật khẩu trong chat → nhấn nút xanh lá.
+| Câu lệnh | Mô tả chức năng |
+| :--- | :--- |
+| `/blogin reload` | Tải lại toàn bộ cấu hình, âm thanh và Captcha không cần tắt server |
+| `/blogin info <player>` | Xem hồ sơ chi tiết của người chơi (IP, trạng thái khoá, 2FA, lần đăng nhập cuối) |
+| `/blogin force <player>` | Ép đăng nhập trực tiếp cho người chơi đang ở trong server |
+| `/blogin reset <player> <mk_mới>` | Đặt lại mật khẩu mới cho người chơi bị quên mật khẩu |
+| `/blogin 2fa <player> <on\|off\|secret>` | Bật, tắt hoặc xem mã Secret 2FA của người chơi từ xa |
+| `/blogin unlock <player>` | Gỡ khoá ngay lập tức cho tài khoản/IP bị khoá do nhập sai quá số lần |
+| `/blogin unregister <player>` | Xoá hoàn toàn tài khoản của người chơi khỏi Database |
+| `/blogin list [trang]` | Xem danh sách toàn bộ tài khoản đã đăng ký (có phân trang) |
+| `/blogin status` | Xem thống kê hoạt động của plugin, bộ nhớ đệm và kết nối Database |
+| `/bloginwelcome <test\|particle\|...>` | Công cụ kiểm thử trực tiếp các hiệu ứng hạt, BossBar và đếm ngược |
 
 ---
 
-### 👑 Cho Admin
+## ⚙️ Cấu Hình (`config.yml`)
 
-| Lệnh | Mô tả |
-|------|-------|
-| `/blogin reload` | Tải lại config mà không cần restart |
-| `/blogin unregister <player>` | Xóa tài khoản người chơi |
-| `/blogin info <player>` | Xem thông tin chi tiết |
-| `/blogin force <player>` | Ép buộc đăng nhập (dành cho người quên mật khẩu) |
-| `/blogin unlock <player>` | Mở khóa tài khoản bị khóa do brute-force |
-| `/blogin reset <player> <mk>` | Reset mật khẩu cho người chơi |
-| `/blogin 2fa <player> <on\|off\|secret>` | Quản lý 2FA từ xa |
-| `/blogin list [trang]` | Danh sách tài khoản có phân trang |
-| `/blogin status` | Xem trạng thái plugin + thống kê |
-| `/blogin help` | Hiển thị trợ giúp |
-
-**Quyền admin:** `blogin.admin` (mặc định chỉ OP)
-
----
-
-## ⚙️ Cấu hình (config.yml)
-
-### File cấu hình có cấu trúc:
 ```yaml
-# Timeout đăng nhập (giây)
+# Thời gian chờ đăng nhập tối đa trước khi bị kick (giây)
 thoi-gian-dang-nhap: 60
 
-# Database
+# Cấu hình Cơ sở dữ liệu
 database:
-  loai: "SQLITE"        # hoặc MYSQL
-  async-threads: 2       # thread xử lý DB bất đồng bộ
+  loai: "SQLITE"          # SQLITE (tự tạo file blogin.db) hoặc MYSQL
+  async-threads: 2        # Số luồng xử lý bất đồng bộ (tăng lên 4 nếu CPU nhiều nhân)
   mysql:
     host: "localhost"
     port: 3306
@@ -331,15 +182,15 @@ database:
     password: ""
     pool-size: 10
 
-# Bảo mật
+# Thiết lập Bảo mật & Chống Brute-Force
 bao-mat:
   so-lan-sai-toi-da: 5
-  thoi-gian-khoa: 300
-  che-do-khoa: "BOTH"      # ACCOUNT | IP | BOTH
-  bcrypt-cost: 12          # 4-16 (server yếu: 10, server mạnh: 13)
+  thoi-gian-khoa: 300          # Thời gian khoá tạm thời (giây)
+  che-do-khoa: "BOTH"          # ACCOUNT | IP | BOTH
+  bcrypt-cost: 12              # Độ khó BCrypt từ 4-16 (Server yếu: 10, Server mạnh: 12-13)
   chan-mat-khau-yeu: true
-  diem-mat-khau-toi-thieu: 2   # 0-5
-  chu-ky-don-dep: 300
+  diem-mat-khau-toi-thieu: 2   # Thang điểm 0-5
+  chu-ky-don-dep: 300          # Chu kỳ dọn rác bộ nhớ đệm (giây)
   mat-khau-toi-thieu: 6
   mat-khau-toi-da: 64
   yeu-cau-mat-khau:
@@ -348,34 +199,50 @@ bao-mat:
     so: true
     ky-tu-dac-biet: false
 
-# GUI đăng nhập
+# Giao diện Chest GUI
 gui:
   bat: true
   auto-mo: true
   tieu-de: "&8✦ &6&lBLOGIN &8✦ &7| &f{player}"
 
-# Captcha
+# Xác thực Captcha
 captcha:
   bat: true
   do-dai: 5
   chi-chu-va-so: true
   phan-biet-hoa-thuong: false
 
-# 2FA
+# Bảo mật 2 lớp (TOTP)
 two-factor:
   bat: true
   ten-issuer: "BloginVN"
-  bat-buoc-admin: true     # nhắc admin bật 2FA sau khi đăng nhập
+  bat-buoc-admin: true         # Nhắc nhở Admin bật 2FA sau mỗi lần đăng nhập
   so-chu-so: 6
   thoi-gian-hieu-luc: 30
-  do-lech-cho-phep: 1
+  do-lech-cho-phep: 1          # Độ lệch múi giờ cho phép (tăng lên 2 nếu hay bị báo sai mã)
 
-# IP-lock - khoá IP & tự động đăng nhập theo IP
+# Khoá IP & Tự động đăng nhập
 ip-lock:
   bat: false
-  tu-dong-dang-nhap: true   # auto-login nếu IP trùng IP đã đăng ký (không áp dụng 2FA)
+  tu-dong-dang-nhap: true      # Tự đăng nhập nếu trùng IP cũ (Không áp dụng cho nick bật 2FA)
 
-# Âm thanh - tuỳ chỉnh được cho từng sự kiện
+# Hệ thống Hiệu ứng Chào mừng (Welcome)
+welcome:
+  bat: true
+  muc-do: "EPIC"               # MINIMAL | NORMAL | EPIC | CUSTOM | DISABLED
+  nguong-chat-server: 60       # Tự giảm hạt particle khi số người online vượt ngưỡng này
+  particle-types: [RAINBOW, STAR, GALAXY, SPIRAL, PORTAL]
+  particle-login: "FIREWORK"
+  particle-register: "HEARTS_RAIN"
+  phao-hoa: true
+  so-phao-hoa: 5
+  bossbar-timeout: true
+  broadcast-join: true
+  halo-neon:
+    bat: false
+    thoi-gian: 100
+
+# Âm thanh sự kiện
 am-thanh:
   dang-nhap-thanh-cong:
     bat: true
@@ -394,292 +261,131 @@ am-thanh:
     pitch: 1.0
 ```
 
-### Bảng mã màu
+---
 
-| Mã | Màu | Mã | Màu |
-|----|------|----|------|
-| `&0` | Đen | `&a` | Xanh lá |
-| `&1` | Xanh dương đậm | `&b` | Xanh dương |
-| `&2` | Xanh lá đậm | `&c` | Đỏ |
-| `&3` | Xanh dương nhạt | `&d` | Tím hồng |
-| `&4` | Vàng đậm | `&e` | Vàng |
-| `&5` | Tím | `&f` | Trắng |
-| `&6` | Cam | `&l` | In đậm |
-| `&7` | Xám | `&o` | In nghiêng |
-| `&8` | Xám đậm | `&n` | Gạch chân |
-| `&9` | Xanh dương | `&k` | Ẩn (obfuscated) |
-| `&r` | Xoá màu | `&#RRGGBB` | Hex 24-bit |
+## 🔌 Danh Sách Biến PlaceholderAPI
 
-### Tùy chỉnh tin nhắn
-Tất cả tin nhắn đều nằm trong `config.yml` dưới mục `tin-nhan:`. Bạn có thể sửa trực tiếp và dùng:
-- Mã màu Minecraft: `&a` (xanh lá), `&c` (đỏ), `&e` (vàng), `&b` (xanh dương), `&6` (cam), `&l` (in đậm), `&o` (in nghiêng), `&n` (gạch chân)
-- Hex color: `&#FF5733`
-- Placeholder: `{player}`, `{time}`, `{remaining}`, `{count}`, `{min}`, `{max}`, `{captcha}`, `{ip}`, `{status}`, `{uuid}`
+Tích hợp sẵn **13 placeholders** để sử dụng trong các plugin bảng điểm (Scoreboard), Tablist (TAB) hoặc Menu (DeluxeMenus):
+
+| Placeholder | Ý nghĩa | Giá trị trả về mẫu |
+| :--- | :--- | :--- |
+| `%blogin_authenticated%` | Trạng thái đã đăng nhập hay chưa | `yes` / `no` |
+| `%blogin_registered%` | Tài khoản đã đăng ký hay chưa | `yes` / `no` |
+| `%blogin_2fa%` | Trạng thái kích hoạt bảo mật 2 lớp | `yes` / `no` |
+| `%blogin_ip%` | Địa chỉ IP lúc đăng ký tài khoản | `192.168.1.100` |
+| `%blogin_ip_current%` | Địa chỉ IP của phiên kết nối hiện tại | `192.168.1.100` |
+| `%blogin_logins%` | Tổng số lần đăng nhập thành công | `42` |
+| `%blogin_last_login%` | Mốc thời gian đăng nhập gần nhất (Epoch ms) | `1700000000000` |
+| `%blogin_lock_remaining%` | Thời gian bị khoá tài khoản còn lại (giây) | `120` |
+| `%blogin_remaining_attempts%` | Số lần nhập sai mật khẩu còn lại trước khi bị khoá | `3` |
+| `%blogin_timeout%` | Thời gian đếm ngược chờ đăng nhập còn lại (giây) | `45` |
+| `%blogin_total_players%` | Tổng số tài khoản đã đăng ký trên toàn server | `152` |
+| `%blogin_totp_enabled_count%` | Tổng số tài khoản đang bật bảo mật 2FA | `38` |
+| `%blogin_version%` | Phiên bản hiện tại của plugin Blogin | `3.0.1` |
 
 ---
 
-## 🔌 PlaceholderAPI
+## 🏗️ Kiến Trúc Hệ Thống & Cấu Trúc Mã Nguồn
 
-| Placeholder | Mô tả | Ví dụ |
-|-------------|-------|-------|
-| `%blogin_authenticated%` | Đã đăng nhập chưa | `yes` / `no` |
-| `%blogin_registered%` | Đã đăng ký chưa | `yes` / `no` |
-| `%blogin_2fa%` | Có bật 2FA không | `yes` / `no` |
-| `%blogin_ip%` | IP đã đăng ký | `192.168.1.100` |
-| `%blogin_ip_current%` | IP hiện tại | `192.168.1.100` |
-| `%blogin_logins%` | Tổng số lần đăng nhập | `42` |
-| `%blogin_last_login%` | Thời gian đăng nhập cuối (ms) | `1700000000000` |
-| `%blogin_lock_remaining%` | Thời gian khóa còn lại (giây) | `120` |
-| `%blogin_remaining_attempts%` | Số lần thử còn lại | `3` |
-| `%blogin_timeout%` | Thời gian đăng nhập còn lại (giây) | `45` |
-| `%blogin_total_players%` | Tổng số tài khoản đã đăng ký | `152` |
-| `%blogin_totp_enabled_count%` | Số tài khoản bật 2FA | `38` |
-| `%blogin_version%` | Phiên bản plugin | `3.0.0` |
-
-Dùng trong các plugin như TAB, Scoreboard, DeluxeMenus...
-
----
-
-## 🎆 Hệ thống Welcome & Hiệu ứng rực rỡ
-
-### Cấu hình Welcome trong config.yml
-
-```yaml
-welcome:
-  bat: true
-  muc-do: "EPIC"   # MINIMAL | NORMAL | EPIC | CUSTOM | DISABLED
-  nguong-chat-server: 60   # tự giảm particle khi server đông
-  particle-types: [RAINBOW, STAR, GALAXY, SPIRAL, PORTAL]
-  particle-login: "FIREWORK"
-  particle-register: "HEARTS_RAIN"
-  phao-hoa: true
-  so-phao-hoa: 5
-  bossbar-timeout: true
-  broadcast-join: true
-  halo-neon:
-    bat: false     # hào quang neon quanh người chơi
-    thoi-gian: 100
+### 1. Luồng xử lý đăng nhập bất đồng bộ (Async Pipeline)
+```text
+Người chơi nhập /login <mk> (hoặc qua Chest GUI)
+        │
+        ▼
+[Main Thread] LoginCommand ──► Kiểm tra cú pháp & Captcha (In-memory)
+        │
+        ▼ (Chuyển giao sang Async Thread Pool)
+[Async Worker] AuthManager.loginAsync()
+        ├──► 1. Kiểm tra trạng thái khoá (Cache ConcurrentHashMap + AttemptDAO)
+        ├──► 2. Xác thực mật khẩu với BCrypt (~250ms, không chạm vào Main Thread)
+        ├──► 3. Giải mã AES-GCM & đối chiếu mã TOTP 2FA (nếu tài khoản có bật)
+        └──► 4. Cập nhật thông tin phiên đăng nhập vào PlayerDAO (MySQL / SQLite)
+        │
+        ▼ (Callback trả kết quả về lại Main Thread)
+[Main Thread] SessionManager.markAuthenticated()
+        └──► PlayerRestrictionUtil gỡ bỏ hiệu ứng hạn chế + kích hoạt Welcome Effect
 ```
 
-### 12 loại particle có sẵn
-
-| Hiệu ứng | Mô tả |
-|----------|-------|
-| `HEART` | Trái tim particle bắn ra |
-| `STAR` | Ngôi sao 5 cánh xoay |
-| `SPIRAL` | Xoáy tròn 3D spiral |
-| `CIRCLE` | Vòng tròn xoay quanh |
-| `HELIX` | Chuỗi xoắn ốc DNA (2 sợi) |
-| `FIREWORK` | Pháo hoa mini |
-| `RAINBOW` | Cầu vồng gradient màu (3 lớp) |
-| `WINGS` | Đôi cánh thiên thần flap |
-| `GALAXY` | Xoáy galaxy 3D (4 arms) |
-| `HEARTS_RAIN` | Mưa trái tim từ trên xuống |
-| `PORTAL` | Cổng dịch chuyển phát sáng (**mới**) |
-| `AURA` | Hào quang neon bao quanh (**mới**) |
-
-### 4 mức độ Welcome
-
-| Mức độ | Bao gồm |
-|--------|---------|
-| **MINIMAL** | Title + âm thanh ngắn |
-| **NORMAL** | Title + Particle (random) + Sound |
-| **EPIC** | Tất cả + BossBar + Fireworks + Broadcast |
-| **CUSTOM** | Tự bật/tắt từng thành phần bên dưới |
-
-### Test hiệu ứng (admin)
-
-```
-/bloginwelcome test new       # Test welcome người chơi mới
-/bloginwelcome test back      # Test welcome người chơi cũ
-/bloginwelcome test login     # Test hiệu ứng đăng nhập thành công
-/bloginwelcome test register  # Test hiệu ứng đăng ký
-/bloginwelcome particle GALAXY  # Test riêng 1 particle
-/bloginwelcome bossbar gradient # Test bossbar gradient
-/bloginwelcome countdown 5    # Đếm ngược 5 giây
-/bloginwelcome all            # Test tất cả
-```
-
----
-
-## 🏗️ Cấu trúc dự án
-
-```
+### 2. Cây thư mục dự án (45 Class Files)
+```text
 Blogin/
-├── pom.xml                          # Maven build config
-├── src/main/
-│   ├── java/vn/blogin/
-│   │   ├── Blogin.java              # Main class
-│   │   ├── commands/                # 9 command executors
-│   │   │   ├── LoginCommand.java
-│   │   │   ├── RegisterCommand.java
-│   │   │   ├── LogoutCommand.java
-│   │   │   ├── ChangePasswordCommand.java
-│   │   │   ├── BloginAdminCommand.java
-│   │   │   ├── CaptchaCommand.java
-│   │   │   ├── TwoFactorCommand.java
-│   │   │   ├── LoginGuiCommand.java       # Mở GUI đăng nhập
-│   │   │   └── WelcomeAdminCommand.java   # Test hiệu ứng welcome
-│   │   ├── database/                # Tầng database
-│   │   │   ├── DatabaseManager.java
-│   │   │   ├── ConnectionPool.java  # Pool thông minh + async executor
-│   │   │   ├── PlayerDAO.java
-│   │   │   └── AttemptDAO.java
-│   │   ├── managers/                # Business logic
-│   │   │   ├── AuthManager.java
-│   │   │   ├── SessionManager.java
-│   │   │   ├── CaptchaManager.java
-│   │   │   └── MessageManager.java
-│   │   ├── gui/                     # GUI đăng nhập (mới)
-│   │   │   └── LoginGui.java
-│   │   ├── welcome/                 # Hệ thống Welcome rực rỡ
-│   │   │   ├── WelcomeManager.java
-│   │   │   ├── WelcomeParticleEffect.java  # 12 loại particle
-│   │   │   ├── WelcomeTitle.java           # Title + ActionBar animated
-│   │   │   ├── WelcomeSound.java           # Chuỗi âm thanh
-│   │   │   └── WelcomeBossBar.java         # BossBar gradient
-│   │   ├── listeners/               # 12 event listeners
-│   │   │   ├── PlayerJoinListener.java
-│   │   │   ├── PlayerJoinMessageListener.java
-│   │   │   ├── PlayerLoginListener.java
-│   │   │   ├── PlayerQuitListener.java
-│   │   │   ├── PlayerChatListener.java
-│   │   │   ├── PlayerMoveListener.java
-│   │   │   ├── PlayerBlockBreakListener.java
-│   │   │   ├── PlayerBlockPlaceListener.java
-│   │   │   ├── PlayerDamageListener.java
-│   │   │   ├── PlayerCommandListener.java
-│   │   │   ├── PlayerInteractListener.java
-│   │   │   └── AuthenticatedListener.java
-│   │   ├── placeholder/
-│   │   │   └── BloginPlaceholder.java
-│   │   └── utils/
-│   │       ├── ChatUtil.java        # Adventure + hex + gradient (mới)
-│   │       ├── EncryptionUtil.java  # AES-GCM cho 2FA (mới)
-│   │       ├── HashingUtil.java     # BCrypt + rehash
-│   │       ├── PasswordStrength.java# Đánh giá độ mạnh (mới)
-│   │       ├── TOTPGenerator.java   # RFC 6238 2FA
-│   │       └── SelfTest.java        # Test độc lập cho logic thuần Java
-│   └── resources/
-│       ├── plugin.yml
-│       └── config.yml               # Cấu hình Việt hóa + Welcome + GUI
+├── pom.xml                                  # Cấu hình Maven (Baseline: Paper 1.20.1 / Java 17)
+└── src/main/
+    ├── java/vn/blogin/
+    │   ├── Blogin.java                      # Lớp khởi tạo chính (Singleton)
+    │   ├── commands/                        # 9 bộ xử lý câu lệnh
+    │   │   ├── LoginCommand.java
+    │   │   ├── RegisterCommand.java
+    │   │   ├── LogoutCommand.java
+    │   │   ├── ChangePasswordCommand.java
+    │   │   ├── BloginAdminCommand.java
+    │   │   ├── CaptchaCommand.java
+    │   │   ├── TwoFactorCommand.java
+    │   │   ├── LoginGuiCommand.java
+    │   │   └── WelcomeAdminCommand.java
+    │   ├── database/                        # Tầng truy xuất dữ liệu (DAO & Pool)
+    │   │   ├── DatabaseManager.java
+    │   │   ├── ConnectionPool.java          # Quản lý kết nối bằng JDBC Dynamic Proxy
+    │   │   ├── PlayerDAO.java
+    │   │   └── AttemptDAO.java
+    │   ├── managers/                        # Tầng xử lý nghiệp vụ cốt lõi
+    │   │   ├── AuthManager.java
+    │   │   ├── SessionManager.java
+    │   │   ├── CaptchaManager.java
+    │   │   └── MessageManager.java
+    │   ├── gui/
+    │   │   └── LoginGui.java                # Giao diện đăng nhập Chest GUI 27 ô
+    │   ├── welcome/                         # Hệ thống hiệu ứng nghe nhìn
+    │   │   ├── WelcomeManager.java
+    │   │   ├── WelcomeParticleEffect.java   # Toán học toạ độ cho 12 hiệu ứng hạt 3D
+    │   │   ├── WelcomeTitle.java
+    │   │   ├── WelcomeSound.java
+    │   │   └── WelcomeBossBar.java          # Quản lý BossBar theo UUID chống rò rỉ task
+    │   ├── listeners/                       # 12 bộ lắng nghe sự kiện bảo vệ
+    │   │   ├── PlayerJoinListener.java
+    │   │   ├── PlayerJoinMessageListener.java
+    │   │   ├── PlayerLoginListener.java
+    │   │   ├── PlayerQuitListener.java
+    │   │   ├── PlayerChatListener.java
+    │   │   ├── PlayerMoveListener.java
+    │   │   ├── PlayerBlockBreakListener.java
+    │   │   ├── PlayerBlockPlaceListener.java
+    │   │   ├── PlayerDamageListener.java
+    │   │   ├── PlayerCommandListener.java
+    │   │   ├── PlayerInteractListener.java
+    │   │   └── AuthenticatedListener.java
+    │   ├── placeholder/
+    │   │   └── BloginPlaceholder.java       # Tích hợp PlaceholderAPI
+    │   └── utils/                           # Các tiện ích cốt lõi & Bảo mật
+    │       ├── Compat.java                  # [Mới 3.0.1] Tương thích động đa phiên bản
+    │       ├── PlayerRestrictionUtil.java   # [Mới 3.0.1] Quản lý tập trung trạng thái hạn chế
+    │       ├── ChatUtil.java                # Xử lý Adventure API, mã Hex & Gradient
+    │       ├── EncryptionUtil.java          # Mã hoá AES-GCM cho khoá 2FA
+    │       ├── HashingUtil.java             # Băm và kiểm tra re-hash BCrypt
+    │       ├── PasswordStrength.java        # Thuật toán chấm điểm độ mạnh mật khẩu
+    │       ├── TOTPGenerator.java           # Thuật toán sinh mã 2FA chuẩn RFC 6238
+    │       └── SelfTest.java                # Bộ 35 bài kiểm thử tự động độc lập
+    └── resources/
+        ├── plugin.yml
+        └── config.yml
 ```
 
 ---
 
-## 🧪 Kiến trúc & Design Patterns
+## 🛠️ Xử Lý Sự Cố Thường Gặp (Troubleshooting)
 
-| Pattern | Áp dụng tại |
-|---------|-------------|
-| **Singleton** | `Blogin.getInstance()` |
-| **DAO (Data Access Object)** | `PlayerDAO`, `AttemptDAO` |
-| **Manager / Service** | `AuthManager`, `SessionManager`, `CaptchaManager` |
-| **Strategy** | `DatabaseManager` (SQLite/MySQL) |
-| **Static Factory** | `HashingUtil`, `TOTPGenerator`, `EncryptionUtil` |
-| **DTO (Record)** | `PlayerData` |
-| **Proxy (Connection Pool)** | `ConnectionPool.wrap()` |
-| **Modular Config** | `MessageManager` (đọc từ config) |
-
-### Luồng xử lý đăng nhập (bất đồng bộ)
-```
-Player gửi /login <mk>
-        ↓
-LoginCommand → validate input (captcha, số args)
-        ↓
-AuthManager.loginAsync()  → chạy trên thread DB
-        ↓
-   ┌────┴─────────────────────────────┐
-   ↓                                  ↓
-verify BCrypt                   check lock (cache + DB)
-   ↓                                  ↓
-TOTP verify (nếu có)           AttemptDAO.countRecentFailures
-   ↓
-PlayerDAO.updateLoginInfo
-        ↓
-AuthResult → callback trên main thread → SessionManager.markAuthenticated()
-        ↓
-Hiệu ứng welcome + bỏ hạn chế + hiện lại player
-```
+* **Lỗi `✖ Không thể khởi tạo khoá mã hoá!` khi bật server:**  
+  Do file `plugins/Blogin/secret.key` bị hỏng định dạng. Hãy xoá file này để plugin tự tạo khoá mới *(Lưu ý: Các tài khoản đã bật 2FA trước đó sẽ cần Admin gõ `/blogin 2fa <player> off` để đặt lại)*.
+* **Nhập mã 2FA trên điện thoại liên tục báo sai:**  
+  Thuật toán TOTP phụ thuộc vào đồng hồ hệ thống. Hãy đồng bộ lại giờ chuẩn (NTP) trên máy chủ vật lý/VPS của bạn, hoặc tăng mục `two-factor.do-lech-cho-phep` trong `config.yml` lên `2` hoặc `3`.
+* **Server có hiện tượng trễ khi hàng loạt người chơi đăng nhập cùng lúc:**  
+  Hãy giảm `bao-mat.bcrypt-cost` từ `12` xuống `10` (giảm thời gian tính toán mỗi mật khẩu từ ~250ms xuống ~65ms) và tăng `database.async-threads` lên `4` nếu VPS có từ 4 nhân CPU trở lên.
 
 ---
 
-## 🐛 Troubleshooting
+## 🤝 Đóng Góp & Bản Quyền
 
-### Plugin không khởi động được
-**Lỗi:** `✖ Không thể kết nối Database!`
-- **MySQL:** Kiểm tra thông tin host/port/user/pass
-- **SQLite:** Đảm bảo plugin có quyền ghi file vào thư mục `plugins/Blogin/`
-
-**Lỗi:** `✖ Không thể khởi tạo khoá mã hoá!`
-- Xoá file `plugins/Blogin/secret.key` để plugin tạo lại
-- ⚠️ Mất file này thì các secret 2FA đã lưu sẽ không giải mã được → cần người chơi bật lại 2FA
-
-### GUI không mở
-- Kiểm tra `gui.bat: true` và `gui.auto-mo: true`
-- Dùng `/blogingui` để mở thủ công
-
-### Captcha không hiện
-- Kiểm tra `captcha.bat: true` trong config
-- Dùng `/captcha` để lấy captcha mới
-
-### 2FA không hoạt động
-- Đảm bảo thời gian hệ thống chính xác (TOTP dựa vào thời gian)
-- Tăng `do-lech-cho-phep` lên 2-3 nếu thường xuyên lỗi
-- Ứng dụng Google Authenticator cần thêm tài khoản với secret key
-
-### Server giật khi nhiều người login
-- Giảm `bao-mat.bcrypt-cost` xuống 10
-- Giảm `database.async-threads` nếu CPU yếu (tối thiểu 1)
-- Tắt `welcome.halo-neon.bat`
-
-### Quên mật khẩu admin
-Dùng lệnh trong game (có quyền admin):
-```
-/blogin reset <player> <mật_khẩu_mới>
-```
-Hoặc vào MySQL:
-```sql
-DELETE FROM blogin_players WHERE name = 'tên_player';
-```
-
----
-
-## 📝 Logs & Debug
-
-Bật chế độ debug trong config:
-```yaml
-debug: true
-log-su-kien: true
-```
-
-Log sẽ ghi ra console:
-```
-[Kết nối] NewPlayer (uuid-here) từ IP 192.168.1.10 - Client 1.21.4
-[Đăng ký] NewPlayer (uuid-here) từ IP 192.168.1.10
-[Đăng nhập] NewPlayer (uuid-here) từ IP 192.168.1.10
-```
-
----
-
-## 🤝 Đóng góp
-
-Plugin được tạo bởi **BloginVN** với ❤️ cho cộng đồng Minecraft Việt Nam.
-
-Mọi đóng góp/báo lỗi xin gửi về:
-- GitHub: [github.com/blogin-vn/blogin](https://github.com/blogin-vn/blogin)
-
----
-
-## 📜 License
-
-MIT License - Sử dụng tự do cho mục đích cá nhân và thương mại.
-
----
-
-## 🎉 Credits
-
-- **BCrypt** - [jBCrypt](https://github.com/jeremyh/jBCrypt)
-- **TOTP** - Triển khai theo [RFC 6238](https://tools.ietf.org/html/rfc6238)
-- **AES-GCM** - Java Cryptography Architecture (JCA)
-- **Paper API** - [PaperMC](https://papermc.io/)
-- **PlaceholderAPI** - [PlaceholderAPI](https://github.com/PlaceholderAPI/PlaceholderAPI)
+Dự án được phát triển bởi **BloginVN** với ❤️ dành cho cộng đồng Minecraft Việt Nam.
+* **Báo lỗi & Đóng góp mã nguồn:** [github.com/blogin-vn/blogin](https://github.com/blogin-vn/blogin)
+* **Giấy phép:** Phân phối dưới giấy phép **MIT License** — Tự do sử dụng, chỉnh sửa cho cả mục đích cá nhân và thương mại.
+* **Thư viện & Tiêu chuẩn sử dụng:** [jBCrypt](https://github.com/jeremyh/jBCrypt) • [RFC 6238 (TOTP)](https://tools.ietf.org/html/rfc6238) • Java Cryptography Architecture (AES-GCM) • [PaperMC API](https://papermc.io/) • [PlaceholderAPI](https://github.com/PlaceholderAPI/PlaceholderAPI)
